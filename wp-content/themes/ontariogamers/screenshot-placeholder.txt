@@ -1,0 +1,7 @@
+/* Theme screenshot — placeholder
+ * Replace this with an actual 1200x900 screenshot of your theme
+ * Save as screenshot.png in the theme root folder
+ *
+ * For now, WordPress will show a blank thumbnail
+ * You can take a screenshot once the site is running locally
+ */

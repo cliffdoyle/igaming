@@ -1,0 +1,38 @@
+# WordPress core (downloaded by Docker, not ours)
+wp_data/
+
+# Database data
+db_data/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# WordPress uploads (user content, not in Git)
+wp-content/uploads/
+
+# WordPress core files (if ever extracted locally)
+wp-admin/
+wp-includes/
+wp-*.php
+index.php
+xmlrpc.php
+license.txt
+readme.html
+
+# Node modules (if using build tools later)
+node_modules/
+
+# Environment files with real credentials
+.env
+.env.production
+
+# Logs
+*.log
+error_log
+debug.log
