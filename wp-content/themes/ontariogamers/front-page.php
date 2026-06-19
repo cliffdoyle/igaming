@@ -65,12 +65,12 @@ get_header();
 
     if ($casinos->have_posts()) :
         while ($casinos->have_posts()) : $casinos->the_post();
-            // Get custom fields (ACF)
-            $rating       = get_field('casino_rating');
-            $bonus        = get_field('casino_bonus_description');
-            $affiliate    = get_field('casino_affiliate_url');
-            $license      = get_field('casino_license');
-            $withdrawal   = get_field('casino_withdrawal_time');
+            // Get custom fields
+            $rating       = get_post_meta(get_the_ID(), 'casino_rating', true);
+            $bonus        = get_post_meta(get_the_ID(), 'casino_bonus_description', true);
+            $affiliate    = get_post_meta(get_the_ID(), 'casino_affiliate_url', true);
+            $license      = get_post_meta(get_the_ID(), 'casino_license', true);
+            $withdrawal   = get_post_meta(get_the_ID(), 'casino_withdrawal_time', true);
             ?>
             <div class="casino-card">
                 <div>
@@ -154,9 +154,9 @@ get_header();
 
         if ($slots->have_posts()) :
             while ($slots->have_posts()) : $slots->the_post();
-                $rtp        = get_field('slot_rtp');
-                $volatility = get_field('slot_volatility');
-                $provider   = get_field('slot_provider');
+                $rtp        = get_post_meta(get_the_ID(), 'slot_rtp', true);
+                $volatility = get_post_meta(get_the_ID(), 'slot_volatility', true);
+                $provider   = get_post_meta(get_the_ID(), 'slot_provider', true);
                 ?>
                 <a href="<?php the_permalink(); ?>" class="archive-card" style="text-decoration:none;color:inherit;">
                     <?php if (has_post_thumbnail()) : ?>
