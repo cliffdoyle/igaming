@@ -17,13 +17,15 @@ desktop.ini
 wp-content/uploads/
 
 # WordPress core files (if ever extracted locally)
-wp-admin/
-wp-includes/
-wp-*.php
-index.php
-xmlrpc.php
-license.txt
-readme.html
+# NOTE: leading slash anchors these to the repo ROOT only,
+# so they DON'T ignore our theme/plugin files like themes/.../index.php
+/wp-admin/
+/wp-includes/
+/wp-*.php
+/index.php
+/xmlrpc.php
+/license.txt
+/readme.html
 
 # Node modules (if using build tools later)
 node_modules/
