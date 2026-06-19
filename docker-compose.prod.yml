@@ -1,0 +1,44 @@
+# Production Docker Compose for OntarioGamers
+# Run on the server with:  docker compose -f docker-compose.prod.yml up -d
+#
+# Differences from local docker-compose.yml:
+#   - WordPress served on port 80 (the real web port) instead of 8080
+#   - Passwords come from a .env file (NOT committed to Git) instead of hardcoded
+#   - MySQL port is NOT exposed to the internet (security)
+#   - phpMyAdmin is removed (don't expose your DB admin publicly)
+#   - Debug mode is OFF
+
+services:
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - "80:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${DB_NAME}
+    volumes:
+      - wp_data:/var/www/html
+      - ./wp-content/themes/ontariogamers:/var/www/html/wp-content/themes/ontariogamers
+      - ./wp-content/plugins/ontariogamers-core:/var/www/html/wp-content/plugins/ontariogamers-core
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    # NOTE: no "ports" here on purpose — the database is only reachable
+    # by the wordpress container, never from the public internet.
+    restart: unless-stopped
+
+volumes:
+  wp_data:
+  db_data:
