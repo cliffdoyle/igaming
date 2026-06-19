@@ -14,10 +14,12 @@ if (!defined('ABSPATH')) {
 // Load includes
 require_once plugin_dir_path(__FILE__) . 'includes/post-types.php';
 require_once plugin_dir_path(__FILE__) . 'includes/custom-fields.php';
+require_once plugin_dir_path(__FILE__) . 'includes/seed-pages.php';
 
-// Activation hook — flush rewrite rules
+// Activation hook — flush rewrite rules + create static pages
 function ontariogamers_core_activate() {
     ontariogamers_register_post_types();
+    ontariogamers_seed_static_pages(); // creates About, Legal, Contact pages (safe to re-run)
     flush_rewrite_rules();
 }
 register_activation_hook(__FILE__, 'ontariogamers_core_activate');
