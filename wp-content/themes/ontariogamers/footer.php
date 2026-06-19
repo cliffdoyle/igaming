@@ -34,7 +34,7 @@
                 <li><a href="<?php echo esc_url(home_url('/responsible-gambling/')); ?>">Responsible Gambling</a></li>
                 <li><a href="<?php echo esc_url(home_url('/affiliate-disclosure/')); ?>">Affiliate Disclosure</a></li>
                 <li><a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>">Privacy Policy</a></li>
-                <li><a href="mailto:contact@ontariogamers.com">Contact</a></li>
+                <li><a href="<?php echo esc_url(home_url('/contact/')); ?>">Contact</a></li>
             </ul>
         </div>
     </div>
