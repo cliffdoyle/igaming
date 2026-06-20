@@ -178,7 +178,7 @@ function ontariogamers_render_admin_guide() {
         <h2 id="og-pages">8. Editing Static Pages</h2>
         <p>Pre-built pages: <code>/about/</code>, <code>/responsible-gambling/</code>, <code>/affiliate-disclosure/</code>, <code>/privacy-policy/</code>, <code>/terms-and-conditions/</code>, <code>/contact/</code>.</p>
         <p><em>How it works:</em> unlike casino/slot reviews (which use fixed fields), a <strong>Page</strong> is free-form — whatever you type in the editor is what shows. These pages were created once for you and your edits are saved straight to the database. They are never overwritten by code updates.</p>
-        <p>Edit via <strong>Pages → All Pages → Edit</strong>. Add a new page via <strong>Pages → Add New</strong>. Your edits are never overwritten.</p>
+        <p>Edit via <strong>Pages → All Pages → Edit</strong>. Add a new page via <strong>Pages → Add New</strong>.</p>
 
         <h2 id="og-menus">9. Navigation Menus (Header &amp; Footer)</h2>
         <p><strong>Appearance → Menus.</strong> Build a menu, tick pages/reviews/custom links → <strong>Add to Menu</strong>, drag to reorder (drag right = dropdown sub-item), then under <strong>Menu Settings</strong> assign it to the <strong>Primary Menu</strong> location and <strong>Save</strong>.</p>
@@ -187,7 +187,7 @@ function ontariogamers_render_admin_guide() {
         <h2 id="og-logo">10. Site Logo, Title &amp; Favicon</h2>
         <p><strong>Appearance → Customize → Site Identity.</strong> Set the site title/tagline here.</p>
         <p><em>How the logo works:</em> by default the header shows the built-in <strong>gamified “OntarioGamers” wordmark</strong> — a gold game-controller icon next to the name, with the “Gamers” half in gold. If you'd rather use a custom image instead, upload one under <strong>Logo</strong> in Site Identity and it automatically replaces the built-in wordmark everywhere.</p>
-        <p><em>How the favicon (browser-tab icon) works:</em> the site ships with a matching gold game-controller icon that shows in the browser tab and when the site is bookmarked. To use your own instead, upload a square image (512×512 px) under <strong>Site Icon</strong> in Site Identity — an uploaded Site Icon always takes priority over the built-in one.</p>
+        <p><em>How the favicon (browser-tab icon) works:</em> the site ships with the <strong>Ontario white trillium</strong> — the province's official flower — shown in white with a gold centre on a green tile. It appears in the browser tab and when the site is bookmarked. To use your own instead, upload a square image (512×512 px) under <strong>Site Icon</strong> in Site Identity — an uploaded Site Icon always takes priority over the built-in one.</p>
 
         <h2 id="og-widgets">11. Sidebar Widgets</h2>
         <p><strong>Appearance → Widgets.</strong> Drag widgets into <strong>Main Sidebar</strong> (shows on review pages) or <strong>Footer Column 1</strong>, then Save.</p>
