@@ -281,6 +281,11 @@ function ontariogamers_seed_sports_example() {
     if (!post_type_exists('sports_pick')) {
         return;
     }
+    // Atomic lock: add_option fails if the option already exists, so only the
+    // first concurrent request proceeds (prevents duplicate seeding on a race).
+    if (false === add_option('og_sports_seed_v1', 1, '', 'no')) {
+        return;
+    }
 
     // Make sure the league terms exist so /sport/nhl/ etc. resolve.
     foreach (array('NHL', 'NBA', 'NFL') as $league) {
@@ -316,7 +321,6 @@ function ontariogamers_seed_sports_example() {
     }
 
     flush_rewrite_rules();
-    update_option('og_sports_seed_v1', 1);
 }
 add_action('init', 'ontariogamers_seed_sports_example', 20);
 
@@ -331,6 +335,10 @@ function ontariogamers_seed_review_examples() {
         return;
     }
     if (!post_type_exists('casino_review') || !post_type_exists('slot_review')) {
+        return;
+    }
+    // Atomic lock (see sports seeder) — prevents duplicate seeding on a race.
+    if (false === add_option('og_reviews_seed_v1', 1, '', 'no')) {
         return;
     }
 
@@ -413,3 +421,57 @@ function ontariogamers_seed_review_examples() {
     update_option('og_reviews_seed_v1', 1);
 }
 add_action('init', 'ontariogamers_seed_review_examples', 20);
+
+/**
+ * One-time cleanup: remove duplicate example reviews (created by an earlier
+ * race condition) and move the default WordPress blog widgets (Recent Posts,
+ * Recent Comments, Archives, Categories, Search) out of the review sidebar so it
+ * shows only the curated Top Casinos and Play Responsibly boxes.
+ */
+function ontariogamers_cleanup_v1() {
+    if (get_option('og_cleanup_v1')) {
+        return;
+    }
+    if (!post_type_exists('casino_review') || !post_type_exists('slot_review')) {
+        return;
+    }
+    if (false === add_option('og_cleanup_v1', 1, '', 'no')) {
+        return;
+    }
+
+    // De-duplicate: keep the lowest-ID post per title, delete later copies.
+    foreach (array('casino_review', 'slot_review') as $pt) {
+        $posts = get_posts(array(
+            'post_type'   => $pt,
+            'numberposts' => -1,
+            'post_status' => 'any',
+            'orderby'     => 'ID',
+            'order'       => 'ASC',
+        ));
+        $seen = array();
+        foreach ($posts as $p) {
+            $key = strtolower(trim($p->post_title));
+            if (isset($seen[$key])) {
+                wp_delete_post($p->ID, true);
+            } else {
+                $seen[$key] = $p->ID;
+            }
+        }
+    }
+
+    // Move default blog widgets out of the review sidebar (to "Inactive Widgets",
+    // so nothing is destroyed — they can be restored from Appearance → Widgets).
+    $sidebars = get_option('sidebars_widgets');
+    if (is_array($sidebars) && !empty($sidebars['sidebar-main'])) {
+        if (empty($sidebars['wp_inactive_widgets']) || !is_array($sidebars['wp_inactive_widgets'])) {
+            $sidebars['wp_inactive_widgets'] = array();
+        }
+        $sidebars['wp_inactive_widgets'] = array_merge(
+            $sidebars['wp_inactive_widgets'],
+            $sidebars['sidebar-main']
+        );
+        $sidebars['sidebar-main'] = array();
+        update_option('sidebars_widgets', $sidebars);
+    }
+}
+add_action('init', 'ontariogamers_cleanup_v1', 21);
