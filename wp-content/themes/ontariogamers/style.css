@@ -632,6 +632,107 @@ p {
     color: var(--og-secondary);
 }
 
+/* ============================================
+   SPORTS PICKS
+   ============================================ */
+.picks-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+}
+
+.pick-card {
+    background: #fff;
+    border: 1px solid var(--og-border);
+    border-radius: var(--og-radius);
+    padding: 1.25rem;
+    box-shadow: var(--og-shadow);
+    display: flex;
+    flex-direction: column;
+}
+
+.pick-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.pick-league,
+.pick-league a {
+    color: var(--og-primary);
+    font-weight: 700;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+}
+
+.pick-result {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+}
+
+.result-pending { background: #fff4d6; color: #8a6d00; }
+.result-won     { background: #dcfce7; color: #166534; }
+.result-lost    { background: #fee2e2; color: #991b1b; }
+.result-push    { background: #e2e8f0; color: #334155; }
+
+.pick-title {
+    margin: 0.25rem 0 0.4rem;
+    font-size: 1.05rem;
+}
+
+.pick-title a {
+    color: var(--og-dark);
+    text-decoration: none;
+}
+
+.pick-title a:hover {
+    color: var(--og-primary);
+}
+
+.pick-match {
+    color: var(--og-text-light);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.pick-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.85rem;
+    margin-bottom: 0.95rem;
+}
+
+.pick-card .btn {
+    margin-top: auto;
+}
+
+.pick-summary table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0 1.5rem;
+}
+
+.pick-summary th,
+.pick-summary td {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--og-border);
+}
+
+.pick-summary th {
+    width: 35%;
+    color: var(--og-text-light);
+    font-weight: 600;
+}
+
 .footer-disclaimer {
     max-width: var(--og-max-width);
     margin: 2rem auto 0;

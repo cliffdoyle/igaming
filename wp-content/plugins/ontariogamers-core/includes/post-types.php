@@ -89,5 +89,39 @@ function ontariogamers_register_post_types() {
         'rewrite'      => array('slug' => 'provider'),
         'show_in_rest' => true,
     ));
+
+    // Sports Picks
+    register_post_type('sports_pick', array(
+        'labels' => array(
+            'name'          => 'Sports Picks',
+            'singular_name' => 'Sports Pick',
+            'add_new'       => 'Add New Pick',
+            'add_new_item'  => 'Add New Sports Pick',
+            'edit_item'     => 'Edit Sports Pick',
+            'view_item'     => 'View Sports Pick',
+            'all_items'     => 'All Sports Picks',
+            'search_items'  => 'Search Sports Picks',
+            'not_found'     => 'No sports picks found',
+        ),
+        'public'        => true,
+        'has_archive'   => true,
+        'rewrite'       => array('slug' => 'sports-picks'),
+        'supports'      => array('title', 'editor', 'thumbnail', 'excerpt', 'page-attributes'),
+        'menu_icon'     => 'dashicons-chart-line',
+        'menu_position' => 7,
+        'show_in_rest'  => true,
+    ));
+
+    // Sport / League (NHL, NBA, NFL…) — powers the footer league links at /sport/<league>/
+    register_taxonomy('pick_sport', 'sports_pick', array(
+        'labels' => array(
+            'name'          => 'Sports / Leagues',
+            'singular_name' => 'Sport / League',
+            'add_new_item'  => 'Add New Sport / League',
+        ),
+        'hierarchical' => true,
+        'rewrite'      => array('slug' => 'sport'),
+        'show_in_rest' => true,
+    ));
 }
 add_action('init', 'ontariogamers_register_post_types');

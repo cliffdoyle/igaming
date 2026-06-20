@@ -168,10 +168,10 @@ function ontariogamers_footer_slots_fallback() {
 
 function ontariogamers_footer_sports_fallback() {
     ontariogamers_footer_menu_fallback(array(
-        home_url('/sports-picks/')      => 'Free Daily Picks (example)',
-        home_url('/sports-picks/nhl/')  => 'NHL Picks (example)',
-        home_url('/sports-picks/nba/')  => 'NBA Picks (example)',
-        home_url('/sports-picks/nfl/')  => 'NFL Picks (example)',
+        home_url('/sports-picks/')  => 'Free Daily Picks',
+        home_url('/sport/nhl/')     => 'NHL Picks',
+        home_url('/sport/nba/')     => 'NBA Picks',
+        home_url('/sport/nfl/')     => 'NFL Picks',
     ));
 }
 

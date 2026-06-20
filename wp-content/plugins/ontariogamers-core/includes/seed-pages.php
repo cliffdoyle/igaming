@@ -267,3 +267,55 @@ Please include the page URL and details of the issue. We investigate all reporte
 
     return $created;
 }
+
+/**
+ * One-time: create an example Sports Pick (plus NHL/NBA/NFL leagues) so the
+ * Sports Picks feature is visible on the live site immediately after deploy.
+ * Runs once, guarded by an option, then flushes rewrite rules so the new
+ * /sports-picks/ and /sport/<league>/ URLs resolve without a manual permalink save.
+ */
+function ontariogamers_seed_sports_example() {
+    if (get_option('og_sports_seed_v1')) {
+        return;
+    }
+    if (!post_type_exists('sports_pick')) {
+        return;
+    }
+
+    // Make sure the league terms exist so /sport/nhl/ etc. resolve.
+    foreach (array('NHL', 'NBA', 'NFL') as $league) {
+        if (!term_exists($league, 'pick_sport')) {
+            wp_insert_term($league, 'pick_sport');
+        }
+    }
+
+    // Create one example pick if it isn't already there.
+    $existing = get_page_by_path('example-nhl-pick', OBJECT, 'sports_pick');
+    if (!$existing) {
+        $pid = wp_insert_post(array(
+            'post_type'    => 'sports_pick',
+            'post_status'  => 'publish',
+            'post_title'   => 'Maple Leafs vs Canadiens — NHL Pick',
+            'post_name'    => 'example-nhl-pick',
+            'post_author'  => 1,
+            'menu_order'   => 1,
+            'post_content' => '<p>This is an <strong>example sports pick</strong> created automatically so you can see how the Sports Picks section works. Edit or delete it any time under <em>Sports Picks</em> in your WordPress dashboard.</p>
+<p>Toronto has won four of their last five meetings with Montreal and skates well at home. We like the Leafs to control the run of play and win by two or more goals, which is why we are taking them on the puck line.</p>
+<p><em>Replace this with your own analysis when you add a real pick.</em></p>',
+        ));
+
+        if ($pid && !is_wp_error($pid)) {
+            wp_set_object_terms($pid, 'NHL', 'pick_sport');
+            update_post_meta($pid, 'pick_match', 'Toronto Maple Leafs vs Montreal Canadiens');
+            update_post_meta($pid, 'pick_selection', 'Maple Leafs -1.5');
+            update_post_meta($pid, 'pick_odds', '+150');
+            update_post_meta($pid, 'pick_result', 'Pending');
+            update_post_meta($pid, 'pick_event_date', date('Y-m-d', strtotime('+2 days')));
+            update_post_meta($pid, 'pick_sportsbook', 'Bet99');
+        }
+    }
+
+    flush_rewrite_rules();
+    update_option('og_sports_seed_v1', 1);
+}
+add_action('init', 'ontariogamers_seed_sports_example', 20);

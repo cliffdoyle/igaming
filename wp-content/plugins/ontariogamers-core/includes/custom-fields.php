@@ -41,6 +41,15 @@ if (!function_exists('acf_add_local_field_group')) {
             'normal',
             'high'
         );
+
+        add_meta_box(
+            'sports_pick_fields',
+            'Sports Pick Details',
+            'ontariogamers_sports_meta_box',
+            'sports_pick',
+            'normal',
+            'high'
+        );
     }
     add_action('add_meta_boxes', 'ontariogamers_add_meta_boxes');
 
@@ -152,10 +161,77 @@ if (!function_exists('acf_add_local_field_group')) {
     }
     add_action('save_post_slot_review', 'ontariogamers_save_slot_meta');
 
-    /**
-     * Helper function to get custom field value
-     * Works whether ACF is installed or not
-     */
+    // Sports Pick Meta Box HTML
+    function ontariogamers_sports_meta_box($post) {
+        wp_nonce_field('ontariogamers_sports_nonce', 'ontariogamers_sports_nonce_field');
+        $match     = get_post_meta($post->ID, 'pick_match', true);
+        $selection = get_post_meta($post->ID, 'pick_selection', true);
+        $odds      = get_post_meta($post->ID, 'pick_odds', true);
+        $result    = get_post_meta($post->ID, 'pick_result', true);
+        if (!$result) $result = 'Pending';
+        $date      = get_post_meta($post->ID, 'pick_event_date', true);
+        $book      = get_post_meta($post->ID, 'pick_sportsbook', true);
+        $aff       = get_post_meta($post->ID, 'pick_affiliate_url', true);
+        ?>
+        <table class="form-table">
+            <tr>
+                <th><label for="pick_match">Match / Event</label></th>
+                <td><input type="text" id="pick_match" name="pick_match" value="<?php echo esc_attr($match); ?>" class="regular-text" placeholder="e.g. Maple Leafs vs Canadiens"></td>
+            </tr>
+            <tr>
+                <th><label for="pick_selection">Our Pick</label></th>
+                <td><input type="text" id="pick_selection" name="pick_selection" value="<?php echo esc_attr($selection); ?>" class="regular-text" placeholder="e.g. Maple Leafs -1.5"></td>
+            </tr>
+            <tr>
+                <th><label for="pick_odds">Odds</label></th>
+                <td><input type="text" id="pick_odds" name="pick_odds" value="<?php echo esc_attr($odds); ?>" class="regular-text" placeholder="e.g. +150"></td>
+            </tr>
+            <tr>
+                <th><label for="pick_event_date">Event Date</label></th>
+                <td><input type="date" id="pick_event_date" name="pick_event_date" value="<?php echo esc_attr($date); ?>" class="regular-text"></td>
+            </tr>
+            <tr>
+                <th><label for="pick_result">Result</label></th>
+                <td>
+                    <select id="pick_result" name="pick_result">
+                        <?php foreach (array('Pending', 'Won', 'Lost', 'Push') as $opt) : ?>
+                            <option value="<?php echo esc_attr($opt); ?>" <?php selected($result, $opt); ?>><?php echo esc_html($opt); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="pick_sportsbook">Sportsbook (optional)</label></th>
+                <td><input type="text" id="pick_sportsbook" name="pick_sportsbook" value="<?php echo esc_attr($book); ?>" class="regular-text" placeholder="e.g. Bet99"></td>
+            </tr>
+            <tr>
+                <th><label for="pick_affiliate_url">Sportsbook Link (optional)</label></th>
+                <td><input type="url" id="pick_affiliate_url" name="pick_affiliate_url" value="<?php echo esc_attr($aff); ?>" class="regular-text" placeholder="https://..."></td>
+            </tr>
+        </table>
+        <p class="description">Tip: also set the <strong>Sport / League</strong> (NHL, NBA, NFL…) in the box on the right so the pick appears under that league at <code>/sport/&lt;league&gt;/</code>.</p>
+        <?php
+    }
+
+    // Save sports pick meta
+    function ontariogamers_save_sports_meta($post_id) {
+        if (!isset($_POST['ontariogamers_sports_nonce_field'])) return;
+        if (!wp_verify_nonce($_POST['ontariogamers_sports_nonce_field'], 'ontariogamers_sports_nonce')) return;
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+        if (!current_user_can('edit_post', $post_id)) return;
+
+        $fields = array(
+            'pick_match', 'pick_selection', 'pick_odds', 'pick_result',
+            'pick_event_date', 'pick_sportsbook', 'pick_affiliate_url'
+        );
+
+        foreach ($fields as $field) {
+            if (isset($_POST[$field])) {
+                update_post_meta($post_id, $field, sanitize_text_field($_POST[$field]));
+            }
+        }
+    }
+    add_action('save_post_sports_pick', 'ontariogamers_save_sports_meta');
     function ontariogamers_get_field($field_name, $post_id = null) {
         if (!$post_id) $post_id = get_the_ID();
 
