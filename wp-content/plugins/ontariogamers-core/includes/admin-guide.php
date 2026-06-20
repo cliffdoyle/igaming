@@ -66,6 +66,7 @@ function ontariogamers_render_admin_guide() {
             <strong>Contents</strong>
             <ol>
                 <li><a href="#og-structure">How the site is organised</a></li>
+                <li><a href="#og-flow">How each admin page reaches the live site</a></li>
                 <li><a href="#og-casino">Adding a Casino Review (all fields)</a></li>
                 <li><a href="#og-slot">Adding a Slot Review (all fields)</a></li>
                 <li><a href="#og-images">Featured images / logos</a></li>
@@ -91,14 +92,41 @@ function ontariogamers_render_admin_guide() {
         </table>
         <p>The <strong>homepage</strong> automatically pulls in your top 6 casino reviews and top 6 slot reviews — you never edit the homepage directly, you just add and order reviews.</p>
 
-        <h2 id="og-casino">2. Adding a Casino Review (All Fields)</h2>
+        <h3>The two halves of the site</h3>
+        <p>It helps to picture the site as two layers working together:</p>
+        <table>
+            <tr><th>Layer</th><th>What it means</th><th>Who changes it</th></tr>
+            <tr><td><strong>Content</strong></td><td>The words, numbers, images, reviews, menus and pages — everything a visitor reads.</td><td><strong>You</strong>, here in wp-admin. No code.</td></tr>
+            <tr><td><strong>Design / template</strong></td><td>The layout, colours, fonts, the comparison table, the logo shape — <em>how</em> the content is arranged.</td><td>The <strong>developer</strong>, via Git.</td></tr>
+        </table>
+        <p>So when you add a casino, you are <em>not</em> building a page by hand. You are filling in a form (the fields). The template then takes those values and “pours” them into a ready-made layout. That is why every review page looks consistent.</p>
+
+        <h2 id="og-flow">2. How Each Admin Page Reaches the Live Site</h2>
+        <p>Every editable area in wp-admin maps to a specific spot on the public website. This table is the “map” — change something on the left, and it appears on the right:</p>
+        <table>
+            <tr><th>You edit this in wp-admin…</th><th>…and this changes on the live site</th></tr>
+            <tr><td><strong>Casino Reviews →</strong> add / edit an entry</td><td>The casino's own review page, the <code>/online-casinos/</code> list, <em>and</em> the comparison table on the homepage (if it's in the top 6 by Order).</td></tr>
+            <tr><td><strong>Slot Reviews →</strong> add / edit an entry</td><td>The slot's review page, the <code>/online-slots/</code> list, and the “Top Slots” block on the homepage.</td></tr>
+            <tr><td><strong>Pages →</strong> edit About / Contact / etc.</td><td>That exact static page (e.g. <code>/about/</code>). Only the page you edit changes.</td></tr>
+            <tr><td><strong>Appearance → Menus</strong></td><td>The header navigation <em>and</em> the mobile hamburger menu (they share one menu).</td></tr>
+            <tr><td><strong>Appearance → Customize → Site Identity</strong></td><td>The logo and the browser-tab icon (favicon).</td></tr>
+            <tr><td><strong>Appearance → Widgets</strong></td><td>The sidebar on review pages and the footer widget columns.</td></tr>
+            <tr><td><strong>Settings → General</strong></td><td>Site title, tagline, timezone.</td></tr>
+        </table>
+        <h3>What “Publish” and “Update” actually do</h3>
+        <p>When you click <strong>Publish</strong> (new item) or <strong>Update</strong> (existing item), WordPress saves your values into the site database and the change is live <strong>immediately</strong> — there is no separate “deploy” step for content. Refresh the public page to see it.</p>
+        <div class="og-note"><strong>Draft vs Publish:</strong> An item saved as <strong>Draft</strong> is <em>not</em> visible to the public. Only <strong>Published</strong> items appear on the site. Use <strong>Preview</strong> to check a draft before publishing.</div>
+        <div class="og-note"><strong>If a change doesn't appear:</strong> your browser may be showing a cached copy. Hard-refresh with <code>Ctrl</code>+<code>Shift</code>+<code>R</code> (Windows) or <code>Cmd</code>+<code>Shift</code>+<code>R</code> (Mac). Brand-new review URLs may also need a one-time <strong>Settings → Permalinks → Save Changes</strong> (see Troubleshooting).</div>
+
+        <h2 id="og-casino">3. Adding a Casino Review (All Fields)</h2>
         <p><strong>Casino Reviews → Add New Casino</strong></p>
+        <p><em>How it works:</em> a casino review is a single entry made of two parts — the <strong>written review</strong> (the main editor) and a set of <strong>structured fields</strong> (the details panel). The written part appears on the casino's own page; the structured fields are what feed the comparison table, the rating badge and the “Play Now” button across the site. Filling the fields accurately is what keeps every casino card looking uniform.</p>
         <p><strong>Step A — Main content:</strong> Put the casino name in the <strong>Title</strong>, and the full written review in the main editor (use Heading blocks for sections).</p>
         <p><strong>Step B — "Casino Review Details" panel</strong> (below the editor). Every field feeds the comparison table and review box:</p>
         <table>
             <tr><th>Field</th><th>Example</th><th>Shows on site as</th></tr>
             <tr><td>Rating (1–10)</td><td><code>9.2</code></td><td>The ⭐ score / "9.2/10"</td></tr>
-            <tr><td>Bonus Description</td><td><code>Welcome bonus available — see operator</code></td><td>"Welcome Bonus" line <em>(see §11 AGCO rules)</em></td></tr>
+            <tr><td>Bonus Description</td><td><code>Welcome bonus available — see operator</code></td><td>"Welcome Bonus" line <em>(see §12 AGCO rules)</em></td></tr>
             <tr><td>Affiliate URL</td><td><code>https://bet99.com/?aff=...</code></td><td>The green "Play Now" button link</td></tr>
             <tr><td>License</td><td><code>AGCO-registered</code></td><td>The ✓ License badge</td></tr>
             <tr><td>Deposit Methods</td><td><code>Interac, Visa, Mastercard</code></td><td>"Deposit Methods" row</td></tr>
@@ -109,7 +137,7 @@ function ontariogamers_render_admin_guide() {
         <div class="og-note">Leave any field <strong>blank</strong> and it simply won't show — the layout adapts automatically.</div>
         <p><strong>Step C —</strong> Set the casino <strong>logo</strong> as the <em>Featured Image</em> (see §4). <strong>Step D —</strong> click <strong>Publish</strong>.</p>
 
-        <h2 id="og-slot">3. Adding a Slot Review (All Fields)</h2>
+        <h2 id="og-slot">4. Adding a Slot Review (All Fields)</h2>
         <p><strong>Slot Reviews → Add New Slot.</strong> Title = slot name; body = written review. Then fill the <strong>"Slot Review Details"</strong> panel:</p>
         <table>
             <tr><th>Field</th><th>Example</th></tr>
@@ -126,7 +154,7 @@ function ontariogamers_render_admin_guide() {
         </table>
         <p>Set a slot screenshot/thumbnail as the Featured Image, then <strong>Publish</strong>.</p>
 
-        <h2 id="og-images">4. Featured Images / Logos</h2>
+        <h2 id="og-images">5. Featured Images / Logos</h2>
         <p>The <strong>Featured Image</strong> is the casino logo or slot artwork. In the editor sidebar click <strong>Set featured image</strong> → upload → set. If the box is missing, enable it via <strong>Screen Options</strong> (top right).</p>
         <table>
             <tr><th>Use</th><th>Ideal upload size</th></tr>
@@ -135,7 +163,7 @@ function ontariogamers_render_admin_guide() {
         </table>
         <div class="og-note">Always fill in <strong>Alt Text</strong> when uploading (SEO + accessibility).</div>
 
-        <h2 id="og-tax">5. Categories &amp; Game Providers</h2>
+        <h2 id="og-tax">6. Categories &amp; Game Providers</h2>
         <table>
             <tr><th>Taxonomy</th><th>Attached to</th><th>Examples</th></tr>
             <tr><td>Casino Categories</td><td>Casino Reviews</td><td>Live Casino, New 2026, Interac Casinos</td></tr>
@@ -144,24 +172,27 @@ function ontariogamers_render_admin_guide() {
         </table>
         <p>Tick an existing term or type a new one in the box on the right of the editor.</p>
 
-        <h2 id="og-order">6. Controlling the Order Things Appear</h2>
+        <h2 id="og-order">7. Controlling the Order Things Appear</h2>
         <p>The homepage and listings order items by the <strong>"Order"</strong> number (lowest first). Open a review → <strong>Page Attributes</strong> box → set <strong>Order</strong> to <code>1</code> for your top pick, <code>2</code> next, and so on → <strong>Update</strong>. Give every item a unique number.</p>
 
-        <h2 id="og-pages">7. Editing Static Pages</h2>
+        <h2 id="og-pages">8. Editing Static Pages</h2>
         <p>Pre-built pages: <code>/about/</code>, <code>/responsible-gambling/</code>, <code>/affiliate-disclosure/</code>, <code>/privacy-policy/</code>, <code>/terms-and-conditions/</code>, <code>/contact/</code>.</p>
+        <p><em>How it works:</em> unlike casino/slot reviews (which use fixed fields), a <strong>Page</strong> is free-form — whatever you type in the editor is what shows. These pages were created once for you and your edits are saved straight to the database. They are never overwritten by code updates.</p>
         <p>Edit via <strong>Pages → All Pages → Edit</strong>. Add a new page via <strong>Pages → Add New</strong>. Your edits are never overwritten.</p>
 
-        <h2 id="og-menus">8. Navigation Menus (Header &amp; Footer)</h2>
+        <h2 id="og-menus">9. Navigation Menus (Header &amp; Footer)</h2>
         <p><strong>Appearance → Menus.</strong> Build a menu, tick pages/reviews/custom links → <strong>Add to Menu</strong>, drag to reorder (drag right = dropdown sub-item), then under <strong>Menu Settings</strong> assign it to the <strong>Primary Menu</strong> location and <strong>Save</strong>.</p>
         <div class="og-note">The same Primary Menu automatically powers the <strong>mobile hamburger</strong> ☰ — no separate setup. Test by narrowing your browser or opening the site on a phone.</div>
 
-        <h2 id="og-logo">9. Site Logo &amp; Title</h2>
-        <p><strong>Appearance → Customize → Site Identity.</strong> Upload a logo image, or leave it blank to show the styled text "OntarioGamers". Set the site title/tagline here too.</p>
+        <h2 id="og-logo">10. Site Logo, Title &amp; Favicon</h2>
+        <p><strong>Appearance → Customize → Site Identity.</strong> Set the site title/tagline here.</p>
+        <p><em>How the logo works:</em> by default the header shows the built-in <strong>gamified “OntarioGamers” wordmark</strong> — a gold game-controller icon next to the name, with the “Gamers” half in gold. If you'd rather use a custom image instead, upload one under <strong>Logo</strong> in Site Identity and it automatically replaces the built-in wordmark everywhere.</p>
+        <p><em>How the favicon (browser-tab icon) works:</em> the site ships with a matching gold game-controller icon that shows in the browser tab and when the site is bookmarked. To use your own instead, upload a square image (512×512 px) under <strong>Site Icon</strong> in Site Identity — an uploaded Site Icon always takes priority over the built-in one.</p>
 
-        <h2 id="og-widgets">10. Sidebar Widgets</h2>
+        <h2 id="og-widgets">11. Sidebar Widgets</h2>
         <p><strong>Appearance → Widgets.</strong> Drag widgets into <strong>Main Sidebar</strong> (shows on review pages) or <strong>Footer Column 1</strong>, then Save.</p>
 
-        <h2 id="og-agco">11. AGCO / Legal Content Rules (Important)</h2>
+        <h2 id="og-agco">12. AGCO / Legal Content Rules (Important)</h2>
         <div class="og-warn">
             <ul>
                 <li><strong>Bonus terms cannot be publicly advertised</strong> to Ontario players (AGCO Standard 11.10). Keep the <strong>Bonus Description</strong> generic — e.g. "Welcome bonus available — see operator for terms" — not exact figures.</li>
@@ -171,7 +202,7 @@ function ontariogamers_render_admin_guide() {
             </ul>
         </div>
 
-        <h2 id="og-checklist">12. Publishing Checklist</h2>
+        <h2 id="og-checklist">13. Publishing Checklist</h2>
         <ul>
             <li>Title is the correct casino/slot name</li>
             <li>Full review written with H2/H3 headings</li>
@@ -183,7 +214,7 @@ function ontariogamers_render_admin_guide() {
             <li>Previewed on desktop <strong>and</strong> mobile</li>
         </ul>
 
-        <h2 id="og-trouble">13. Troubleshooting</h2>
+        <h2 id="og-trouble">14. Troubleshooting</h2>
         <table>
             <tr><th>Problem</th><th>Fix</th></tr>
             <tr><td>New review doesn't show on homepage</td><td>Homepage shows only the top 6 by Order. Lower its Order number.</td></tr>

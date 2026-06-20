@@ -74,6 +74,20 @@ function ontariogamers_scripts() {
 }
 add_action('wp_enqueue_scripts', 'ontariogamers_scripts');
 
+// Output the gamified gamepad favicon (front-end + admin).
+// Only used as a fallback when the admin has NOT uploaded a Site Icon
+// via Appearance > Customize > Site Identity (that one always wins).
+function ontariogamers_favicon() {
+    if (function_exists('has_site_icon') && has_site_icon()) {
+        return; // respect an admin-uploaded Site Icon
+    }
+    $svg = get_template_directory_uri() . '/assets/favicon.svg';
+    echo '<link rel="icon" type="image/svg+xml" href="' . esc_url($svg) . '">' . "\n";
+    echo '<link rel="mask-icon" href="' . esc_url($svg) . '" color="#1a472a">' . "\n";
+}
+add_action('wp_head', 'ontariogamers_favicon');
+add_action('admin_head', 'ontariogamers_favicon');
+
 // Register sidebar/widget areas
 function ontariogamers_widgets() {
     register_sidebar(array(
