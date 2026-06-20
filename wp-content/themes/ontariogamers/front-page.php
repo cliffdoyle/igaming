@@ -11,15 +11,15 @@ get_header();
 <!-- HERO SECTION -->
 <section class="hero">
     <div class="site-container">
-        <h1>Ontario's Independent Online Casino Guide — 2026</h1>
+        <h1>Smarter Online Gambling for Ontario Players — 2026</h1>
         <p>
-            AGCO-verified casino reviews, RTP-tested slot reviews, and free daily sports picks.
-            Every recommendation is licensed, tested, and updated monthly.
+            Hands-on, independent reviews of Ontario's licensed casinos and slots — plus sports picks.
+            We test the banking, confirm the licences, and check the real payout rates, so you can choose with confidence.
         </p>
         <div class="hero-ctas">
-            <a href="<?php echo esc_url(home_url('/online-casinos/')); ?>" class="btn btn-primary">Best Ontario Casinos</a>
-            <a href="<?php echo esc_url(home_url('/sports-picks/')); ?>" class="btn btn-secondary">Free Daily Picks</a>
-            <a href="<?php echo esc_url(home_url('/online-slots/')); ?>" class="btn btn-secondary">Top Slot Reviews</a>
+            <a href="<?php echo esc_url(home_url('/online-casinos/')); ?>" class="btn btn-primary">Compare Top Casinos</a>
+            <a href="<?php echo esc_url(home_url('/sports-picks/')); ?>" class="btn btn-secondary">Today's Sports Picks</a>
+            <a href="<?php echo esc_url(home_url('/online-slots/')); ?>" class="btn btn-secondary">Browse Slot Reviews</a>
         </div>
     </div>
 </section>
@@ -27,30 +27,30 @@ get_header();
 <!-- TRUST BADGES -->
 <section class="trust-badges">
     <div class="trust-badge">
-        <div class="badge-icon">🍁</div>
-        <h3>Ontario Focused</h3>
-        <p>Built specifically for Ontario players — CAD banking, AGCO licensing, Ontario sports</p>
+        <div class="badge-icon">🇨🇦</div>
+        <h3>Built for Ontario</h3>
+        <p>Made for local players — Canadian-dollar banking, Interac, AGCO-licensed brands and Ontario sports markets</p>
     </div>
     <div class="trust-badge">
-        <div class="badge-icon">✅</div>
-        <h3>Licensed Operators Only</h3>
-        <p>Every casino verified on the iGaming Ontario operator directory before listing</p>
+        <div class="badge-icon">🛡️</div>
+        <h3>Regulated Brands Only</h3>
+        <p>A casino makes our list only after we confirm it on the iGaming Ontario register — never offshore sites</p>
     </div>
     <div class="trust-badge">
-        <div class="badge-icon">📊</div>
-        <h3>RTP Verified Monthly</h3>
-        <p>All slot RTPs checked from live in-game data — not developer marketing figures</p>
+        <div class="badge-icon">🎯</div>
+        <h3>Real Payout Data</h3>
+        <p>We pull slot RTPs from live in-game screens every month — not from provider marketing sheets</p>
     </div>
     <div class="trust-badge">
-        <div class="badge-icon">🔒</div>
-        <h3>Genuinely Independent</h3>
-        <p>We decline partnerships with casinos we would not recommend. Full affiliate disclosure on every page</p>
+        <div class="badge-icon">⚖️</div>
+        <h3>Honestly Independent</h3>
+        <p>We pass on deals with brands we wouldn't play at ourselves, and disclose every partnership openly</p>
     </div>
 </section>
 
 <!-- CASINO COMPARISON TABLE -->
 <section class="casino-table">
-    <h2>Best Online Casinos in Ontario — 2026</h2>
+    <h2>Top-Rated Ontario Casinos for 2026</h2>
 
     <?php ontariogamers_affiliate_disclosure(); ?>
 
@@ -119,29 +119,29 @@ get_header();
     ?>
 
     <p style="text-align:center;margin-top:1.5rem;">
-        <a href="<?php echo esc_url(home_url('/online-casinos/')); ?>" class="btn btn-review">See All Ontario Casino Reviews →</a>
+        <a href="<?php echo esc_url(home_url('/online-casinos/')); ?>" class="btn btn-review">View Every Casino Review →</a>
     </p>
 </section>
 
 <!-- ONTARIO REGULATION SECTION -->
 <section style="background:var(--og-bg-alt);padding:3rem 1.5rem;">
     <div class="site-container" style="max-width:800px;">
-        <h2 style="text-align:center;">Ontario — Canada's #1 iGaming Market</h2>
+        <h2 style="text-align:center;">Why Ontario's Regulated Market Matters</h2>
         <p>
-            Ontario operates the most competitive regulated online casino market in North America. Since iGaming Ontario launched in April 2022, over 80 licensed operators serve Ontario players under AGCO oversight. In 2025 alone, Ontario players wagered $98.3 billion on licensed platforms.
+            Ontario runs one of the most competitive legal online gambling markets anywhere in North America. Since iGaming Ontario went live in April 2022, more than 80 licensed operators have launched under AGCO oversight, and players staked tens of billions of dollars on regulated platforms in 2025 alone.
         </p>
         <p>
-            Playing at an AGCO-registered casino means audited game fairness, mandatory responsible gambling tools, Canadian dollar banking, and formal dispute resolution. Offshore casinos operating without AGCO registration offer none of these protections.
+            Sticking to an AGCO-registered casino gives you independently audited games, built-in responsible-gambling controls, banking in Canadian dollars, and a proper complaints process if something goes wrong. Unlicensed offshore sites give you none of that protection.
         </p>
         <p style="text-align:center;">
-            <a href="<?php echo esc_url(home_url('/guides/ontario-casino-guide/')); ?>" class="btn btn-primary">Full Ontario Casino Guide</a>
+            <a href="<?php echo esc_url(home_url('/guides/ontario-casino-guide/')); ?>" class="btn btn-primary">Read the Ontario Casino Guide</a>
         </p>
     </div>
 </section>
 
 <!-- TOP SLOTS SECTION -->
 <section class="casino-table">
-    <h2>Top Online Slots in Ontario — RTP Verified</h2>
+    <h2>Highest-Rated Slots in Ontario, RTP-Checked</h2>
 
     <div class="archive-grid">
         <?php
@@ -183,33 +183,33 @@ get_header();
     </div>
 
     <p style="text-align:center;margin-top:1.5rem;">
-        <a href="<?php echo esc_url(home_url('/online-slots/')); ?>" class="btn btn-review">See All Slot Reviews →</a>
+        <a href="<?php echo esc_url(home_url('/online-slots/')); ?>" class="btn btn-review">Explore All Slot Reviews →</a>
     </p>
 </section>
 
 <!-- HOW WE REVIEW SECTION -->
 <section style="padding:3rem 1.5rem;max-width:800px;margin:0 auto;">
-    <h2 style="text-align:center;">How OntarioGamers Reviews Casinos & Slots</h2>
+    <h2 style="text-align:center;">Our Testing Process, Step by Step</h2>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));gap:1.5rem;margin-top:1.5rem;">
         <div>
-            <h4>Casino Review Process</h4>
+            <h4>How We Test Casinos</h4>
             <ul style="font-size:0.9rem;padding-left:1.25rem;">
-                <li>AGCO registration verified on iGaming Ontario directory</li>
-                <li>Interac e-Transfer deposit & withdrawal tested</li>
-                <li>Responsible gambling tools assessed</li>
-                <li>Customer support response times checked</li>
-                <li>Updated monthly with fresh data</li>
+                <li>Licence confirmed on the iGaming Ontario register</li>
+                <li>We deposit and withdraw with Interac e-Transfer ourselves</li>
+                <li>Responsible-gambling controls reviewed in the account area</li>
+                <li>Support response times timed across live chat and email</li>
+                <li>Refreshed every month with current figures</li>
             </ul>
         </div>
         <div>
-            <h4>Slot Review Process</h4>
+            <h4>How We Test Slots</h4>
             <ul style="font-size:0.9rem;padding-left:1.25rem;">
-                <li>RTP verified from live in-game information panel</li>
-                <li>Volatility confirmed from provider documentation</li>
-                <li>Maximum win probability verified</li>
-                <li>Bonus mechanics explained in plain language</li>
-                <li>Operator RTP configuration differences disclosed</li>
+                <li>RTP read straight from the live in-game info panel</li>
+                <li>Volatility cross-checked against the studio's own data</li>
+                <li>Top-win potential and hit frequency verified</li>
+                <li>Bonus features broken down in everyday language</li>
+                <li>Operator-by-operator RTP differences flagged</li>
             </ul>
         </div>
     </div>
