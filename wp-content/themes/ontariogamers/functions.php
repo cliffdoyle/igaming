@@ -97,9 +97,27 @@ function ontariogamers_widgets() {
 }
 add_action('widgets_init', 'ontariogamers_widgets');
 
+// Default navigation when no menu has been assigned in Appearance → Menus.
+// This keeps the header (and the mobile hamburger) functional out of the box.
+function ontariogamers_default_menu() {
+    $items = array(
+        home_url('/')                       => 'Home',
+        home_url('/online-casinos/')        => 'Online Casinos',
+        home_url('/online-slots/')          => 'Online Slots',
+        home_url('/about/')                 => 'About',
+        home_url('/responsible-gambling/')  => 'Responsible Gambling',
+        home_url('/contact/')               => 'Contact',
+    );
+
+    echo '<ul id="primary-menu-list" class="menu">';
+    foreach ($items as $url => $label) {
+        echo '<li class="menu-item"><a href="' . esc_url($url) . '">' . esc_html($label) . '</a></li>';
+    }
+    echo '</ul>';
+}
+
 // Helper: Get casino rating display
-function ontariogamers_rating_display($rating) {
-    if (!$rating) return '';
+function ontariogamers_rating_display($rating) {    if (!$rating) return '';
     $rating = floatval($rating);
     return '<span class="review-rating">' . number_format($rating, 1) . '/10</span>';
 }

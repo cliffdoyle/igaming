@@ -25,7 +25,7 @@
             wp_nav_menu(array(
                 'theme_location' => 'primary',
                 'container'      => false,
-                'fallback_cb'    => false,
+                'fallback_cb'    => 'ontariogamers_default_menu',
                 'depth'          => 2,
             ));
             ?>
