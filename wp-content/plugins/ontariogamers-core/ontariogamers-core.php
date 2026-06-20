@@ -15,6 +15,7 @@ if (!defined('ABSPATH')) {
 require_once plugin_dir_path(__FILE__) . 'includes/post-types.php';
 require_once plugin_dir_path(__FILE__) . 'includes/custom-fields.php';
 require_once plugin_dir_path(__FILE__) . 'includes/seed-pages.php';
+require_once plugin_dir_path(__FILE__) . 'includes/admin-guide.php';
 
 // Activation hook — flush rewrite rules + create static pages
 function ontariogamers_core_activate() {
