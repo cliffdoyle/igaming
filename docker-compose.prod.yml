@@ -18,6 +18,15 @@ services:
       WORDPRESS_DB_USER: ${DB_USER}
       WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
       WORDPRESS_DB_NAME: ${DB_NAME}
+      # Tell WordPress its real address and trust Cloudflare's HTTPS.
+      # Behind Cloudflare (Flexible SSL), the visitor uses HTTPS but the
+      # origin receives HTTP — this header check prevents redirect loops.
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_HOME', 'https://ontariogamers.ca');
+        define('WP_SITEURL', 'https://ontariogamers.ca');
+        if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+            $$_SERVER['HTTPS'] = 'on';
+        }
     volumes:
       - wp_data:/var/www/html
       - ./wp-content/themes/ontariogamers:/var/www/html/wp-content/themes/ontariogamers
