@@ -37,8 +37,11 @@ function ontariogamers_setup() {
 
     // Register navigation menus
     register_nav_menus(array(
-        'primary'  => __('Primary Menu', 'ontariogamers'),
-        'footer'   => __('Footer Menu', 'ontariogamers'),
+        'primary'        => __('Primary Menu (Header + Mobile)', 'ontariogamers'),
+        'footer_casinos' => __('Footer Column 1 — Casinos', 'ontariogamers'),
+        'footer_slots'   => __('Footer Column 2 — Slots', 'ontariogamers'),
+        'footer_sports'  => __('Footer Column 3 — Sports Betting', 'ontariogamers'),
+        'footer_company' => __('Footer Column 4 — OntarioGamers', 'ontariogamers'),
     ));
 
     // Image sizes for casino/slot cards
@@ -132,6 +135,54 @@ function ontariogamers_default_menu() {
         echo '<li class="menu-item"><a href="' . esc_url($url) . '">' . esc_html($label) . '</a></li>';
     }
     echo '</ul>';
+}
+
+// Shared renderer for the footer-column fallbacks below.
+function ontariogamers_footer_menu_fallback($items) {
+    echo '<ul class="menu">';
+    foreach ($items as $url => $label) {
+        echo '<li class="menu-item"><a href="' . esc_url($url) . '">' . esc_html($label) . '</a></li>';
+    }
+    echo '</ul>';
+}
+
+// Footer column fallbacks — shown only until the admin assigns a real menu
+// to each footer location in Appearance → Menus. Then the admin's menu wins.
+function ontariogamers_footer_casinos_fallback() {
+    ontariogamers_footer_menu_fallback(array(
+        home_url('/online-casinos/')                  => 'Best Ontario Casinos',
+        home_url('/guides/ontario-casino-guide/')     => 'Ontario Casino Guide',
+        home_url('/online-casinos/bet99-review/')      => 'Bet99 Review (example)',
+        home_url('/online-casinos/betmgm-review/')     => 'BetMGM Review (example)',
+    ));
+}
+
+function ontariogamers_footer_slots_fallback() {
+    ontariogamers_footer_menu_fallback(array(
+        home_url('/online-slots/')                          => 'All Slot Reviews',
+        home_url('/online-slots/gates-of-olympus-ontario/') => 'Gates of Olympus (example)',
+        home_url('/online-slots/sweet-bonanza-ontario/')    => 'Sweet Bonanza (example)',
+        home_url('/online-slots/big-bass-bonanza-ontario/') => 'Big Bass Bonanza (example)',
+    ));
+}
+
+function ontariogamers_footer_sports_fallback() {
+    ontariogamers_footer_menu_fallback(array(
+        home_url('/sports-picks/')      => 'Free Daily Picks (example)',
+        home_url('/sports-picks/nhl/')  => 'NHL Picks (example)',
+        home_url('/sports-picks/nba/')  => 'NBA Picks (example)',
+        home_url('/sports-picks/nfl/')  => 'NFL Picks (example)',
+    ));
+}
+
+function ontariogamers_footer_company_fallback() {
+    ontariogamers_footer_menu_fallback(array(
+        home_url('/about/')                  => 'About Us',
+        home_url('/responsible-gambling/')   => 'Responsible Gambling',
+        home_url('/affiliate-disclosure/')   => 'Affiliate Disclosure',
+        home_url('/privacy-policy/')         => 'Privacy Policy',
+        home_url('/contact/')                => 'Contact',
+    ));
 }
 
 // Helper: Get casino rating display

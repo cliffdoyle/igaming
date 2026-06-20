@@ -2,40 +2,43 @@
     <div class="footer-inner">
         <div class="footer-col">
             <h4>Casinos</h4>
-            <ul>
-                <li><a href="<?php echo esc_url(home_url('/online-casinos/')); ?>">Best Ontario Casinos</a></li>
-                <li><a href="<?php echo esc_url(home_url('/guides/ontario-casino-guide/')); ?>">Ontario Casino Guide</a></li>
-                <li><a href="<?php echo esc_url(home_url('/online-casinos/bet99-review/')); ?>">Bet99 Review</a></li>
-                <li><a href="<?php echo esc_url(home_url('/online-casinos/betmgm-review/')); ?>">BetMGM Review</a></li>
-            </ul>
+            <?php wp_nav_menu(array(
+                'theme_location' => 'footer_casinos',
+                'container'      => false,
+                'menu_class'     => 'menu',
+                'depth'          => 1,
+                'fallback_cb'    => 'ontariogamers_footer_casinos_fallback',
+            )); ?>
         </div>
         <div class="footer-col">
             <h4>Slots</h4>
-            <ul>
-                <li><a href="<?php echo esc_url(home_url('/online-slots/')); ?>">All Slot Reviews</a></li>
-                <li><a href="<?php echo esc_url(home_url('/online-slots/gates-of-olympus-ontario/')); ?>">Gates of Olympus</a></li>
-                <li><a href="<?php echo esc_url(home_url('/online-slots/sweet-bonanza-ontario/')); ?>">Sweet Bonanza</a></li>
-                <li><a href="<?php echo esc_url(home_url('/online-slots/big-bass-bonanza-ontario/')); ?>">Big Bass Bonanza</a></li>
-            </ul>
+            <?php wp_nav_menu(array(
+                'theme_location' => 'footer_slots',
+                'container'      => false,
+                'menu_class'     => 'menu',
+                'depth'          => 1,
+                'fallback_cb'    => 'ontariogamers_footer_slots_fallback',
+            )); ?>
         </div>
         <div class="footer-col">
             <h4>Sports Betting</h4>
-            <ul>
-                <li><a href="<?php echo esc_url(home_url('/sports-picks/')); ?>">Free Daily Picks</a></li>
-                <li><a href="<?php echo esc_url(home_url('/sports-picks/nhl/')); ?>">NHL Picks</a></li>
-                <li><a href="<?php echo esc_url(home_url('/sports-picks/nba/')); ?>">NBA Picks</a></li>
-                <li><a href="<?php echo esc_url(home_url('/sports-picks/nfl/')); ?>">NFL Picks</a></li>
-            </ul>
+            <?php wp_nav_menu(array(
+                'theme_location' => 'footer_sports',
+                'container'      => false,
+                'menu_class'     => 'menu',
+                'depth'          => 1,
+                'fallback_cb'    => 'ontariogamers_footer_sports_fallback',
+            )); ?>
         </div>
         <div class="footer-col">
             <h4>OntarioGamers</h4>
-            <ul>
-                <li><a href="<?php echo esc_url(home_url('/about/')); ?>">About Us</a></li>
-                <li><a href="<?php echo esc_url(home_url('/responsible-gambling/')); ?>">Responsible Gambling</a></li>
-                <li><a href="<?php echo esc_url(home_url('/affiliate-disclosure/')); ?>">Affiliate Disclosure</a></li>
-                <li><a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>">Privacy Policy</a></li>
-                <li><a href="<?php echo esc_url(home_url('/contact/')); ?>">Contact</a></li>
-            </ul>
+            <?php wp_nav_menu(array(
+                'theme_location' => 'footer_company',
+                'container'      => false,
+                'menu_class'     => 'menu',
+                'depth'          => 1,
+                'fallback_cb'    => 'ontariogamers_footer_company_fallback',
+            )); ?>
         </div>
     </div>
 

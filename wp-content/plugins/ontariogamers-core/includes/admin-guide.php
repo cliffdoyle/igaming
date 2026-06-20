@@ -181,8 +181,19 @@ function ontariogamers_render_admin_guide() {
         <p>Edit via <strong>Pages → All Pages → Edit</strong>. Add a new page via <strong>Pages → Add New</strong>.</p>
 
         <h2 id="og-menus">9. Navigation Menus (Header &amp; Footer)</h2>
-        <p><strong>Appearance → Menus.</strong> Build a menu, tick pages/reviews/custom links → <strong>Add to Menu</strong>, drag to reorder (drag right = dropdown sub-item), then under <strong>Menu Settings</strong> assign it to the <strong>Primary Menu</strong> location and <strong>Save</strong>.</p>
+        <p><strong>Appearance → Menus.</strong> Build a menu, tick pages/reviews/custom links → <strong>Add to Menu</strong>, drag to reorder (drag right = dropdown sub-item), then under <strong>Menu Settings</strong> assign it to a <strong>menu location</strong> and <strong>Save</strong>.</p>
         <div class="og-note">The same Primary Menu automatically powers the <strong>mobile hamburger</strong> ☰ — no separate setup. Test by narrowing your browser or opening the site on a phone.</div>
+        <h3>Footer columns are editable too</h3>
+        <p>The four footer columns are now controlled from the same <strong>Appearance → Menus</strong> screen. Each column has its own location:</p>
+        <table>
+            <tr><th>Menu location</th><th>Footer column it fills</th></tr>
+            <tr><td><strong>Footer Column 1 — Casinos</strong></td><td>The "Casinos" column</td></tr>
+            <tr><td><strong>Footer Column 2 — Slots</strong></td><td>The "Slots" column</td></tr>
+            <tr><td><strong>Footer Column 3 — Sports Betting</strong></td><td>The "Sports Betting" column</td></tr>
+            <tr><td><strong>Footer Column 4 — OntarioGamers</strong></td><td>The "OntarioGamers" column</td></tr>
+        </table>
+        <p><strong>How to replace the example links:</strong> create a menu (e.g. "Footer Casinos"), add <strong>Pages</strong> or <strong>Custom Links</strong> that point to real pages, assign it to the matching footer location, and Save. Your menu instantly replaces the placeholder examples in that column.</p>
+        <div class="og-note">Until you assign a menu to a footer location, the column shows built-in <strong>example links</strong> (some marked "(example)") that may not lead anywhere yet. Assigning your own menu makes them real — exactly like the About/Contact pages.</div>
 
         <h2 id="og-logo">10. Site Logo, Title &amp; Favicon</h2>
         <p><strong>Appearance → Customize → Site Identity.</strong> Set the site title/tagline here.</p>
