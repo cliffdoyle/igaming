@@ -81,7 +81,11 @@ function ontariogamers_favicon() {
     if (function_exists('has_site_icon') && has_site_icon()) {
         return; // respect an admin-uploaded Site Icon
     }
+    $svg_path = get_template_directory() . '/assets/favicon.svg';
     $svg = get_template_directory_uri() . '/assets/favicon.svg';
+    if (file_exists($svg_path)) {
+        $svg = add_query_arg('ver', filemtime($svg_path), $svg);
+    }
     echo '<link rel="icon" type="image/svg+xml" href="' . esc_url($svg) . '">' . "\n";
     echo '<link rel="mask-icon" href="' . esc_url($svg) . '" color="#1a472a">' . "\n";
 }
