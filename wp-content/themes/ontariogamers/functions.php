@@ -150,19 +150,15 @@ function ontariogamers_footer_menu_fallback($items) {
 // to each footer location in Appearance → Menus. Then the admin's menu wins.
 function ontariogamers_footer_casinos_fallback() {
     ontariogamers_footer_menu_fallback(array(
-        home_url('/online-casinos/')                  => 'Best Ontario Casinos',
-        home_url('/guides/ontario-casino-guide/')     => 'Ontario Casino Guide',
-        home_url('/online-casinos/bet99-review/')      => 'Bet99 Review (example)',
-        home_url('/online-casinos/betmgm-review/')     => 'BetMGM Review (example)',
+        home_url('/online-casinos/')              => 'Best Ontario Casinos',
+        home_url('/online-casinos/bet99-review/') => 'Bet99 Review',
     ));
 }
 
 function ontariogamers_footer_slots_fallback() {
     ontariogamers_footer_menu_fallback(array(
         home_url('/online-slots/')                          => 'All Slot Reviews',
-        home_url('/online-slots/gates-of-olympus-ontario/') => 'Gates of Olympus (example)',
-        home_url('/online-slots/sweet-bonanza-ontario/')    => 'Sweet Bonanza (example)',
-        home_url('/online-slots/big-bass-bonanza-ontario/') => 'Big Bass Bonanza (example)',
+        home_url('/online-slots/gates-of-olympus-ontario/') => 'Gates of Olympus',
     ));
 }
 

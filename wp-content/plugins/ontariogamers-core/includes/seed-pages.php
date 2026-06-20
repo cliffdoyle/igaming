@@ -319,3 +319,97 @@ function ontariogamers_seed_sports_example() {
     update_option('og_sports_seed_v1', 1);
 }
 add_action('init', 'ontariogamers_seed_sports_example', 20);
+
+/**
+ * One-time: create one example Casino Review and one example Slot Review so the
+ * Casinos and Slots sections show real, working pages immediately after deploy.
+ * Slugs match the existing footer example links so those links resolve.
+ * Runs once, guarded by an option.
+ */
+function ontariogamers_seed_review_examples() {
+    if (get_option('og_reviews_seed_v1')) {
+        return;
+    }
+    if (!post_type_exists('casino_review') || !post_type_exists('slot_review')) {
+        return;
+    }
+
+    // ── Example Casino Review (Bet99) ──────────────────────────────────────
+    if (!get_page_by_path('bet99-review', OBJECT, 'casino_review')) {
+        $cid = wp_insert_post(array(
+            'post_type'    => 'casino_review',
+            'post_status'  => 'publish',
+            'post_title'   => 'Bet99',
+            'post_name'    => 'bet99-review',
+            'post_author'  => 1,
+            'post_content' => '<p><em>This is an <strong>example casino review</strong> created automatically so you can see how the Casinos section works. Edit or delete it under <strong>Casino Reviews</strong> in your dashboard, and replace the affiliate link with your own.</em></p>
+
+<h2>Bet99 Ontario — Quick Verdict</h2>
+<p>Bet99 is an AGCO-registered operator built for Ontario players, with fast Interac payouts, a strong sportsbook and a large casino lobby. It is one of the more recognisable Canadian-facing brands in the regulated market.</p>
+
+<h2>Welcome Bonus</h2>
+<p>New players can claim a generous matched deposit offer plus free spins. Always read the wagering requirements before opting in — our full terms breakdown is below.</p>
+
+<h2>Banking &amp; Payouts</h2>
+<p>Interac e-Transfer withdrawals are typically processed within 24 hours, which is among the faster turnarounds available to Ontario players. Minimum deposit is low at $10.</p>
+
+<h2>Is Bet99 Safe?</h2>
+<p>Yes — Bet99 is registered with iGaming Ontario and the AGCO, meaning it is legally licensed to operate in the province and is held to provincial player-protection standards.</p>',
+        ));
+
+        if ($cid && !is_wp_error($cid)) {
+            update_post_meta($cid, 'casino_rating', '8.7');
+            update_post_meta($cid, 'casino_bonus_description', '100% up to $1,000 + 100 Free Spins');
+            update_post_meta($cid, 'casino_affiliate_url', 'https://bet99.com');
+            update_post_meta($cid, 'casino_license', 'AGCO-registered / iGaming Ontario');
+            update_post_meta($cid, 'casino_deposit_methods', 'Interac, Visa, Mastercard, iDebit');
+            update_post_meta($cid, 'casino_withdrawal_time', '0–24 hours (Interac)');
+            update_post_meta($cid, 'casino_min_deposit', '$10');
+            update_post_meta($cid, 'casino_year_established', '2021');
+        }
+    }
+
+    // ── Example Slot Review (Gates of Olympus) ─────────────────────────────
+    if (!get_page_by_path('gates-of-olympus-ontario', OBJECT, 'slot_review')) {
+        $sid = wp_insert_post(array(
+            'post_type'    => 'slot_review',
+            'post_status'  => 'publish',
+            'post_title'   => 'Gates of Olympus',
+            'post_name'    => 'gates-of-olympus-ontario',
+            'post_author'  => 1,
+            'post_content' => '<p><em>This is an <strong>example slot review</strong> created automatically so you can see how the Slots section works. Edit or delete it under <strong>Slot Reviews</strong> in your dashboard, and replace the play link with your own affiliate URL.</em></p>
+
+<h2>Gates of Olympus — Overview</h2>
+<p>Gates of Olympus is a high-volatility Pragmatic Play slot built around tumbling reels and multiplier symbols that can combine for a maximum win of 5,000x your stake. It is one of the most-played slots in the Ontario market.</p>
+
+<h2>How It Plays</h2>
+<p>Instead of fixed paylines, wins are scatter-paid — land eight or more matching symbols anywhere on the 6x5 grid. Multiplier orbs from Zeus can land at any time and add together during the free spins round.</p>
+
+<h2>RTP &amp; Volatility</h2>
+<p>The verified RTP is 96.50% in its standard configuration. Volatility is high, so expect longer dry spells punctuated by larger wins — bankroll management matters here.</p>
+
+<h2>Where to Play in Ontario</h2>
+<p>Gates of Olympus is available at most AGCO-registered Ontario casinos. Always play at a licensed operator and set deposit limits.</p>',
+        ));
+
+        if ($sid && !is_wp_error($sid)) {
+            update_post_meta($sid, 'slot_rtp', '96.50');
+            update_post_meta($sid, 'slot_volatility', 'High');
+            update_post_meta($sid, 'slot_max_win', '5,000x');
+            update_post_meta($sid, 'slot_provider', 'Pragmatic Play');
+            update_post_meta($sid, 'slot_theme', 'Greek Mythology');
+            update_post_meta($sid, 'slot_reels', '6x5');
+            update_post_meta($sid, 'slot_paylines', 'Scatter Pays (8+)');
+            update_post_meta($sid, 'slot_min_bet', '0.20');
+            update_post_meta($sid, 'slot_max_bet', '100');
+            update_post_meta($sid, 'slot_affiliate_url', '');
+
+            if (taxonomy_exists('game_provider')) {
+                wp_set_object_terms($sid, 'Pragmatic Play', 'game_provider');
+            }
+        }
+    }
+
+    update_option('og_reviews_seed_v1', 1);
+}
+add_action('init', 'ontariogamers_seed_review_examples', 20);
