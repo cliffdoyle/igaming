@@ -18,9 +18,9 @@
             <?php endif; ?>
         </a>
 
-        <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="primary-menu">☰</button>
 
-        <nav class="main-nav" aria-label="Primary navigation">
+        <nav class="main-nav" id="primary-menu" aria-label="Primary navigation">
             <?php
             wp_nav_menu(array(
                 'theme_location' => 'primary',

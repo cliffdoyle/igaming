@@ -7,13 +7,71 @@ document.addEventListener('DOMContentLoaded', function () {
     // Mobile menu toggle
     const menuToggle = document.querySelector('.menu-toggle');
     const mainNav = document.querySelector('.main-nav');
+    const body = document.body;
 
     if (menuToggle && mainNav) {
-        menuToggle.addEventListener('click', function () {
-            mainNav.classList.toggle('active');
-            const isOpen = mainNav.classList.contains('active');
-            menuToggle.setAttribute('aria-expanded', isOpen);
-            menuToggle.textContent = isOpen ? '✕' : '☰';
+
+        const openMenu = function () {
+            mainNav.classList.add('active');
+            menuToggle.setAttribute('aria-expanded', 'true');
+            menuToggle.setAttribute('aria-label', 'Close menu');
+            menuToggle.textContent = '✕';
+            body.classList.add('menu-open');
+        };
+
+        const closeMenu = function () {
+            mainNav.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.setAttribute('aria-label', 'Open menu');
+            menuToggle.textContent = '☰';
+            body.classList.remove('menu-open');
+        };
+
+        // Toggle on button click
+        menuToggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            if (mainNav.classList.contains('active')) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        });
+
+        // Close when a menu link is tapped
+        mainNav.addEventListener('click', function (e) {
+            if (e.target.closest('a')) {
+                closeMenu();
+            }
+        });
+
+        // Close when tapping outside the menu
+        document.addEventListener('click', function (e) {
+            if (
+                mainNav.classList.contains('active') &&
+                !mainNav.contains(e.target) &&
+                !menuToggle.contains(e.target)
+            ) {
+                closeMenu();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && mainNav.classList.contains('active')) {
+                closeMenu();
+                menuToggle.focus();
+            }
+        });
+
+        // Reset menu state when resizing up to desktop
+        let resizeTimer;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                if (window.innerWidth > 768) {
+                    closeMenu();
+                }
+            }, 150);
         });
     }
 

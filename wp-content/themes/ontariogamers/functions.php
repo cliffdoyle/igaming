@@ -50,20 +50,25 @@ add_action('after_setup_theme', 'ontariogamers_setup');
 
 // Enqueue styles and scripts
 function ontariogamers_scripts() {
-    // Main stylesheet (style.css)
+    $theme_dir = get_template_directory();
+    $theme_uri = get_template_directory_uri();
+
+    // Main stylesheet (style.css) — version from file mtime busts cache on every change
+    $style_path = $theme_dir . '/style.css';
     wp_enqueue_style(
         'ontariogamers-style',
         get_stylesheet_uri(),
         array(),
-        '1.0.0'
+        file_exists($style_path) ? filemtime($style_path) : '1.0.0'
     );
 
     // Custom JS
+    $js_path = $theme_dir . '/assets/js/main.js';
     wp_enqueue_script(
         'ontariogamers-main',
-        get_template_directory_uri() . '/assets/js/main.js',
+        $theme_uri . '/assets/js/main.js',
         array(),
-        '1.0.0',
+        file_exists($js_path) ? filemtime($js_path) : '1.0.0',
         true
     );
 }
