@@ -18,7 +18,6 @@ get_header();
         </p>
         <div class="hero-ctas">
             <a href="<?php echo esc_url(home_url('/online-casinos/')); ?>" class="btn btn-primary">Compare Top Casinos</a>
-            <a href="<?php echo esc_url(home_url('/sports-picks/')); ?>" class="btn btn-secondary">Today's Sports Picks</a>
             <a href="<?php echo esc_url(home_url('/online-slots/')); ?>" class="btn btn-secondary">Browse Slot Reviews</a>
         </div>
     </div>
