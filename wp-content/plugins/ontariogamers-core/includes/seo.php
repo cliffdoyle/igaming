@@ -45,6 +45,10 @@ function ontariogamers_seo_description() {
     if (!$desc) {
         $desc = get_bloginfo('description');
     }
+    if (!$desc) {
+        // Final fallback so the homepage/archives never ship an empty description.
+        $desc = 'Expert reviews of Ontario-licensed online casinos and slots, plus free sports betting picks, bonuses and responsible gambling guides.';
+    }
 
     $desc = wp_strip_all_tags($desc, true);
     return wp_trim_words($desc, 32, '');
