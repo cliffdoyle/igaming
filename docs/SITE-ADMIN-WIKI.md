@@ -331,17 +331,58 @@ writing good content and to complete the one-time Google setup below.
 
 ### One-time setup: submit your sitemap to Google Search Console
 
-1. Go to **[search.google.com/search-console](https://search.google.com/search-console)**
-   and sign in with a Google account.
-2. Click **Add property → URL prefix** → enter `https://ontariogamers.ca`.
-3. **Verify ownership.** The easiest is the *HTML tag* method (send the tag to the
-   developer to add to the header) or the *Domain* method by adding a DNS record in
-   Cloudflare.
-4. Once verified, open **Sitemaps**, enter `wp-sitemap.xml`, and click **Submit**.
-5. Optionally repeat at **[Bing Webmaster Tools](https://www.bing.com/webmasters)**.
+#### Why we need to do this
 
-> Indexing isn’t instant — new pages can take days to a couple of weeks to appear.
-> Keep publishing; more useful content and backlinks = faster, higher rankings.
+Building the site doesn't automatically put it on Google. Google has to *discover*
+your pages, *read* them, and add them to its index before anyone can find you in
+search. **Google Search Console** is a free Google tool that:
+
+- **Tells Google your site exists** and hands it your **sitemap** (`/wp-sitemap.xml`)
+  so it indexes all pages quickly instead of finding them slowly.
+- **Shows how you're doing** — which search terms bring visitors, which pages rank,
+  click numbers, and any errors Google hit.
+- **Lets you request indexing** of brand-new articles so they appear faster.
+- **Reports problems** — broken pages, mobile issues, security flags — so you can fix them.
+
+In short: without it you're invisible to Google and flying blind. One-time setup,
+then it just runs.
+
+#### Step 1 — Create the account & add your site
+
+1. Go to **[search.google.com/search-console](https://search.google.com/search-console)**
+   and sign in with the Google account that should own the site's data.
+2. Click **Add property** → choose **URL prefix** (right-hand box) → type
+   `https://ontariogamers.ca` exactly → **Continue**.
+
+#### Step 2 — Prove you own the site (verification)
+
+Pick **one** method:
+
+| Method | How | Best when |
+|---|---|---|
+| **HTML tag** (easiest here) | Google gives a `<meta name="google-site-verification" …>` line. Copy it, send to the developer to drop into the site `<head>`, then click **Verify**. | You want the quickest option and the developer is around. |
+| **DNS record (Cloudflare)** | Google gives a `TXT` record. In **Cloudflare → domain → DNS → Add record**: Type `TXT`, Name `@`, Content = Google's value, Save. Wait a minute, click **Verify**. | You manage DNS in Cloudflare (we do) and want the whole domain verified. |
+
+> **Cloudflare note:** our DNS is at Cloudflare, so the *DNS record* method verifies
+> the whole domain at once and is rock-solid. The *HTML tag* method is faster if the
+> developer can add the tag.
+
+#### Step 3 — Submit the sitemap
+
+1. Once verified, open **Sitemaps** in the left menu.
+2. In "Add a new sitemap", type `wp-sitemap.xml` and click **Submit**.
+3. Status changes to **Success** within minutes to a day. Google now re-reads it
+   automatically as you add pages.
+
+#### Step 4 (optional) — Do the same on Bing
+
+Repeat the property + sitemap steps at
+**[Bing Webmaster Tools](https://www.bing.com/webmasters)** to cover Bing &
+DuckDuckGo. Bing can import everything from Search Console in one click.
+
+> **What to expect:** indexing isn't instant — new pages take days to a couple of
+> weeks. After ~2–3 days, check Search Console → **Pages** to confirm pages are
+> "Indexed", and **Performance** to watch clicks and search terms come in.
 
 ### Everyday SEO habits (your part)
 

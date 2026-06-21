@@ -257,15 +257,43 @@ function ontariogamers_render_admin_guide() {
         </table>
 
         <h3>One-time setup: submit your sitemap to Google Search Console</h3>
-        <p>This tells Google your site exists and to start indexing it. Do this once.</p>
+
+        <h4>Why we need to do this</h4>
+        <p>Building the site doesn't automatically put it on Google. Google has to <em>discover</em> your pages, <em>read</em> them, and add them to its index before anyone can find you in search. <strong>Google Search Console</strong> is a free Google tool that:</p>
+        <ul>
+            <li><strong>Tells Google your site exists</strong> and hands it your <strong>sitemap</strong> (the list of every page at <code>/wp-sitemap.xml</code>) so it indexes all your pages quickly instead of stumbling on them slowly.</li>
+            <li><strong>Shows you how you're doing</strong> — which search terms bring visitors, which pages rank, your click numbers, and any errors Google hit.</li>
+            <li><strong>Lets you request indexing</strong> of brand-new articles so they appear in Google faster.</li>
+            <li><strong>Reports problems</strong> — broken pages, mobile issues, security flags — so you can fix them.</li>
+        </ul>
+        <p>In short: without it you're invisible to Google and flying blind. It's a one-time setup, then it just runs.</p>
+
+        <h4>Step 1 — Create the account &amp; add your site</h4>
         <ol>
-            <li>Go to <a href="https://search.google.com/search-console" target="_blank" rel="noopener">search.google.com/search-console</a> and sign in with a Google account.</li>
-            <li>Click <strong>Add property</strong> → choose <strong>URL prefix</strong> → enter <code>https://ontariogamers.ca</code>.</li>
-            <li><strong>Verify ownership.</strong> The easiest method is usually the <em>HTML tag</em> — if Google asks for one, send the tag to the developer to add to the site header, or use the <em>Domain</em> method by adding a DNS record in Cloudflare.</li>
-            <li>Once verified, open <strong>Sitemaps</strong> in the left menu, enter <code>wp-sitemap.xml</code> and click <strong>Submit</strong>.</li>
-            <li>Repeat the same steps at <a href="https://www.bing.com/webmasters" target="_blank" rel="noopener">Bing Webmaster Tools</a> to cover Bing too (optional but quick).</li>
+            <li>Go to <a href="https://search.google.com/search-console" target="_blank" rel="noopener">search.google.com/search-console</a> and sign in with the Google account you want to own the site's data.</li>
+            <li>Click <strong>Add property</strong>. You'll see two boxes — choose <strong>URL prefix</strong> (the right-hand one), type <code>https://ontariogamers.ca</code> exactly, and click <strong>Continue</strong>.</li>
         </ol>
-        <div class="og-note">Indexing is not instant — it can take a few days to a couple of weeks for new pages to appear in Google. Keep publishing; the more useful content and backlinks you have, the faster and higher you rank.</div>
+
+        <h4>Step 2 — Prove you own the site (verification)</h4>
+        <p>Google needs proof you control the domain. Pick <strong>one</strong> method:</p>
+        <table>
+            <tr><th>Method</th><th>How</th><th>Best when</th></tr>
+            <tr><td><strong>HTML tag</strong> (easiest here)</td><td>Google gives you a line like <code>&lt;meta name="google-site-verification" content="…"&gt;</code>. Copy it and send it to the developer to drop into the site's <code>&lt;head&gt;</code>, then click <strong>Verify</strong>.</td><td>You want the quickest option and can ping the developer.</td></tr>
+            <tr><td><strong>DNS record (Cloudflare)</strong></td><td>Google gives you a <code>TXT</code> record. In <strong>Cloudflare → your domain → DNS → Add record</strong>: Type <code>TXT</code>, Name <code>@</code>, Content = the value Google gave you, Save. Wait a minute, then click <strong>Verify</strong>.</td><td>You manage the domain in Cloudflare (we do) and want it tied to the domain, not one page.</td></tr>
+        </table>
+        <div class="og-note"><strong>Cloudflare note:</strong> our DNS is at Cloudflare, so the <em>DNS record</em> method is rock-solid and verifies the whole domain at once. The <em>HTML tag</em> method is faster if the developer is around to add the tag.</div>
+
+        <h4>Step 3 — Submit the sitemap</h4>
+        <ol>
+            <li>Once verified, click into the property, then open <strong>Sitemaps</strong> in the left-hand menu.</li>
+            <li>In the "Add a new sitemap" box, type <code>wp-sitemap.xml</code> (the <code>https://ontariogamers.ca/</code> part is already shown) and click <strong>Submit</strong>.</li>
+            <li>Status should change to <strong>Success</strong> within a few minutes to a day. Done — Google will now keep re-reading it automatically as you add pages.</li>
+        </ol>
+
+        <h4>Step 4 (optional) — Do the same on Bing</h4>
+        <p>Repeat the property + sitemap steps at <a href="https://www.bing.com/webmasters" target="_blank" rel="noopener">Bing Webmaster Tools</a> to cover Bing &amp; DuckDuckGo. Bing can even import everything straight from Search Console in one click.</p>
+
+        <div class="og-note"><strong>What to expect:</strong> indexing is not instant — new pages take a few days to a couple of weeks to appear. After ~2–3 days, check Search Console → <strong>Pages</strong> to confirm pages are "Indexed", and <strong>Performance</strong> to watch clicks and search terms start coming in.</div>
 
         <h3>Everyday SEO habits (your part)</h3>
         <ul>
