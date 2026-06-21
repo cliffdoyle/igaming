@@ -186,6 +186,36 @@ get_header();
     </p>
 </section>
 
+<!-- LATEST NEWS -->
+<section class="casino-table">
+    <h2>Latest Ontario Gambling News</h2>
+
+    <div class="news-grid">
+        <?php
+        $news = new WP_Query(array(
+            'post_type'           => 'post',
+            'posts_per_page'      => 3,
+            'ignore_sticky_posts' => true,
+        ));
+
+        if ($news->have_posts()) :
+            while ($news->have_posts()) : $news->the_post();
+                get_template_part('template-parts/news', 'card');
+            endwhile;
+            wp_reset_postdata();
+        else :
+            ?>
+            <p style="text-align:center;color:#666;grid-column:1/-1;">News articles coming soon.</p>
+            <?php
+        endif;
+        ?>
+    </div>
+
+    <p style="text-align:center;margin-top:1.5rem;">
+        <a href="<?php echo esc_url(home_url('/news/')); ?>" class="btn btn-review">Read All News →</a>
+    </p>
+</section>
+
 <!-- HOW WE REVIEW SECTION -->
 <section style="padding:3rem 1.5rem;max-width:800px;margin:0 auto;">
     <h2 style="text-align:center;">Our Testing Process, Step by Step</h2>

@@ -125,6 +125,8 @@ function ontariogamers_default_menu() {
         home_url('/')                       => 'Home',
         home_url('/online-casinos/')        => 'Online Casinos',
         home_url('/online-slots/')          => 'Online Slots',
+        home_url('/sports-picks/')          => 'Sports Picks',
+        home_url('/news/')                  => 'News',
         home_url('/about/')                 => 'About',
         home_url('/responsible-gambling/')  => 'Responsible Gambling',
         home_url('/contact/')               => 'Contact',
@@ -173,6 +175,7 @@ function ontariogamers_footer_sports_fallback() {
 
 function ontariogamers_footer_company_fallback() {
     ontariogamers_footer_menu_fallback(array(
+        home_url('/news/')                   => 'News & Guides',
         home_url('/about/')                  => 'About Us',
         home_url('/responsible-gambling/')   => 'Responsible Gambling',
         home_url('/affiliate-disclosure/')   => 'Affiliate Disclosure',

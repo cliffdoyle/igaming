@@ -475,3 +475,131 @@ function ontariogamers_cleanup_v1() {
     }
 }
 add_action('init', 'ontariogamers_cleanup_v1', 21);
+
+/**
+ * One-time: set up a proper News/Blog section for SEO traffic.
+ * - Creates news categories (Casino News, Sports Betting, Slots, Guides)
+ * - Creates a "Home" page + a "News" page and wires up the native WordPress
+ *   Posts-page mechanism (Settings → Reading) so /news/ becomes the blog index
+ *   while the existing homepage (front-page.php) is untouched.
+ * - Publishes two example articles and tidies the default "Hello world!" post.
+ */
+function ontariogamers_seed_news() {
+    if (get_option('og_news_seed_v1')) {
+        return;
+    }
+    if (false === add_option('og_news_seed_v1', 1, '', 'no')) {
+        return;
+    }
+
+    // ── Categories ─────────────────────────────────────────────────────────
+    $category_map = array(
+        'casino-news'         => 'Casino News',
+        'sports-betting-news' => 'Sports Betting',
+        'slots-news'          => 'Slots',
+        'guides'              => 'Guides',
+    );
+    $cat_ids = array();
+    foreach ($category_map as $slug => $name) {
+        $term = term_exists($slug, 'category');
+        if (!$term) {
+            $term = wp_insert_term($name, 'category', array('slug' => $slug));
+        }
+        if (!is_wp_error($term)) {
+            $cat_ids[$slug] = is_array($term) ? (int) $term['term_id'] : (int) $term;
+        }
+    }
+
+    // ── Home + News pages, then point Reading settings at them ─────────────
+    $home = get_page_by_path('home');
+    if ($home) {
+        $home_id = $home->ID;
+    } else {
+        $home_id = wp_insert_post(array(
+            'post_type'    => 'page',
+            'post_status'  => 'publish',
+            'post_title'   => 'Home',
+            'post_name'    => 'home',
+            'post_content' => '',
+        ));
+    }
+
+    $news_page = get_page_by_path('news');
+    if ($news_page) {
+        $news_id = $news_page->ID;
+    } else {
+        $news_id = wp_insert_post(array(
+            'post_type'    => 'page',
+            'post_status'  => 'publish',
+            'post_title'   => 'News',
+            'post_name'    => 'news',
+            'post_content' => '',
+        ));
+    }
+
+    if ($home_id && !is_wp_error($home_id) && $news_id && !is_wp_error($news_id)) {
+        update_option('show_on_front', 'page');
+        update_option('page_on_front', (int) $home_id);
+        update_option('page_for_posts', (int) $news_id);
+    }
+
+    // ── Example articles ───────────────────────────────────────────────────
+    $articles = array(
+        array(
+            'title'   => 'Ontario iGaming Hits Record Quarter as New Operators Launch',
+            'slug'    => 'ontario-igaming-record-quarter',
+            'cat'     => 'casino-news',
+            'content' => '<p><em>This is an <strong>example news article</strong> created automatically so you can see how the News section works. Edit or delete it under <strong>Posts</strong> in your dashboard.</em></p>
+
+<h2>A Growing Regulated Market</h2>
+<p>Ontario\'s regulated online gambling market continues to expand, with new AGCO-registered operators going live and total wagering climbing year over year. For players, more competition means stronger welcome offers and faster Interac payouts.</p>
+
+<h2>What It Means for Players</h2>
+<p>Every new operator on the iGaming Ontario register must meet the province\'s player-protection standards — independently audited games, deposit limits and self-exclusion tools. Always check that a site appears on the official register before you deposit.</p>
+
+<h2>Our Take</h2>
+<p>We test each new launch ourselves before adding it to our <a href="/online-casinos/">casino reviews</a>. Bookmark this page for the latest Ontario gambling news.</p>',
+        ),
+        array(
+            'title'   => 'How to Read Slot RTP Before You Spin: An Ontario Guide',
+            'slug'    => 'how-to-read-slot-rtp-guide',
+            'cat'     => 'guides',
+            'content' => '<p><em>This is an <strong>example guide</strong> created automatically so you can see how the News section works. Edit or delete it under <strong>Posts</strong> in your dashboard.</em></p>
+
+<h2>What Is RTP?</h2>
+<p>RTP (Return to Player) is the percentage of all wagered money a slot is designed to pay back over the long run. A 96.5% RTP slot returns $96.50 for every $100 staked on average — across millions of spins, not a single session.</p>
+
+<h2>Where to Find It in Ontario</h2>
+<p>At AGCO-licensed casinos, the live RTP is shown inside the game\'s information panel. We read it there for every <a href="/online-slots/">slot review</a> rather than trusting marketing sheets, because operators can configure different RTP versions of the same game.</p>
+
+<h2>RTP vs Volatility</h2>
+<p>RTP tells you the long-term payout; volatility tells you how bumpy the ride is. A high-volatility slot can have great RTP but long dry spells — match the game to your bankroll and set limits before you play.</p>',
+        ),
+    );
+
+    foreach ($articles as $a) {
+        if (get_page_by_path($a['slug'], OBJECT, 'post')) {
+            continue;
+        }
+        $pid = wp_insert_post(array(
+            'post_type'    => 'post',
+            'post_status'  => 'publish',
+            'post_title'   => $a['title'],
+            'post_name'    => $a['slug'],
+            'post_author'  => 1,
+            'post_content' => $a['content'],
+        ));
+        if ($pid && !is_wp_error($pid) && isset($cat_ids[$a['cat']])) {
+            wp_set_post_categories($pid, array($cat_ids[$a['cat']]));
+        }
+    }
+
+    // ── Tidy the default "Hello world!" sample post ────────────────────────
+    $hello = get_page_by_path('hello-world', OBJECT, 'post');
+    if ($hello) {
+        wp_trash_post($hello->ID);
+    }
+
+    flush_rewrite_rules();
+}
+add_action('init', 'ontariogamers_seed_news', 22);
