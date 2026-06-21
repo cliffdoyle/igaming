@@ -78,6 +78,9 @@ function ontariogamers_render_admin_guide() {
                 <li><a href="#og-widgets">Sidebar widgets</a></li>
                 <li><a href="#og-agco">AGCO / legal content rules</a></li>
                 <li><a href="#og-checklist">Publishing checklist</a></li>
+                <li><a href="#og-news">Posting news &amp; articles</a></li>
+                <li><a href="#og-seo">Search engine optimisation (SEO)</a></li>
+                <li><a href="#og-backlinks">Backlinks &amp; off-page SEO</a></li>
                 <li><a href="#og-trouble">Troubleshooting</a></li>
             </ol>
         </div>
@@ -225,7 +228,71 @@ function ontariogamers_render_admin_guide() {
             <li>Previewed on desktop <strong>and</strong> mobile</li>
         </ul>
 
-        <h2 id="og-trouble">14. Troubleshooting</h2>
+        <h2 id="og-news">14. Posting News &amp; Articles</h2>
+        <p>The site has a built-in <strong>News &amp; Guides</strong> section at <code>/news/</code>. Fresh articles are the single best way to bring free Google traffic — every guide you publish becomes a new page Google can rank, and a place to link to your casino and slot reviews.</p>
+        <h3>How to post an article</h3>
+        <ol>
+            <li>Go to <strong>Posts → Add New</strong> (the standard “Posts” menu, not Casino/Slot Reviews).</li>
+            <li><strong>Title:</strong> write it the way someone would search Google — e.g. “How to Read Slot RTP” or “Best Ontario Casino Bonuses Explained”.</li>
+            <li><strong>Body:</strong> write the article in the editor. Use <strong>Heading</strong> blocks (H2/H3) to break it into sections — this helps both readers and Google.</li>
+            <li><strong>Category</strong> (right-hand panel): tick one — <em>Casino News</em>, <em>Sports Betting</em>, <em>Slots</em> or <em>Guides</em>. This files the article under the right section.</li>
+            <li><strong>Featured image</strong> (right-hand panel): set one so the article card looks good. Add <strong>Alt text</strong> describing the image.</li>
+            <li><strong>Internal links:</strong> inside the article, link words like “Bet99” or “Gates of Olympus” to their review pages. Highlight the text → click the link icon → search the review. This passes visitors (and Google authority) to your money pages.</li>
+            <li>Click <strong>Publish</strong>. The article appears instantly at <code>/news/</code>, in its category, and in the “Latest News” strip on the homepage.</li>
+        </ol>
+        <div class="og-note"><strong>Tip:</strong> aim for one helpful, well-written article a week. Quality and usefulness beat quantity — a single 1,000-word guide that genuinely answers a question will out-rank ten thin posts.</div>
+        <div class="og-warn">Don’t paste articles copied from other sites. Duplicate content is ignored (or penalised) by Google and can hurt the whole domain. Always write original copy.</div>
+
+        <h2 id="og-seo">15. Search Engine Optimisation (SEO)</h2>
+        <p>SEO is how you get found on Google without paying for ads. Good news: the most important <strong>technical</strong> SEO is already built into this site by the developer. Your job is mainly to keep writing good content and complete the one-time Google setup below.</p>
+
+        <h3>What’s already built in (automatic, no action needed)</h3>
+        <table>
+            <tr><th>Feature</th><th>What it does for you</th></tr>
+            <tr><td><strong>Meta titles &amp; descriptions</strong></td><td>Every page automatically outputs the title and a description tag — this is the blue headline and grey text Google shows in search results.</td></tr>
+            <tr><td><strong>Open Graph / Twitter cards</strong></td><td>When a page is shared on Facebook, X or WhatsApp, it shows a proper title, description and image instead of a bare link.</td></tr>
+            <tr><td><strong>Schema markup (star ratings)</strong></td><td>Casino and slot reviews output <code>Review</code> structured data with your rating, and articles output <code>Article</code> data. This is what lets Google show review stars and rich snippets next to your listing.</td></tr>
+            <tr><td><strong>XML sitemap</strong></td><td>A live map of every page is auto-generated at <code>/wp-sitemap.xml</code> — you submit this to Google (below) so it can find all your pages.</td></tr>
+            <tr><td><strong>Canonical URLs</strong></td><td>Tells Google the one true address of each page, preventing “duplicate content” problems.</td></tr>
+        </table>
+
+        <h3>One-time setup: submit your sitemap to Google Search Console</h3>
+        <p>This tells Google your site exists and to start indexing it. Do this once.</p>
+        <ol>
+            <li>Go to <a href="https://search.google.com/search-console" target="_blank" rel="noopener">search.google.com/search-console</a> and sign in with a Google account.</li>
+            <li>Click <strong>Add property</strong> → choose <strong>URL prefix</strong> → enter <code>https://ontariogamers.ca</code>.</li>
+            <li><strong>Verify ownership.</strong> The easiest method is usually the <em>HTML tag</em> — if Google asks for one, send the tag to the developer to add to the site header, or use the <em>Domain</em> method by adding a DNS record in Cloudflare.</li>
+            <li>Once verified, open <strong>Sitemaps</strong> in the left menu, enter <code>wp-sitemap.xml</code> and click <strong>Submit</strong>.</li>
+            <li>Repeat the same steps at <a href="https://www.bing.com/webmasters" target="_blank" rel="noopener">Bing Webmaster Tools</a> to cover Bing too (optional but quick).</li>
+        </ol>
+        <div class="og-note">Indexing is not instant — it can take a few days to a couple of weeks for new pages to appear in Google. Keep publishing; the more useful content and backlinks you have, the faster and higher you rank.</div>
+
+        <h3>Everyday SEO habits (your part)</h3>
+        <ul>
+            <li><strong>Write for a real question.</strong> Put the phrase people search into your title and first paragraph.</li>
+            <li><strong>Fill the excerpt.</strong> On any post/review, the <em>Excerpt</em> field becomes the Google description — write a tempting one sentence.</li>
+            <li><strong>Always set a featured image with Alt text.</strong></li>
+            <li><strong>Link internally</strong> between articles and reviews (see §14).</li>
+            <li><strong>Keep content fresh</strong> — update older reviews when bonuses or facts change.</li>
+        </ul>
+        <div class="og-note"><strong>Want a full SEO dashboard?</strong> You can optionally install <strong>Rank Math</strong> or <strong>Yoast</strong> from <strong>Plugins → Add New</strong> for a point-and-click interface and content scoring. If you do, the site’s built-in SEO automatically steps aside so you won’t get duplicate tags. For a small 1 GB server, the built-in SEO is usually all you need.</div>
+
+        <h2 id="og-backlinks">16. Backlinks &amp; Off-Page SEO</h2>
+        <p>A <strong>backlink</strong> is simply a link from another website to yours. Google treats each quality backlink as a “vote of confidence” — sites with more trustworthy links tend to rank higher. This is the single biggest factor you influence <em>off</em> your own site.</p>
+        <h3>The golden rule: quality over quantity</h3>
+        <p>One link from a respected, <em>relevant</em> site (an Ontario news outlet, a well-known gambling portal) is worth more than hundreds of links from random low-quality pages. Relevance and trust matter most.</p>
+        <h3>How to earn good backlinks</h3>
+        <ul>
+            <li><strong>Create link-worthy content:</strong> original guides, data, or “best of” lists that other sites <em>want</em> to reference (this is why the News section matters).</li>
+            <li><strong>Industry directories &amp; portals:</strong> get listed on reputable gambling-affiliate directories such as <em>Gambling.com</em>, <em>AskGamblers</em>, <em>Casino.org</em> and similar Ontario/Canada-focused listings.</li>
+            <li><strong>Guest posts:</strong> write a useful article for another relevant blog that links back to a page on your site.</li>
+            <li><strong>Press &amp; data angles:</strong> publish original stats or commentary on Ontario iGaming; journalists and bloggers link to sources.</li>
+            <li><strong>Forums &amp; communities:</strong> genuinely help in gambling/sports communities and link only where it adds value — this drives direct traffic even when the link doesn’t pass much SEO weight.</li>
+        </ul>
+        <div class="og-warn"><strong>Avoid “black-hat” link schemes.</strong> Never <em>buy</em> bulk links, use automated link-spam tools, or swap links in “link farms”. Google actively penalises these and it can get your whole site demoted or de-indexed. Slow, genuine link-building wins.</div>
+        <div class="og-note"><strong>Track your links:</strong> in Google Search Console, <strong>Links → External links</strong> shows which sites link to you and which pages they point at.</div>
+
+        <h2 id="og-trouble">17. Troubleshooting</h2>
         <table>
             <tr><th>Problem</th><th>Fix</th></tr>
             <tr><td>New review doesn't show on homepage</td><td>Homepage shows only the top 6 by Order. Lower its Order number.</td></tr>

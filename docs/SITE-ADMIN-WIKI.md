@@ -25,7 +25,10 @@ and clicking in `wp-admin`.
 11. [Sidebar Widgets](#11-sidebar-widgets)
 12. [AGCO / Legal Content Rules](#12-agco--legal-content-rules-important)
 13. [Publishing Workflow & Checklist](#13-publishing-workflow--checklist)
-14. [Troubleshooting](#14-troubleshooting)
+14. [Posting News & Articles](#14-posting-news--articles)
+15. [Search Engine Optimisation (SEO)](#15-search-engine-optimisation-seo)
+16. [Backlinks & Off-Page SEO](#16-backlinks--off-page-seo)
+17. [Troubleshooting](#17-troubleshooting)
 
 ---
 
@@ -279,7 +282,115 @@ Before hitting **Publish** on a new casino or slot review:
 
 ---
 
-## 14. Troubleshooting
+## 14. Posting News & Articles
+
+The site has a built-in **News & Guides** section at `/news/`. Publishing fresh
+articles is the single best way to earn free Google traffic: every guide becomes a
+new page Google can rank, and a place to link to your casino and slot reviews.
+
+### How to post an article
+
+1. Go to **Posts → Add New** (the standard *Posts* menu — not Casino/Slot Reviews).
+2. **Title:** write it the way someone would search Google — e.g. *“How to Read
+   Slot RTP”* or *“Best Ontario Casino Bonuses Explained”*.
+3. **Body:** write the article in the editor. Use **Heading** blocks (H2/H3) to break
+   it into sections — good for readers and for Google.
+4. **Category** (right panel): tick one — *Casino News*, *Sports Betting*, *Slots*
+   or *Guides*.
+5. **Featured image** (right panel): set one so the article card looks good, and add
+   **Alt text**.
+6. **Internal links:** link words like *Bet99* or *Gates of Olympus* to their review
+   pages (highlight text → link icon → search the review). This sends visitors and
+   Google authority to your money pages.
+7. Click **Publish**. The article appears instantly at `/news/`, in its category, and
+   in the “Latest News” strip on the homepage.
+
+> **Tip:** aim for one helpful, well-written article a week. A single 1,000-word
+> guide that genuinely answers a question out-ranks ten thin posts.
+
+> ⚠️ **Never** paste articles copied from other sites. Duplicate content is ignored
+> or penalised by Google and can hurt the whole domain. Always write original copy.
+
+---
+
+## 15. Search Engine Optimisation (SEO)
+
+SEO is how you get found on Google without paying for ads. The heavy **technical**
+SEO is already built into this site by the developer — your job is mostly to keep
+writing good content and to complete the one-time Google setup below.
+
+### What’s already built in (automatic — no action needed)
+
+| Feature | What it does for you |
+|---|---|
+| **Meta titles & descriptions** | Every page outputs a title and description tag — the blue headline and grey text Google shows in results. |
+| **Open Graph / Twitter cards** | Shared links on Facebook, X or WhatsApp show a proper title, description and image. |
+| **Schema markup (star ratings)** | Casino/slot reviews output `Review` data with your rating; articles output `Article` data — this is what lets Google show review stars and rich snippets. |
+| **XML sitemap** | A live map of every page is auto-generated at `/wp-sitemap.xml` — submit it to Google (below). |
+| **Canonical URLs** | Tells Google the one true address of each page, preventing “duplicate content” issues. |
+
+### One-time setup: submit your sitemap to Google Search Console
+
+1. Go to **[search.google.com/search-console](https://search.google.com/search-console)**
+   and sign in with a Google account.
+2. Click **Add property → URL prefix** → enter `https://ontariogamers.ca`.
+3. **Verify ownership.** The easiest is the *HTML tag* method (send the tag to the
+   developer to add to the header) or the *Domain* method by adding a DNS record in
+   Cloudflare.
+4. Once verified, open **Sitemaps**, enter `wp-sitemap.xml`, and click **Submit**.
+5. Optionally repeat at **[Bing Webmaster Tools](https://www.bing.com/webmasters)**.
+
+> Indexing isn’t instant — new pages can take days to a couple of weeks to appear.
+> Keep publishing; more useful content and backlinks = faster, higher rankings.
+
+### Everyday SEO habits (your part)
+
+- **Write for a real question** — put the search phrase in your title and first paragraph.
+- **Fill the Excerpt** — it becomes the Google description, so write a tempting sentence.
+- **Always set a featured image with Alt text.**
+- **Link internally** between articles and reviews (see §14).
+- **Keep content fresh** — update older reviews when bonuses or facts change.
+
+> **Want a full SEO dashboard?** You can optionally install **Rank Math** or **Yoast**
+> from **Plugins → Add New** for a point-and-click interface. If you do, the site’s
+> built-in SEO steps aside automatically so you won’t get duplicate tags. For a small
+> 1 GB server, the built-in SEO is usually all you need.
+
+---
+
+## 16. Backlinks & Off-Page SEO
+
+A **backlink** is a link from another website to yours. Google treats each quality
+backlink as a “vote of confidence” — sites with more trustworthy links rank higher.
+This is the biggest factor you influence *off* your own site.
+
+### The golden rule: quality over quantity
+
+One link from a respected, *relevant* site (an Ontario news outlet, a well-known
+gambling portal) is worth more than hundreds from random low-quality pages.
+
+### How to earn good backlinks
+
+- **Create link-worthy content:** original guides, data and “best of” lists other
+  sites *want* to reference (this is why the News section matters).
+- **Industry directories & portals:** get listed on reputable gambling-affiliate
+  directories such as *Gambling.com*, *AskGamblers*, *Casino.org* and Ontario/Canada
+  listings.
+- **Guest posts:** write a useful article for another relevant blog that links back.
+- **Press & data angles:** publish original Ontario iGaming stats or commentary;
+  journalists and bloggers link to sources.
+- **Forums & communities:** genuinely help in gambling/sports communities and link
+  only where it adds value — this drives direct traffic too.
+
+> ⚠️ **Avoid black-hat link schemes.** Never *buy* bulk links, use automated
+> link-spam tools, or join “link farms”. Google penalises these and can demote or
+> de-index the whole site. Slow, genuine link-building wins.
+
+> **Track your links** in Google Search Console → **Links → External links**.
+
+---
+
+## 17. Troubleshooting
 
 | Problem | Fix |
 |---|---|
