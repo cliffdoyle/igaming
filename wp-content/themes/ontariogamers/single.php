@@ -27,9 +27,17 @@ while (have_posts()) :
 
                 <h1><?php the_title(); ?></h1>
 
-                <p style="font-size:0.85rem;color:var(--og-text-light);margin-bottom:1.5rem;">
-                    <?php echo esc_html(get_the_date()); ?> &middot; By <?php the_author(); ?> &middot; Last updated <?php echo esc_html(get_the_modified_date('F Y')); ?>
-                </p>
+                <?php
+                $og_author_id  = (int) get_the_author_meta('ID');
+                $og_author_url = get_author_posts_url($og_author_id);
+                ?>
+                <div class="article-byline">
+                    <a href="<?php echo esc_url($og_author_url); ?>" class="article-byline-avatar"><?php echo get_avatar($og_author_id, 44); ?></a>
+                    <span class="article-byline-text">
+                        By <a href="<?php echo esc_url($og_author_url); ?>" class="article-byline-name"><?php the_author(); ?></a><br>
+                        <?php echo esc_html(get_the_date()); ?> &middot; Last updated <?php echo esc_html(get_the_modified_date('F Y')); ?>
+                    </span>
+                </div>
 
                 <?php if (has_post_thumbnail()) : ?>
                     <div class="single-featured">
@@ -60,10 +68,19 @@ while (have_posts()) :
 
                 <!-- Author Box -->
                 <div class="author-box">
-                    <?php echo get_avatar(get_the_author_meta('ID'), 80); ?>
+                    <a href="<?php echo esc_url($og_author_url); ?>"><?php echo get_avatar($og_author_id, 80); ?></a>
                     <div>
-                        <div class="author-name"><?php the_author(); ?></div>
-                        <div class="author-title">Editor — OntarioGamers.com</div>
+                        <div class="author-name"><a href="<?php echo esc_url($og_author_url); ?>"><?php the_author(); ?></a></div>
+                        <div class="author-title"><?php echo esc_html(function_exists('ontariogamers_author_role') ? ontariogamers_author_role($og_author_id) : 'Writer — OntarioGamers.ca'); ?></div>
+                        <?php
+                        $og_li = get_the_author_meta('linkedin');
+                        $og_pe = get_the_author_meta('public_email');
+                        ?>
+                        <div class="author-social">
+                            <?php if ($og_li) : ?><a href="<?php echo esc_url($og_li); ?>" target="_blank" rel="noopener nofollow">LinkedIn</a><?php endif; ?>
+                            <?php if ($og_pe) : ?><a href="mailto:<?php echo esc_attr($og_pe); ?>">Email</a><?php endif; ?>
+                            <a href="<?php echo esc_url($og_author_url); ?>">View all posts</a>
+                        </div>
                         <div class="author-bio"><?php the_author_meta('description'); ?></div>
                     </div>
                 </div>
