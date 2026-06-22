@@ -1007,6 +1007,16 @@ p {
     margin: 0;
 }
 
+.news-author-link {
+    color: var(--og-primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.news-author-link:hover {
+    text-decoration: underline;
+}
+
 /* Category section */
 .news-section {
     margin-bottom: 2.5rem;

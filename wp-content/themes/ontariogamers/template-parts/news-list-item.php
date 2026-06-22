@@ -23,6 +23,6 @@ $og_cat  = !empty($og_cats) ? $og_cats[0] : null;
             <a class="news-li-cat" href="<?php echo esc_url(get_category_link($og_cat)); ?>"><?php echo esc_html($og_cat->name); ?></a>
         <?php endif; ?>
         <h4 class="news-li-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-        <p class="news-li-meta">By <?php the_author(); ?> &middot; <?php echo esc_html(get_the_date()); ?></p>
+        <p class="news-li-meta">By <a href="<?php echo esc_url(get_author_posts_url(get_the_author_meta('ID'))); ?>" class="news-author-link"><?php the_author(); ?></a> &middot; <?php echo esc_html(get_the_date()); ?></p>
     </div>
 </article>
