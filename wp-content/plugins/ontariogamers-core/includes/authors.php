@@ -82,8 +82,9 @@ function ontariogamers_resolve_avatar_user($id_or_email) {
 }
 
 /**
- * Use a custom photo (user meta 'og_avatar_url') if set, otherwise an initials
- * avatar. This makes author pictures show without needing Gravatar.
+ * Use a custom photo (user meta 'og_avatar_url') if set. Note: the auto-generated
+ * initials avatar is applied in the get_avatar() HTML filter below, because
+ * esc_url() (used on the avatar data array) strips data: URIs.
  */
 function ontariogamers_custom_avatar($args, $id_or_email) {
     $user = ontariogamers_resolve_avatar_user($id_or_email);
@@ -91,16 +92,40 @@ function ontariogamers_custom_avatar($args, $id_or_email) {
         return $args;
     }
     $custom = get_user_meta($user->ID, 'og_avatar_url', true);
-    $size   = isset($args['size']) ? (int) $args['size'] : 120;
     if ($custom) {
-        $args['url'] = $custom;
-    } else {
-        $args['url'] = ontariogamers_author_initials_avatar($user->display_name, $size);
+        $args['url']          = $custom;
+        $args['found_avatar'] = true;
     }
-    $args['found_avatar'] = true;
     return $args;
 }
 add_filter('pre_get_avatar_data', 'ontariogamers_custom_avatar', 10, 2);
+
+/**
+ * Final HTML pass: if an author has no custom photo, render an initials SVG
+ * avatar (data URI) so every author always shows a real picture. We build the
+ * <img> here and escape the src with esc_attr (which keeps data: URIs intact).
+ */
+function ontariogamers_avatar_html($avatar, $id_or_email, $size, $default, $alt, $args = array()) {
+    $user = ontariogamers_resolve_avatar_user($id_or_email);
+    if (!$user) {
+        return $avatar;
+    }
+    // A custom photo URL was set — leave WordPress's normal output alone.
+    if (get_user_meta($user->ID, 'og_avatar_url', true)) {
+        return $avatar;
+    }
+    $url   = ontariogamers_author_initials_avatar($user->display_name, $size);
+    $class = 'avatar avatar-' . (int) $size . ' photo og-avatar';
+    return sprintf(
+        '<img alt="%s" src="%s" class="%s" height="%d" width="%d" decoding="async" />',
+        esc_attr($alt),
+        esc_attr($url),
+        esc_attr($class),
+        (int) $size,
+        (int) $size
+    );
+}
+add_filter('get_avatar', 'ontariogamers_avatar_html', 10, 6);
 
 /**
  * Add a "Profile Picture URL" field to the user profile screen so admins can
