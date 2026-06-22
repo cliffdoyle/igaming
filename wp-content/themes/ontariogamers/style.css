@@ -1039,6 +1039,14 @@ p {
     height: 80px;
     border-radius: 50%;
     object-fit: cover;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+}
+
+.author-box > a {
+    flex: 0 0 auto;
+    display: block;
+    line-height: 0;
 }
 
 .author-box .author-name {
@@ -1093,11 +1101,19 @@ p {
     color: var(--og-text-light);
 }
 
+.article-byline-avatar {
+    flex: 0 0 auto;
+    display: block;
+    line-height: 0;
+}
+
 .article-byline-avatar img {
     width: 44px;
     height: 44px;
     border-radius: 50%;
     object-fit: cover;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
     display: block;
 }
 
@@ -1129,11 +1145,17 @@ p {
     margin-bottom: 2.5rem;
 }
 
+.author-hero-avatar {
+    flex: 0 0 auto;
+}
+
 .author-hero-avatar img {
     width: 140px;
     height: 140px;
     border-radius: 50%;
     object-fit: cover;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
     display: block;
 }
 
