@@ -270,32 +270,49 @@ function ontariogamers_render_admin_guide() {
         </ul>
         <p>In short: without it you're invisible to Google and flying blind. It's a one-time setup, then it just runs.</p>
 
-        <h4>Step 1 — Create the account &amp; add your site</h4>
+        <h4>Step 1 &mdash; Create the account &amp; add your site</h4>
         <ol>
-            <li>Go to <a href="https://search.google.com/search-console" target="_blank" rel="noopener">search.google.com/search-console</a> and sign in with the Google account you want to own the site's data.</li>
-            <li>Click <strong>Add property</strong>. You'll see two boxes — choose <strong>URL prefix</strong> (the right-hand one), type <code>https://ontariogamers.ca</code> exactly, and click <strong>Continue</strong>.</li>
+            <li>Go to <a href="https://search.google.com/search-console" target="_blank" rel="noopener">search.google.com/search-console</a> and sign in with the Google account you want to own the site's data (tip: use the <em>same</em> account as Google Analytics &mdash; it makes verification one click).</li>
+            <li>Click <strong>Add property</strong>. You'll see two boxes &mdash; choose the left one, <strong>Domain</strong>, type <code>ontariogamers.ca</code> (no <code>https://</code>, no <code>www</code>) and click <strong>Continue</strong>.</li>
         </ol>
 
-        <h4>Step 2 — Prove you own the site (verification)</h4>
-        <p>Google needs proof you control the domain. Pick <strong>one</strong> method:</p>
-        <table>
-            <tr><th>Method</th><th>How</th><th>Best when</th></tr>
-            <tr><td><strong>HTML tag</strong> (easiest here)</td><td>Google gives you a line like <code>&lt;meta name="google-site-verification" content="…"&gt;</code>. Copy it and send it to the developer to drop into the site's <code>&lt;head&gt;</code>, then click <strong>Verify</strong>.</td><td>You want the quickest option and can ping the developer.</td></tr>
-            <tr><td><strong>DNS record (Cloudflare)</strong></td><td>Google gives you a <code>TXT</code> record. In <strong>Cloudflare → your domain → DNS → Add record</strong>: Type <code>TXT</code>, Name <code>@</code>, Content = the value Google gave you, Save. Wait a minute, then click <strong>Verify</strong>.</td><td>You manage the domain in Cloudflare (we do) and want it tied to the domain, not one page.</td></tr>
-        </table>
-        <div class="og-note"><strong>Cloudflare note:</strong> our DNS is at Cloudflare, so the <em>DNS record</em> method is rock-solid and verifies the whole domain at once. The <em>HTML tag</em> method is faster if the developer is around to add the tag.</div>
+        <h4>Step 2 &mdash; Prove you own the site (verification)</h4>
+        <p>Google needs proof you control the domain. Because our DNS is at Cloudflare, Google offers a <strong>one-click route</strong>:</p>
+        <ol>
+            <li>Google shows an <strong>&ldquo;Authorize DNS records from Google&rdquo;</strong> screen with a <code>TXT</code> record it wants to add to Cloudflare. Click the blue <strong>Authorize</strong> button &mdash; Google adds the record into Cloudflare for you (a one-time, safe authorization).</li>
+            <li>It returns to Search Console and shows <strong>&ldquo;Ownership verified&rdquo;</strong>. (If not instant, wait a minute and click <strong>Verify</strong>.)</li>
+        </ol>
+        <div class="og-note"><strong>Manual fallback:</strong> if the one-click box doesn't appear, copy the <code>TXT</code> value Google gives you and add it in <strong>Cloudflare &rarr; DNS &rarr; Add record</strong> (Type <code>TXT</code>, Name <code>@</code>, Content = the value), Save, then click <strong>Verify</strong>. Don't wrap the value in extra quotes.</div>
 
         <h4>Step 3 — Submit the sitemap</h4>
         <ol>
             <li>Once verified, click into the property, then open <strong>Sitemaps</strong> in the left-hand menu.</li>
-            <li>In the "Add a new sitemap" box, type <code>wp-sitemap.xml</code> (the <code>https://ontariogamers.ca/</code> part is already shown) and click <strong>Submit</strong>.</li>
-            <li>Status should change to <strong>Success</strong> within a few minutes to a day. Done — Google will now keep re-reading it automatically as you add pages.</li>
+            <li>In the &ldquo;Add a new sitemap&rdquo; box, type the <strong>full URL</strong> <code>https://ontariogamers.ca/wp-sitemap.xml</code> and click <strong>Submit</strong>. (If it rejects the short <code>wp-sitemap.xml</code> as &ldquo;invalid&rdquo;, the full URL always works.)</li>
+            <li>It may say <strong>&ldquo;Couldn't fetch&rdquo;</strong> for the first few hours &mdash; that's normal right after submitting. It changes to <strong>Success</strong> once Google fetches it, then re-reads it automatically as you add pages.</li>
         </ol>
 
         <h4>Step 4 (optional) — Do the same on Bing</h4>
         <p>Repeat the property + sitemap steps at <a href="https://www.bing.com/webmasters" target="_blank" rel="noopener">Bing Webmaster Tools</a> to cover Bing &amp; DuckDuckGo. Bing can even import everything straight from Search Console in one click.</p>
 
         <div class="og-note"><strong>What to expect:</strong> indexing is not instant — new pages take a few days to a couple of weeks to appear. After ~2–3 days, check Search Console → <strong>Pages</strong> to confirm pages are "Indexed", and <strong>Performance</strong> to watch clicks and search terms start coming in.</div>
+
+        <h3>Reading your Search Console data (who finds &amp; clicks you on Google)</h3>
+        <p>Search Console answers one question: <em>&ldquo;how do people find me on Google, and do they click?&rdquo;</em> The main report is <strong>Performance &rarr; Search results</strong>. Four numbers matter:</p>
+        <table>
+            <tr><th>Metric</th><th>Plain meaning</th></tr>
+            <tr><td><strong>Impressions</strong></td><td>How many times a page of mine <em>appeared</em> in someone's Google results. High impressions = Google is showing me.</td></tr>
+            <tr><td><strong>Clicks</strong></td><td>How many of those people actually <em>clicked through</em> to my site. This is real Google traffic.</td></tr>
+            <tr><td><strong>CTR</strong> (click-through rate)</td><td>Clicks &divide; impressions, as a %. Low CTR with high impressions = I'm showing up but my title/description isn't tempting enough &mdash; rewrite the Excerpt.</td></tr>
+            <tr><td><strong>Position</strong></td><td>My average ranking spot for that term (1 = top). Closer to 1 = more clicks. Anything past page 1 (position ~10+) gets few clicks.</td></tr>
+        </table>
+        <p>Useful tabs inside that report:</p>
+        <ul>
+            <li><strong>Queries</strong> &mdash; the exact words people typed to find me. Gold for ideas: write more articles around terms that already bring impressions.</li>
+            <li><strong>Pages</strong> &mdash; which of my URLs get the most clicks/impressions.</li>
+            <li><strong>Indexing &rarr; Pages</strong> &mdash; confirms which pages are <em>Indexed</em> (eligible to show) vs excluded, and why.</li>
+            <li><strong>URL inspection</strong> (top search bar) &mdash; paste a brand-new article's URL and click <strong>Request indexing</strong> to nudge Google to read it sooner.</li>
+        </ul>
+        <div class="og-note"><strong>How I make sense of it:</strong> rising <em>impressions</em> = my SEO is working and Google trusts me more; rising <em>clicks</em> = people are choosing my result. If impressions are high but clicks are low, I improve titles/descriptions. If a query is at position 8&ndash;15, a stronger article on that exact topic can push it onto page 1.</div>
 
         <h3>Everyday SEO habits (your part)</h3>
         <ul>
@@ -378,6 +395,21 @@ function ontariogamers_render_admin_guide() {
         </ul>
         <div class="og-note"><strong>If I ever change the tracking ID:</strong> it lives in the plugin (<code>includes/analytics.php</code>). I can override it without touching code by adding <code>define('ONTARIOGAMERS_GA4_ID', 'G-XXXXXXXXXX');</code> to <code>wp-config.php</code>. New data can take a few minutes (Realtime) up to 24&ndash;48 hours (full reports) to appear.</div>
         <div class="og-note"><strong>Two different questions:</strong> Google <em>Analytics</em> tells me what people do <em>on</em> the site (after they arrive); Google <em>Search Console</em> (see SEO, &sect;15) tells me what people searched on Google <em>before</em> they clicked. I use both together.</div>
+
+        <h3>Making sense of the numbers (which report shows what)</h3>
+        <p>A few GA4 words decoded, so the reports aren't confusing:</p>
+        <table>
+            <tr><th>Term</th><th>Plain meaning</th></tr>
+            <tr><td><strong>Users</strong></td><td>How many <em>different people</em> visited (roughly &mdash; counted per device/browser).</td></tr>
+            <tr><td><strong>Views</strong></td><td>How many <em>pages</em> were opened in total. One person reading 3 articles = 1 user, 3 views.</td></tr>
+            <tr><td><strong>Sessions</strong></td><td>One visit (a person's whole browsing session). One user can have many sessions over time.</td></tr>
+            <tr><td><strong>Engagement time</strong></td><td>How long people actually stayed reading. Higher = my content is holding attention.</td></tr>
+            <tr><td><strong>Channels / Source</strong></td><td>Where they came from &mdash; <em>Organic Search</em> (Google), <em>Direct</em> (typed the URL), <em>Social</em> (Facebook/X), <em>Referral</em> (another site linked me).</td></tr>
+        </table>
+        <p><strong>To answer &ldquo;how many people read this article?&rdquo;</strong> go to <strong>Reports &rarr; Engagement &rarr; Pages and screens</strong>. Each row is a page; the <strong>Views</strong> column is how many times it was read, and <strong>Users</strong> is how many people. Sort by Views to see my most-read content. Click a row's title to see that single article's trend over time.</p>
+        <p><strong>To see live activity right now</strong> (e.g. just after sharing a link on social): <strong>Reports &rarr; Realtime</strong> shows users on the site this minute and which pages they're on.</p>
+        <p><strong>To see where my traffic comes from:</strong> <strong>Reports &rarr; Acquisition &rarr; Traffic acquisition</strong> &mdash; this tells me whether visitors arrive from Google, social posts, or direct links, so I know which promotion is working.</p>
+        <div class="og-warn"><strong>Don't panic at small numbers early on.</strong> A new site gets little traffic until Google indexes it and backlinks build (weeks, not days). Watch the <em>trend</em> &mdash; steadily rising Users/Views week over week is the win, not the absolute number on day one.</div>
 
         <h2 id="og-trouble">19. Troubleshooting</h2>
         <table>

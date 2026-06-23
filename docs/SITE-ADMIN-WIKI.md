@@ -352,28 +352,33 @@ then it just runs.
 #### Step 1 — Create the account & add your site
 
 1. Go to **[search.google.com/search-console](https://search.google.com/search-console)**
-   and sign in with the Google account that should own the site's data.
-2. Click **Add property** → choose **URL prefix** (right-hand box) → type
-   `https://ontariogamers.ca` exactly → **Continue**.
+   and sign in with the Google account that should own the site's data (tip: use the
+   *same* account as Google Analytics — it makes verification one click).
+2. Click **Add property** → choose the left box, **Domain** → type
+   `ontariogamers.ca` (no `https://`, no `www`) → **Continue**.
 
 #### Step 2 — Prove you own the site (verification)
 
-Pick **one** method:
+Because our DNS is at Cloudflare, Google offers a **one-click route**:
 
-| Method | How | Best when |
-|---|---|---|
-| **HTML tag** (easiest here) | Google gives a `<meta name="google-site-verification" …>` line. Copy it, send to the developer to drop into the site `<head>`, then click **Verify**. | You want the quickest option and the developer is around. |
-| **DNS record (Cloudflare)** | Google gives a `TXT` record. In **Cloudflare → domain → DNS → Add record**: Type `TXT`, Name `@`, Content = Google's value, Save. Wait a minute, click **Verify**. | You manage DNS in Cloudflare (we do) and want the whole domain verified. |
+1. Google shows an **"Authorize DNS records from Google"** screen with a `TXT`
+   record it wants to add to Cloudflare. Click the blue **Authorize** button —
+   Google adds the record into Cloudflare for you (a one-time, safe authorization).
+2. It returns to Search Console showing **"Ownership verified"**. (If not instant,
+   wait a minute and click **Verify**.)
 
-> **Cloudflare note:** our DNS is at Cloudflare, so the *DNS record* method verifies
-> the whole domain at once and is rock-solid. The *HTML tag* method is faster if the
-> developer can add the tag.
+> **Manual fallback:** if the one-click box doesn't appear, copy the `TXT` value and
+> add it in **Cloudflare → DNS → Add record** (Type `TXT`, Name `@`, Content = the
+> value), Save, then click **Verify**. Don't wrap the value in extra quotes.
 
 #### Step 3 — Submit the sitemap
 
 1. Once verified, open **Sitemaps** in the left menu.
-2. In "Add a new sitemap", type `wp-sitemap.xml` and click **Submit**.
-3. Status changes to **Success** within minutes to a day. Google now re-reads it
+2. In "Add a new sitemap", type the **full URL** `https://ontariogamers.ca/wp-sitemap.xml`
+   and click **Submit**. (If it rejects the short `wp-sitemap.xml` as "invalid", the
+   full URL always works.)
+3. It may say **"Couldn't fetch"** for the first few hours — normal right after
+   submitting. It changes to **Success** once Google fetches it, then re-reads it
    automatically as you add pages.
 
 #### Step 4 (optional) — Do the same on Bing
@@ -385,6 +390,26 @@ DuckDuckGo. Bing can import everything from Search Console in one click.
 > **What to expect:** indexing isn't instant — new pages take days to a couple of
 > weeks. After ~2–3 days, check Search Console → **Pages** to confirm pages are
 > "Indexed", and **Performance** to watch clicks and search terms come in.
+
+### Reading your Search Console data (who finds & clicks you on Google)
+
+Search Console answers one question: *"how do people find me on Google, and do they click?"* The main report is **Performance → Search results**. Four numbers matter:
+
+| Metric | Plain meaning |
+|---|---|
+| **Impressions** | How many times a page of mine *appeared* in someone's Google results. High = Google is showing me. |
+| **Clicks** | How many of those people actually *clicked through* to my site. This is real Google traffic. |
+| **CTR** (click-through rate) | Clicks ÷ impressions, as a %. Low CTR + high impressions = I'm showing up but my title/description isn't tempting — rewrite the Excerpt. |
+| **Position** | My average ranking spot for that term (1 = top). Past page 1 (~10+) gets few clicks. |
+
+Useful tabs inside that report:
+
+- **Queries** — the exact words people typed to find me. Gold for ideas: write more articles around terms that already bring impressions.
+- **Pages** — which of my URLs get the most clicks/impressions.
+- **Indexing → Pages** — confirms which pages are *Indexed* (eligible to show) vs excluded, and why.
+- **URL inspection** (top search bar) — paste a brand-new article's URL and click **Request indexing** to nudge Google to read it sooner.
+
+> **How I make sense of it:** rising *impressions* = my SEO is working and Google trusts me more; rising *clicks* = people are choosing my result. High impressions but low clicks → improve titles/descriptions. A query sitting at position 8–15 → a stronger article on that exact topic can push it onto page 1.
 
 ### Everyday SEO habits (your part)
 
@@ -500,6 +525,26 @@ This is the one that tells me *which posts people actually read*. The tracking i
 > **If I ever change the tracking ID:** it lives in the plugin (`includes/analytics.php`). I can override it without touching code by adding `define('ONTARIOGAMERS_GA4_ID', 'G-XXXXXXXXXX');` to `wp-config.php`. New data can take a few minutes (Realtime) up to 24–48 hours (full reports) to appear.
 
 > **Two different questions:** Google *Analytics* tells me what people do *on* the site (after they arrive); Google *Search Console* (see [§15](#15-search-engine-optimisation-seo)) tells me what people searched on Google *before* they clicked. I use both together.
+
+### Making sense of the numbers (which report shows what)
+
+A few GA4 words decoded, so the reports aren't confusing:
+
+| Term | Plain meaning |
+|---|---|
+| **Users** | How many *different people* visited (roughly — counted per device/browser). |
+| **Views** | How many *pages* were opened in total. One person reading 3 articles = 1 user, 3 views. |
+| **Sessions** | One visit (a person's whole browsing session). One user can have many sessions over time. |
+| **Engagement time** | How long people actually stayed reading. Higher = my content holds attention. |
+| **Channels / Source** | Where they came from — *Organic Search* (Google), *Direct* (typed the URL), *Social* (Facebook/X), *Referral* (another site linked me). |
+
+**To answer "how many people read this article?"** go to **Reports → Engagement → Pages and screens**. Each row is a page; the **Views** column is how many times it was read, **Users** is how many people. Sort by Views for my most-read content; click a row to see that article's trend over time.
+
+**To see live activity right now** (e.g. just after sharing a link): **Reports → Realtime** shows users on the site this minute and which pages they're on.
+
+**To see where my traffic comes from:** **Reports → Acquisition → Traffic acquisition** — tells me whether visitors arrive from Google, social posts, or direct links, so I know which promotion is working.
+
+> ⚠️ **Don't panic at small numbers early on.** A new site gets little traffic until Google indexes it and backlinks build (weeks, not days). Watch the *trend* — steadily rising Users/Views week over week is the win, not the day-one number.
 
 ---
 
