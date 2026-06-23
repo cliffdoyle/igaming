@@ -29,7 +29,8 @@ and clicking in `wp-admin`.
 15. [Search Engine Optimisation (SEO)](#15-search-engine-optimisation-seo)
 16. [Backlinks & Off-Page SEO](#16-backlinks--off-page-seo)
 17. [Work Email on the Domain](#17-work-email-on-the-domain)
-18. [Troubleshooting](#18-troubleshooting)
+18. [Monitoring Traffic (Analytics)](#18-monitoring-traffic-analytics)
+19. [Troubleshooting](#19-troubleshooting)
 
 ---
 
@@ -480,7 +481,29 @@ Email Routing only *receives/forwards*. To send replies that show as `info@ontar
 
 ---
 
-## 18. Troubleshooting
+## 18. Monitoring Traffic (Analytics)
+
+I want to know how many people read the site and which articles are most popular. I use two free tools that answer slightly different questions.
+
+### Cloudflare Analytics (already on, quick overview)
+
+Every visitor passes through Cloudflare, so it counts everyone with no setup. I check it at **dash.cloudflare.com → ontariogamers.ca → Analytics** and switch between **24 Hours / 7 Days / 30 Days**. It shows total unique visitors, requests, data served and countries — great for a quick "how busy are we?" but not per-article detail.
+
+### Google Analytics 4 (per-article detail)
+
+This is the one that tells me *which posts people actually read*. The tracking is already built into the site (Measurement ID `G-JGPHEWDBY9`), and it deliberately **ignores my own visits while I'm logged in** so I don't inflate the numbers. I read it at **analytics.google.com**:
+
+- **Reports → Realtime** — who's on the site right now (good for checking it works: open the site in a private/incognito window and watch myself appear).
+- **Reports → Engagement → Pages and screens** — *views per article/page, ranked*. This is my main "what's popular" report.
+- **Reports → Acquisition** — where visitors came from (Google, Facebook, direct links).
+
+> **If I ever change the tracking ID:** it lives in the plugin (`includes/analytics.php`). I can override it without touching code by adding `define('ONTARIOGAMERS_GA4_ID', 'G-XXXXXXXXXX');` to `wp-config.php`. New data can take a few minutes (Realtime) up to 24–48 hours (full reports) to appear.
+
+> **Two different questions:** Google *Analytics* tells me what people do *on* the site (after they arrive); Google *Search Console* (see [§15](#15-search-engine-optimisation-seo)) tells me what people searched on Google *before* they clicked. I use both together.
+
+---
+
+## 19. Troubleshooting
 
 | Problem | Fix |
 |---|---|

@@ -82,6 +82,7 @@ function ontariogamers_render_admin_guide() {
                 <li><a href="#og-seo">Search engine optimisation (SEO)</a></li>
                 <li><a href="#og-backlinks">Backlinks &amp; off-page SEO</a></li>
                 <li><a href="#og-email">Work email on the domain</a></li>
+                <li><a href="#og-analytics">Monitoring traffic (Analytics)</a></li>
                 <li><a href="#og-trouble">Troubleshooting</a></li>
             </ol>
         </div>
@@ -362,7 +363,23 @@ function ontariogamers_render_admin_guide() {
         </ul>
         <div class="og-note"><strong>My plan:</strong> stay on free Cloudflare Email Routing for now so <code>info@ontariogamers.ca</code> reaches my inbox; switch to Zoho free or Google Workspace if/when I need to send branded replies regularly.</div>
 
-        <h2 id="og-trouble">18. Troubleshooting</h2>
+        <h2 id="og-analytics">18. Monitoring Traffic (Analytics)</h2>
+        <p>I want to know how many people read the site and which articles are most popular. I use two free tools that answer slightly different questions.</p>
+
+        <h3>Cloudflare Analytics (already on, quick overview)</h3>
+        <p>Every visitor passes through Cloudflare, so it counts everyone with no setup. I check it at <strong>dash.cloudflare.com &rarr; ontariogamers.ca &rarr; Analytics</strong> and switch between <strong>24 Hours / 7 Days / 30 Days</strong>. It shows total unique visitors, requests, data served and countries &mdash; great for a quick &ldquo;how busy are we?&rdquo; but not per-article detail.</p>
+
+        <h3>Google Analytics 4 (per-article detail)</h3>
+        <p>This is the one that tells me <em>which posts people actually read</em>. The tracking is already built into the site (Measurement ID <code>G-JGPHEWDBY9</code>), and it deliberately <strong>ignores my own visits while I&rsquo;m logged in</strong> so I don&rsquo;t inflate the numbers. I read it at <strong>analytics.google.com</strong>:</p>
+        <ul>
+            <li><strong>Reports &rarr; Realtime</strong> &mdash; who&rsquo;s on the site right now (good for checking it works: open the site in a private/incognito window and watch myself appear).</li>
+            <li><strong>Reports &rarr; Engagement &rarr; Pages and screens</strong> &mdash; <em>views per article/page, ranked</em>. This is my main &ldquo;what&rsquo;s popular&rdquo; report.</li>
+            <li><strong>Reports &rarr; Acquisition</strong> &mdash; where visitors came from (Google, Facebook, direct links).</li>
+        </ul>
+        <div class="og-note"><strong>If I ever change the tracking ID:</strong> it lives in the plugin (<code>includes/analytics.php</code>). I can override it without touching code by adding <code>define('ONTARIOGAMERS_GA4_ID', 'G-XXXXXXXXXX');</code> to <code>wp-config.php</code>. New data can take a few minutes (Realtime) up to 24&ndash;48 hours (full reports) to appear.</div>
+        <div class="og-note"><strong>Two different questions:</strong> Google <em>Analytics</em> tells me what people do <em>on</em> the site (after they arrive); Google <em>Search Console</em> (see SEO, &sect;15) tells me what people searched on Google <em>before</em> they clicked. I use both together.</div>
+
+        <h2 id="og-trouble">19. Troubleshooting</h2>
         <table>
             <tr><th>Problem</th><th>Fix</th></tr>
             <tr><td>New review doesn't show on homepage</td><td>Homepage shows only the top 6 by Order. Lower its Order number.</td></tr>
