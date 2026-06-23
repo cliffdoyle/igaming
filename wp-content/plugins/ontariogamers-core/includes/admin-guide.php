@@ -81,6 +81,7 @@ function ontariogamers_render_admin_guide() {
                 <li><a href="#og-news">Posting news &amp; articles</a></li>
                 <li><a href="#og-seo">Search engine optimisation (SEO)</a></li>
                 <li><a href="#og-backlinks">Backlinks &amp; off-page SEO</a></li>
+                <li><a href="#og-email">Work email on the domain</a></li>
                 <li><a href="#og-trouble">Troubleshooting</a></li>
             </ol>
         </div>
@@ -320,7 +321,48 @@ function ontariogamers_render_admin_guide() {
         <div class="og-warn"><strong>Avoid “black-hat” link schemes.</strong> Never <em>buy</em> bulk links, use automated link-spam tools, or swap links in “link farms”. Google actively penalises these and it can get your whole site demoted or de-indexed. Slow, genuine link-building wins.</div>
         <div class="og-note"><strong>Track your links:</strong> in Google Search Console, <strong>Links → External links</strong> shows which sites link to you and which pages they point at.</div>
 
-        <h2 id="og-trouble">17. Troubleshooting</h2>
+        <h2 id="og-email">17. Work Email on the Domain (e.g. info@ontariogamers.ca)</h2>
+        <p>I set up a branded email address on our own domain so messages look professional (<code>info@ontariogamers.ca</code> instead of a personal Gmail). Here&rsquo;s exactly how I did it and how to add more addresses later.</p>
+
+        <h3>Which option I chose</h3>
+        <p>Email can do two things &mdash; <strong>receive</strong> and <strong>send</strong> &mdash; and they&rsquo;re set up differently. I started with <strong>Cloudflare Email Routing</strong> because it&rsquo;s free and forwards anything sent to our domain straight into my existing Gmail inbox. If I later need to <em>reply from</em> the branded address for partnerships, I&rsquo;ll move up to a full mailbox (Zoho free or Google Workspace) &mdash; see the bottom of this section.</p>
+
+        <h3>Step 1 &mdash; Turn on Email Routing in Cloudflare</h3>
+        <ol>
+            <li>Log into <strong>dash.cloudflare.com</strong> from a normal browser (not the server &mdash; the Ubuntu server has no browser; Cloudflare is always managed from my Windows machine).</li>
+            <li>Click the domain <strong>ontariogamers.ca</strong>.</li>
+            <li>In the left menu choose <strong>Email</strong> &rarr; <strong>Email Routing</strong>, then click <strong>Get started</strong>.</li>
+        </ol>
+
+        <h3>Step 2 &mdash; Add and verify my destination inbox</h3>
+        <ol>
+            <li>Under <strong>Destination addresses</strong> I add the personal inbox I want mail forwarded to (my Gmail).</li>
+            <li>Cloudflare sends a <strong>verification email</strong> to that Gmail &mdash; I open it and click the confirm link.</li>
+            <li>The destination then shows as <strong>Verified</strong>.</li>
+        </ol>
+
+        <h3>Step 3 &mdash; Create the address (route)</h3>
+        <ol>
+            <li>Under <strong>Custom addresses</strong> I click <strong>Create address</strong>.</li>
+            <li>I type the name I want, e.g. <code>info</code> &rarr; so the full address is <code>info@ontariogamers.ca</code>.</li>
+            <li>For the action I pick <strong>Send to an email</strong> and choose my verified Gmail.</li>
+            <li>Save. Anything emailed to <code>info@ontariogamers.ca</code> now lands in my Gmail.</li>
+        </ol>
+        <div class="og-note">I can repeat Step 3 to add more addresses like <code>vanessa@</code>, <code>george@</code> or <code>partnerships@</code>. I can also enable a <strong>catch-all</strong> so <em>any</em> name @ourdomain forwards to me.</div>
+
+        <h3>Step 4 &mdash; Let Cloudflare add the DNS records</h3>
+        <p>When I enable routing, Cloudflare offers to <strong>automatically add the required DNS records</strong> (the MX records plus an SPF TXT record). I click <strong>Add records / Enable</strong> and let it do this &mdash; without them, mail won&rsquo;t be delivered. I don&rsquo;t need to touch DNS by hand.</p>
+        <div class="og-warn"><strong>Important:</strong> email only keeps working while the domain is registered and these DNS records exist. If the domain lapses (see renewal note in &sect;15/Domain), email goes down too. I keep a valid card on Cloudflare so auto-renew never fails.</div>
+
+        <h3>If I want to SEND from the branded address too</h3>
+        <p>Email Routing only <em>receives/forwards</em>. To send replies that show as <code>info@ontariogamers.ca</code> I have two choices:</p>
+        <ul>
+            <li><strong>Zoho Mail (free plan):</strong> real mailboxes (send + receive) for one domain, up to a handful of users. I&rsquo;d add the MX/SPF/DKIM records Zoho gives me into Cloudflare DNS. Best free upgrade.</li>
+            <li><strong>Google Workspace (paid, ~CAD $8/user/month):</strong> the Gmail interface but on our domain &mdash; the most polished option if the business grows.</li>
+        </ul>
+        <div class="og-note"><strong>My plan:</strong> stay on free Cloudflare Email Routing for now so <code>info@ontariogamers.ca</code> reaches my inbox; switch to Zoho free or Google Workspace if/when I need to send branded replies regularly.</div>
+
+        <h2 id="og-trouble">18. Troubleshooting</h2>
         <table>
             <tr><th>Problem</th><th>Fix</th></tr>
             <tr><td>New review doesn't show on homepage</td><td>Homepage shows only the top 6 by Order. Lower its Order number.</td></tr>

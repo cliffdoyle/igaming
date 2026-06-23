@@ -28,7 +28,8 @@ and clicking in `wp-admin`.
 14. [Posting News & Articles](#14-posting-news--articles)
 15. [Search Engine Optimisation (SEO)](#15-search-engine-optimisation-seo)
 16. [Backlinks & Off-Page SEO](#16-backlinks--off-page-seo)
-17. [Troubleshooting](#17-troubleshooting)
+17. [Work Email on the Domain](#17-work-email-on-the-domain)
+18. [Troubleshooting](#18-troubleshooting)
 
 ---
 
@@ -431,7 +432,55 @@ gambling portal) is worth more than hundreds from random low-quality pages.
 
 ---
 
-## 17. Troubleshooting
+## 17. Work Email on the Domain
+
+I set up a branded email address on our own domain so messages look professional — `info@ontariogamers.ca` instead of a personal Gmail. Here's exactly how I did it and how to add more addresses later.
+
+### Which option I chose
+
+Email can do two things — **receive** and **send** — and they're set up differently. I started with **Cloudflare Email Routing** because it's free and forwards anything sent to our domain straight into my existing Gmail inbox. If I later need to *reply from* the branded address for partnerships, I'll move up to a full mailbox (Zoho free or Google Workspace) — see the bottom of this section.
+
+> **Note:** Cloudflare is always managed from a normal browser on my Windows machine — **not** from the Ubuntu server. The server has no browser; it only runs the website.
+
+### Step 1 — Turn on Email Routing in Cloudflare
+
+1. Log into **dash.cloudflare.com**.
+2. Click the domain **ontariogamers.ca**.
+3. Left menu → **Email** → **Email Routing** → **Get started**.
+
+### Step 2 — Add and verify my destination inbox
+
+1. Under **Destination addresses**, add the personal inbox I want mail forwarded to (my Gmail).
+2. Cloudflare sends a **verification email** to that Gmail — I open it and click the confirm link.
+3. The destination then shows as **Verified**.
+
+### Step 3 — Create the address (route)
+
+1. Under **Custom addresses**, click **Create address**.
+2. Type the name I want, e.g. `info` → full address becomes `info@ontariogamers.ca`.
+3. Action: **Send to an email** → choose my verified Gmail.
+4. Save. Anything emailed to `info@ontariogamers.ca` now lands in my Gmail.
+
+> I can repeat Step 3 to add `vanessa@`, `george@` or `partnerships@`. I can also enable a **catch-all** so *any* name @ourdomain forwards to me.
+
+### Step 4 — Let Cloudflare add the DNS records
+
+When I enable routing, Cloudflare offers to **automatically add the required DNS records** (the MX records plus an SPF TXT record). I click **Add records / Enable** and let it do this — without them, mail won't be delivered. I don't touch DNS by hand.
+
+> ⚠️ **Important:** email only keeps working while the domain is registered and these DNS records exist. If the domain lapses, email goes down too. I keep a valid card on Cloudflare so auto-renew never fails.
+
+### If I want to SEND from the branded address too
+
+Email Routing only *receives/forwards*. To send replies that show as `info@ontariogamers.ca` I have two choices:
+
+- **Zoho Mail (free plan):** real mailboxes (send + receive) for one domain, up to a handful of users. I'd add the MX/SPF/DKIM records Zoho gives me into Cloudflare DNS. Best free upgrade.
+- **Google Workspace (paid, ~CAD $8/user/month):** the Gmail interface on our domain — the most polished option if the business grows.
+
+> **My plan:** stay on free Cloudflare Email Routing for now so `info@ontariogamers.ca` reaches my inbox; switch to Zoho free or Google Workspace if/when I need to send branded replies regularly.
+
+---
+
+## 18. Troubleshooting
 
 | Problem | Fix |
 |---|---|
