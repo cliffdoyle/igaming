@@ -17,6 +17,7 @@ require_once plugin_dir_path(__FILE__) . 'includes/custom-fields.php';
 require_once plugin_dir_path(__FILE__) . 'includes/seed-pages.php';
 require_once plugin_dir_path(__FILE__) . 'includes/authors.php';
 require_once plugin_dir_path(__FILE__) . 'includes/seo.php';
+require_once plugin_dir_path(__FILE__) . 'includes/analytics.php';
 require_once plugin_dir_path(__FILE__) . 'includes/admin-guide.php';
 
 // Activation hook — flush rewrite rules + create static pages
