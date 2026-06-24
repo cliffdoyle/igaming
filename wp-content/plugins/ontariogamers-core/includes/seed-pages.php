@@ -231,7 +231,7 @@ Please include the page URL and details of the issue. We investigate all reporte
 <h2>Business Details</h2>
 <ul>
 <li><strong>Site name:</strong> OntarioGamers.com</li>
-<li><strong>Email:</strong> [your-email@ontariogamers.com]</li>
+<li><strong>Email:</strong> <a href="mailto:info@ontariogamers.ca">info@ontariogamers.ca</a></li>
 <li><strong>Location:</strong> [Your City, Ontario, Canada]</li>
 <li><strong>Response time:</strong> We aim to respond within 24&ndash;48 hours.</li>
 </ul>

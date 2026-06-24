@@ -74,6 +74,32 @@ a:hover {
     color: var(--og-primary-light);
 }
 
+/* Make links inside page content obvious and easy to click */
+.page-content a {
+    color: var(--og-primary-light);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 600;
+}
+.page-content a:hover {
+    color: var(--og-secondary-hover);
+}
+/* Email links get a highlighted pill so they clearly read as contact links */
+.page-content a[href^="mailto:"] {
+    display: inline-block;
+    color: var(--og-primary);
+    background: rgba(245, 166, 35, 0.14);
+    border-bottom: 2px solid var(--og-secondary);
+    text-decoration: none;
+    padding: 0.08em 0.4em;
+    border-radius: 4px;
+    font-weight: 700;
+}
+.page-content a[href^="mailto:"]:hover {
+    background: var(--og-secondary);
+    color: var(--og-dark);
+}
+
 /* ============================================
    TYPOGRAPHY
    ============================================ */
