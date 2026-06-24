@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: OntarioGamers Core
- * Description: Custom post types, taxonomies, and fields for OntarioGamers.com
+ * Description: Custom post types, taxonomies, and fields for OntarioGamers.ca
  * Version: 1.0.0
  * Author: OntarioGamers
  * Text Domain: ontariogamers-core

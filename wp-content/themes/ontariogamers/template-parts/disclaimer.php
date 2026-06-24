@@ -6,9 +6,9 @@
 ?>
 
 <div class="disclaimer-box">
-    <strong>Responsible Gambling — OntarioGamers.com</strong>
+    <strong>Responsible Gambling — OntarioGamers.ca</strong>
     19+ in Ontario. Gambling involves financial risk. Never bet money you cannot afford to lose.
-    All operators listed on OntarioGamers.com are verified as AGCO-registered with iGaming Ontario.
+    All operators listed on OntarioGamers.ca are verified as AGCO-registered with iGaming Ontario.
     <br><br>
     Problem gambling help:
     <br>📞 ConnexOntario: 1-866-531-2600 — free, confidential, 24/7

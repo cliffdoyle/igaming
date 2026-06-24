@@ -46,7 +46,7 @@
         <strong>Responsible Gambling:</strong> 19+ in Ontario. Gambling involves financial risk. Never bet money you cannot afford to lose.
         Problem gambling help: ConnexOntario 1-866-531-2600 (free, confidential, 24/7). CAMH: camh.ca.
         <br><br>
-        OntarioGamers.com is an independent affiliate review site for Ontario players. We earn commission from licensed casino and sportsbook operators when players register through our links — at no cost to the player and with no influence on our editorial recommendations. All recommended operators are verified as AGCO-registered with iGaming Ontario. OntarioGamers.com does not accept wagers and is not a gambling operator.
+        OntarioGamers.ca is an independent affiliate review site for Ontario players. We earn commission from licensed casino and sportsbook operators when players register through our links — at no cost to the player and with no influence on our editorial recommendations. All recommended operators are verified as AGCO-registered with iGaming Ontario. OntarioGamers.ca does not accept wagers and is not a gambling operator.
     </div>
 
     <div class="footer-bottom">

@@ -134,7 +134,7 @@ $affiliate    = get_post_meta(get_the_ID(), 'slot_affiliate_url', true);
                 <?php echo get_avatar(get_the_author_meta('ID'), 80); ?>
                 <div>
                     <div class="author-name"><?php the_author(); ?></div>
-                    <div class="author-title">Slot Reviewer — OntarioGamers.com</div>
+                    <div class="author-title">Slot Reviewer — OntarioGamers.ca</div>
                     <div class="author-bio"><?php the_author_meta('description'); ?></div>
                 </div>
             </div>
