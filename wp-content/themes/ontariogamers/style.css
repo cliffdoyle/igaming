@@ -149,22 +149,54 @@ p {
     text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 0.55rem;
+    gap: 0.6rem;
     letter-spacing: 0.5px;
     text-transform: uppercase;
 }
 
+.logo-emblem {
+    flex: 0 0 auto;
+    display: block;
+    line-height: 0;
+    filter: drop-shadow(0 0 6px rgba(245, 166, 35, 0.55));
+    transition: transform 0.5s ease, filter 0.3s ease;
+}
+
+.logo-emblem svg {
+    display: block;
+}
+
 .logo-text {
     line-height: 1;
+    font-style: italic;
+    transform: skewX(-4deg);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
 }
 
 .site-logo:hover {
     color: #fff;
 }
 
+.site-logo:hover .logo-emblem {
+    transform: rotate(20deg) scale(1.06);
+    filter: drop-shadow(0 0 10px rgba(245, 166, 35, 0.85));
+}
+
 .site-logo .logo-accent {
     color: var(--og-secondary);
-    text-shadow: 0 0 10px rgba(245, 166, 35, 0.4);
+    text-shadow: 0 0 12px rgba(245, 166, 35, 0.5), 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+.site-logo .logo-tld {
+    font-size: 0.6em;
+    font-style: normal;
+    font-weight: 700;
+    color: var(--og-secondary);
+    letter-spacing: 0;
+    margin-left: 0.12em;
+    vertical-align: super;
+    text-transform: lowercase;
+    opacity: 0.95;
 }
 
 /* Navigation */

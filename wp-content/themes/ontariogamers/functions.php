@@ -207,7 +207,7 @@ function ontariogamers_disclaimer() {
 function ontariogamers_affiliate_disclosure() {
     ?>
     <p class="affiliate-disclosure" style="font-size: 0.8rem; color: #666; font-style: italic; margin-bottom: 1.5rem;">
-        <strong>Affiliate Disclosure:</strong> OntarioGamers.com earns commission when you sign up through our links — at no extra cost to you. This does not influence our editorial recommendations.
+        <strong>Affiliate Disclosure:</strong> OntarioGamers.ca earns commission when you sign up through our links — at no extra cost to you. This does not influence our editorial recommendations.
     </p>
     <?php
 }
