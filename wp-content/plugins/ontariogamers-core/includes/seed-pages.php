@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-function ontariogamers_seed_static_pages() {
+function ontariogamers_static_pages_data() {
 
     $pages = array(
 
@@ -264,6 +264,13 @@ Please include the page URL and details of the issue. We investigate all reporte
         $pg['content'] = str_replace($brand_search, $brand_replace, $pg['content']);
     }
     unset($pg);
+
+    return $pages;
+}
+
+function ontariogamers_seed_static_pages() {
+
+    $pages = ontariogamers_static_pages_data();
 
     $created = array();
 
@@ -548,6 +555,52 @@ function ontariogamers_brand_email_fix_v1() {
     }
 }
 add_action('init', 'ontariogamers_brand_email_fix_v1', 22);
+
+/**
+ * One-time: WordPress ships a default "Privacy Policy" page as a draft that
+ * already occupies the privacy-policy slug, so our seeder skipped creating our
+ * own privacy content there. As a result the footer's Privacy link pointed at a
+ * draft (404) and our real policy — including the info@ontariogamers.ca contact
+ * — was never published. This publishes that page with our proper content.
+ * Guarded by an option so it runs exactly once.
+ */
+function ontariogamers_privacy_publish_v1() {
+    if (get_option('og_privacy_publish_v1')) {
+        return;
+    }
+    if (false === add_option('og_privacy_publish_v1', 1, '', 'no')) {
+        return;
+    }
+
+    $privacy = get_page_by_path('privacy-policy');
+    if (!$privacy) {
+        return;
+    }
+
+    // Nothing to do if it is already our published policy with the real email.
+    if ('publish' === $privacy->post_status
+        && false !== strpos($privacy->post_content, 'info@ontariogamers.ca')) {
+        return;
+    }
+
+    $content = '';
+    foreach (ontariogamers_static_pages_data() as $pg) {
+        if ('privacy-policy' === $pg['slug']) {
+            $content = $pg['content'];
+            break;
+        }
+    }
+    if ('' === $content) {
+        return;
+    }
+
+    wp_update_post(array(
+        'ID'           => $privacy->ID,
+        'post_content' => $content,
+        'post_status'  => 'publish',
+    ));
+}
+add_action('init', 'ontariogamers_privacy_publish_v1', 23);
 
 /**
  * One-time: set up a proper News/Blog section for SEO traffic.
