@@ -242,6 +242,29 @@ Please include the page URL and details of the issue. We investigate all reporte
         ),
     );
 
+    // Normalise branding/contact details so fresh installs use the .ca domain
+    // and the real info@ontariogamers.ca address (not the old .com placeholders).
+    $brand_search = array(
+        'mailto:contact@ontariogamers.com',
+        'contact@ontariogamers.com',
+        '[your-email@ontariogamers.com]',
+        'your-email@ontariogamers.com',
+        'OntarioGamers.com',
+        'ontariogamers.com',
+    );
+    $brand_replace = array(
+        'mailto:info@ontariogamers.ca',
+        'info@ontariogamers.ca',
+        'info@ontariogamers.ca',
+        'info@ontariogamers.ca',
+        'OntarioGamers.ca',
+        'ontariogamers.ca',
+    );
+    foreach ($pages as &$pg) {
+        $pg['content'] = str_replace($brand_search, $brand_replace, $pg['content']);
+    }
+    unset($pg);
+
     $created = array();
 
     foreach ($pages as $page) {
@@ -475,6 +498,56 @@ function ontariogamers_cleanup_v1() {
     }
 }
 add_action('init', 'ontariogamers_cleanup_v1', 21);
+
+/**
+ * One-time: update existing published pages so they use the branded
+ * info@ontariogamers.ca email and the .ca domain, replacing the old .com
+ * placeholders that were seeded into the database originally. The page seeder
+ * never overwrites existing pages, so this migration is what actually updates
+ * the live Contact / Affiliate Disclosure / Privacy / About pages. Guarded by
+ * an option so it runs exactly once.
+ */
+function ontariogamers_brand_email_fix_v1() {
+    if (get_option('og_brand_email_fix_v1')) {
+        return;
+    }
+    if (false === add_option('og_brand_email_fix_v1', 1, '', 'no')) {
+        return;
+    }
+
+    $search = array(
+        'mailto:contact@ontariogamers.com',
+        'contact@ontariogamers.com',
+        '[your-email@ontariogamers.com]',
+        'your-email@ontariogamers.com',
+        'OntarioGamers.com',
+        'ontariogamers.com',
+    );
+    $replace = array(
+        'mailto:info@ontariogamers.ca',
+        'info@ontariogamers.ca',
+        'info@ontariogamers.ca',
+        'info@ontariogamers.ca',
+        'OntarioGamers.ca',
+        'ontariogamers.ca',
+    );
+
+    $pages = get_posts(array(
+        'post_type'   => 'page',
+        'numberposts' => -1,
+        'post_status' => 'any',
+    ));
+    foreach ($pages as $p) {
+        $new = str_replace($search, $replace, $p->post_content);
+        if ($new !== $p->post_content) {
+            wp_update_post(array(
+                'ID'           => $p->ID,
+                'post_content' => $new,
+            ));
+        }
+    }
+}
+add_action('init', 'ontariogamers_brand_email_fix_v1', 22);
 
 /**
  * One-time: set up a proper News/Blog section for SEO traffic.
