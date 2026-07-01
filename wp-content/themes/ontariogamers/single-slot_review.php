@@ -131,12 +131,23 @@ $affiliate    = get_post_meta(get_the_ID(), 'slot_affiliate_url', true);
             <?php ontariogamers_disclaimer(); ?>
 
             <!-- Author Box -->
+            <?php
+            $og_author_id  = (int) get_post_field('post_author', get_the_ID());
+            $og_author_url = get_author_posts_url($og_author_id);
+            $og_li = get_the_author_meta('linkedin', $og_author_id);
+            $og_pe = get_the_author_meta('public_email', $og_author_id);
+            ?>
             <div class="author-box">
-                <?php echo get_avatar(get_the_author_meta('ID'), 80); ?>
+                <a href="<?php echo esc_url($og_author_url); ?>"><?php echo get_avatar($og_author_id, 80); ?></a>
                 <div>
-                    <div class="author-name"><?php the_author(); ?></div>
-                    <div class="author-title">Slot Reviewer — OntarioGamers.ca</div>
-                    <div class="author-bio"><?php the_author_meta('description'); ?></div>
+                    <div class="author-name"><a href="<?php echo esc_url($og_author_url); ?>"><?php echo esc_html(get_the_author_meta('display_name', $og_author_id)); ?></a></div>
+                    <div class="author-title"><?php echo esc_html(function_exists('ontariogamers_author_role') ? ontariogamers_author_role($og_author_id) : 'Slot Reviewer — OntarioGamers.ca'); ?></div>
+                    <div class="author-social">
+                        <?php if ($og_li) : ?><a href="<?php echo esc_url($og_li); ?>" target="_blank" rel="noopener nofollow">LinkedIn</a><?php endif; ?>
+                        <?php if ($og_pe) : ?><a href="mailto:<?php echo esc_attr($og_pe); ?>">Email</a><?php endif; ?>
+                        <a href="<?php echo esc_url($og_author_url); ?>">View all posts</a>
+                    </div>
+                    <div class="author-bio"><?php echo esc_html(get_the_author_meta('description', $og_author_id)); ?></div>
                 </div>
             </div>
 
