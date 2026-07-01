@@ -142,6 +142,33 @@ function ontariogamers_render_admin_guide() {
         <div class="og-note">Leave any field <strong>blank</strong> and it simply won't show — the layout adapts automatically.</div>
         <p><strong>Step C —</strong> Set the casino <strong>logo</strong> as the <em>Featured Image</em> (see §4). <strong>Step D —</strong> click <strong>Publish</strong>.</p>
 
+        <h3>Worked example: the "All Slots Casino" review (step by step)</h3>
+        <p>This is exactly how the live <a href="https://ontariogamers.ca/online-casinos/all-slots-casino/" target="_blank">All Slots Casino</a> review was built. Follow the same steps for any new casino.</p>
+        <ol>
+            <li><strong>Open it:</strong> left menu → <strong>Casino Reviews → All Casino Reviews</strong> → click <strong>All Slots Casino</strong>. (For a brand-new one, click <strong>Add New Casino Review</strong> instead.)</li>
+            <li><strong>Title:</strong> type the casino name — <code>All Slots Casino</code>. The page automatically shows it as "All Slots Casino — Ontario Review 2026".</li>
+            <li><strong>Write the review (main editor):</strong> paste the full write-up. Use <strong>Heading</strong> blocks for each section (First Impression, Bonuses, Games, Banking, Customer Support, FAQs…) and <strong>Table</strong> blocks for the Overview, Payment Methods and Comparison tables. Drop the section images (Welcome Promo, Slots, Banking, etc.) where they belong.</li>
+            <li><strong>Set the logo:</strong> open the <strong>⚙ settings panel</strong> (top-right) → <strong>Featured image</strong> → choose the casino logo (<code>LOGO_asc_300x300</code>). This is the small logo shown in the promo box.</li>
+            <li><strong>Fill the "Casino Review Details" panel</strong> (scroll below the editor) with the exact values below:</li>
+        </ol>
+        <table>
+            <tr><th>Field</th><th>Value used for All Slots Casino</th></tr>
+            <tr><td>Rating (1–10)</td><td><code>8.6</code></td></tr>
+            <tr><td>Bonus Description</td><td><code>Up to $1,500 + Free Spins</code></td></tr>
+            <tr><td>Affiliate URL</td><td><code>your All Slots affiliate tracking link</code></td></tr>
+            <tr><td>License</td><td><code>Kahnawake Gaming Commission #00892</code></td></tr>
+            <tr><td>Deposit Methods</td><td><code>Interac, Visa, Mastercard, Neosurf, Google Pay, Crypto</code></td></tr>
+            <tr><td>Withdrawal Time</td><td><code>24 hours to 7 days</code></td></tr>
+            <tr><td>Minimum Deposit</td><td><code>$5</code></td></tr>
+            <tr><td>Year Established</td><td><code>2002</code></td></tr>
+        </table>
+        <ol start="6">
+            <li><strong>Publish / Update:</strong> click the blue <strong>Save / Update</strong> button (top-right). Refresh the live page to see your changes.</li>
+        </ol>
+        <div class="og-note"><strong>Images link themselves.</strong> Any image you place inside a casino review is <em>automatically</em> turned into a clickable link to that casino's <strong>Affiliate URL</strong> — along with the logo, the casino name, the <strong>CLAIM BONUS</strong> button and the <strong>Play Now</strong> button. You don't have to link them by hand.</div>
+        <div class="og-note"><strong>To link one specific image manually</strong> (anywhere on the site): click the image → click the <strong>link (🔗) icon</strong> → paste the URL → turn on <strong>"Open in new tab"</strong>.</div>
+        <div class="og-warn"><strong>Most important field = Affiliate URL.</strong> That single link is what earns commission — every logo, button and image routes through it. Always paste your real tracking link before publishing.</div>
+
         <h2 id="og-slot">4. Adding a Slot Review (All Fields)</h2>
         <p><strong>Slot Reviews → Add New Slot.</strong> Title = slot name; body = written review. Then fill the <strong>"Slot Review Details"</strong> panel:</p>
         <table>
