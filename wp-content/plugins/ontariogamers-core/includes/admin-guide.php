@@ -69,7 +69,7 @@ function ontariogamers_render_admin_guide() {
                 <li><a href="#og-flow">How each admin page reaches the live site</a></li>
                 <li><a href="#og-casino">Adding a Casino Review (all fields)</a></li>
                 <li><a href="#og-slot">Adding a Slot Review (all fields)</a></li>
-                <li><a href="#og-images">Featured images / logos</a></li>
+                <li><a href="#og-images">Images: uploading &amp; linking</a></li>
                 <li><a href="#og-tax">Categories &amp; game providers</a></li>
                 <li><a href="#og-order">Controlling display order</a></li>
                 <li><a href="#og-pages">Editing static pages</a></li>
@@ -186,14 +186,43 @@ function ontariogamers_render_admin_guide() {
         </table>
         <p>Set a slot screenshot/thumbnail as the Featured Image, then <strong>Publish</strong>.</p>
 
-        <h2 id="og-images">5. Featured Images / Logos</h2>
-        <p>The <strong>Featured Image</strong> is the casino logo or slot artwork. In the editor sidebar click <strong>Set featured image</strong> → upload → set. If the box is missing, enable it via <strong>Screen Options</strong> (top right).</p>
+        <h2 id="og-images">5. Images: Uploading &amp; Linking</h2>
+
+        <h3>5a. The Featured Image (logo / main artwork)</h3>
+        <p>The <strong>Featured Image</strong> is the casino logo or slot artwork shown in the promo box and listing cards. In the editor sidebar click the <strong>&#9881; settings</strong> panel &rarr; <strong>Featured image</strong> &rarr; <strong>Set featured image</strong> &rarr; upload or pick one &rarr; <strong>Set</strong>. If the box is missing, enable it via <strong>Screen Options</strong> (top right).</p>
         <table>
             <tr><th>Use</th><th>Ideal upload size</th></tr>
-            <tr><td>Casino logo</td><td>~320×320 px, square, transparent PNG</td></tr>
-            <tr><td>Slot thumbnail</td><td>~800×500 px, landscape</td></tr>
+            <tr><td>Casino logo</td><td>~320&times;320 px, square, transparent PNG</td></tr>
+            <tr><td>Slot thumbnail</td><td>~800&times;500 px, landscape</td></tr>
         </table>
-        <div class="og-note">Always fill in <strong>Alt Text</strong> when uploading (SEO + accessibility).</div>
+
+        <h3>5b. Adding images inside the review (the body)</h3>
+        <p>To place a picture within the write-up (like the Welcome Promo or Banking screenshots in the All Slots review):</p>
+        <ol>
+            <li>Click where you want the image, then click the <strong>+ (Add block)</strong> button.</li>
+            <li>Choose <strong>Image</strong>.</li>
+            <li>Pick <strong>Upload</strong> (a new file from your computer) or <strong>Media Library</strong> (reuse something already uploaded).</li>
+            <li>Once it appears, use the toolbar to set <strong>Align</strong> (center usually looks best) and a <strong>size</strong> (Large is typical).</li>
+        </ol>
+        <p><em>Shortcut:</em> you can also <strong>drag an image file straight from your computer</strong> into the editor at the spot you want it.</p>
+        <div class="og-note">Every image you upload is also saved to <strong>Media &rarr; Library</strong>, so you can reuse it later without uploading again.</div>
+
+        <h3>5c. Uploading many images at once (optional)</h3>
+        <p>Left menu &rarr; <strong>Media &rarr; Add New Media File</strong> &rarr; drag all your files in together. Later, when adding an <strong>Image</strong> block in a review, choose <strong>Media Library</strong> and select them. This is handy when you have a whole set of screenshots for one review.</p>
+
+        <h3>5d. Making an image a clickable link</h3>
+        <p><strong>Automatic (casino reviews):</strong> every image inside a <strong>Casino Review</strong> is turned into a clickable link to that casino&rsquo;s <strong>Affiliate URL</strong> for you &mdash; nothing to do. (Same for the logo, casino name, CLAIM BONUS and Play Now buttons.)</p>
+        <p><strong>Manual (any image, any page or post):</strong></p>
+        <ol>
+            <li>Click the image once to select it.</li>
+            <li>In the little toolbar, click the <strong>link (&#128279;) icon</strong>.</li>
+            <li>Paste the destination <strong>URL</strong> (for example your affiliate link) and press Enter.</li>
+            <li>Click the arrow / &#9662; and turn on <strong>&ldquo;Open in new tab&rdquo;</strong>.</li>
+            <li>Click <strong>Update</strong> (top-right) to save.</li>
+        </ol>
+        <p><strong>To remove a link</strong> from an image: select the image &rarr; click the <strong>unlink</strong> (broken-chain) icon.</p>
+        <div class="og-note">Always fill in <strong>Alt Text</strong> for every image (a short description of the picture) &mdash; it helps Google and accessibility.</div>
+        <div class="og-warn">Only link images to <strong>legal, licensed operators</strong> you actually promote, and keep the affiliate link current. Broken or wrong links lose commission.</div>
 
         <h2 id="og-tax">6. Categories &amp; Game Providers</h2>
         <table>
