@@ -190,6 +190,50 @@ function ontariogamers_rating_display($rating) {    if (!$rating) return '';
     return '<span class="review-rating">' . number_format($rating, 1) . '/10</span>';
 }
 
+// Helper: rel attribute for paid/affiliate links (SEO + advertising compliance)
+function ontariogamers_aff_rel() {
+    return 'sponsored noopener noreferrer nofollow';
+}
+
+// Helper: casino logo image that links to the operator (affiliate URL), with review-permalink fallback
+function ontariogamers_casino_logo_linked($size = 'casino-logo', $class = 'casino-logo') {
+    $id        = get_the_ID();
+    $affiliate = get_post_meta($id, 'casino_affiliate_url', true);
+    if (has_post_thumbnail($id)) {
+        $img = get_the_post_thumbnail($id, $size, array('class' => $class));
+    } else {
+        $img = '<div class="' . esc_attr($class) . '" style="display:flex;align-items:center;justify-content:center;background:#f0f0f0;font-weight:700;font-size:0.75rem;">' . esc_html(get_the_title($id)) . '</div>';
+    }
+    if ($affiliate) {
+        return '<a href="' . esc_url($affiliate) . '" class="casino-logo-link" target="_blank" rel="' . esc_attr(ontariogamers_aff_rel()) . '" aria-label="Visit ' . esc_attr(get_the_title($id)) . '">' . $img . '</a>';
+    }
+    return '<a href="' . esc_url(get_permalink($id)) . '" class="casino-logo-link">' . $img . '</a>';
+}
+
+// Make every image inside a single casino review clickable -> operator (affiliate) link
+function ontariogamers_link_review_images($content) {
+    if (is_admin() || !is_singular('casino_review') || !in_the_loop() || !is_main_query()) {
+        return $content;
+    }
+    $affiliate = get_post_meta(get_the_ID(), 'casino_affiliate_url', true);
+    if (!$affiliate) {
+        return $content;
+    }
+    $href = esc_url($affiliate);
+    $rel  = esc_attr(ontariogamers_aff_rel());
+    return preg_replace_callback(
+        '/(<a\b[^>]*>\s*)?(<img\b[^>]*>)(\s*<\/a>)?/i',
+        function ($m) use ($href, $rel) {
+            if (!empty($m[1]) && !empty($m[3])) {
+                return $m[0]; // already wrapped in a link
+            }
+            return '<a href="' . $href . '" target="_blank" rel="' . $rel . '">' . $m[2] . '</a>';
+        },
+        $content
+    );
+}
+add_filter('the_content', 'ontariogamers_link_review_images', 20);
+
 // Helper: Responsible gambling disclaimer (reusable)
 function ontariogamers_disclaimer() {
     ?>

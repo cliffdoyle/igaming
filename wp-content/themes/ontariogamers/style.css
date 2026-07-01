@@ -517,6 +517,24 @@ p {
     object-fit: contain;
 }
 
+/* Clickable casino logos (affiliate links) */
+.casino-logo-link,
+.review-logo-link {
+    display: inline-block;
+    line-height: 0;
+    border-bottom: 0 !important;
+}
+
+.casino-logo-link img,
+.review-logo-link img {
+    transition: opacity 0.15s ease;
+}
+
+.casino-logo-link:hover img,
+.review-logo-link:hover img {
+    opacity: 0.85;
+}
+
 .review-box .review-rating {
     display: inline-flex;
     align-items: center;

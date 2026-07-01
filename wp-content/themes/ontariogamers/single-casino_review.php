@@ -40,13 +40,28 @@ $established  = get_post_meta(get_the_ID(), 'casino_year_established', true);
             <!-- Quick Info / Review Box -->
             <div class="review-box">
                 <div class="review-header">
-                    <?php if (has_post_thumbnail()) : ?>
+                    <?php if ($affiliate && has_post_thumbnail()) : ?>
+                        <a href="<?php echo esc_url($affiliate); ?>" class="review-logo-link" target="_blank" rel="<?php echo esc_attr(ontariogamers_aff_rel()); ?>" aria-label="Visit <?php the_title_attribute(); ?>">
+                            <?php the_post_thumbnail('casino-logo', array('class' => 'review-logo')); ?>
+                        </a>
+                    <?php elseif (has_post_thumbnail()) : ?>
                         <?php the_post_thumbnail('casino-logo', array('class' => 'review-logo')); ?>
                     <?php endif; ?>
-                    <div>
-                        <h2 style="margin:0;"><?php the_title(); ?></h2>
+                    <div style="flex:1;">
+                        <h2 style="margin:0;">
+                            <?php if ($affiliate) : ?>
+                                <a href="<?php echo esc_url($affiliate); ?>" target="_blank" rel="<?php echo esc_attr(ontariogamers_aff_rel()); ?>" style="color:inherit;text-decoration:none;"><?php the_title(); ?></a>
+                            <?php else : ?>
+                                <?php the_title(); ?>
+                            <?php endif; ?>
+                        </h2>
                         <?php if ($rating) : ?>
                             <?php echo ontariogamers_rating_display($rating); ?>
+                        <?php endif; ?>
+                        <?php if ($affiliate) : ?>
+                            <div style="margin-top:0.75rem;">
+                                <a href="<?php echo esc_url($affiliate); ?>" class="btn btn-play" target="_blank" rel="<?php echo esc_attr(ontariogamers_aff_rel()); ?>" style="font-size:1rem;padding:0.6rem 1.75rem;">CLAIM BONUS</a>
+                            </div>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -92,7 +107,7 @@ $established  = get_post_meta(get_the_ID(), 'casino_year_established', true);
 
                 <?php if ($affiliate) : ?>
                     <div style="text-align:center;margin-top:1rem;">
-                        <a href="<?php echo esc_url($affiliate); ?>" class="btn btn-play" target="_blank" rel="noopener noreferrer nofollow" style="font-size:1rem;padding:0.75rem 2rem;">
+                        <a href="<?php echo esc_url($affiliate); ?>" class="btn btn-play" target="_blank" rel="<?php echo esc_attr(ontariogamers_aff_rel()); ?>" style="font-size:1rem;padding:0.75rem 2rem;">
                             Play Now at <?php the_title(); ?>
                         </a>
                         <p style="font-size:0.75rem;color:var(--og-text-light);margin-top:0.5rem;">

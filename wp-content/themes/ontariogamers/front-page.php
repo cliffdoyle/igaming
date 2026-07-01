@@ -73,11 +73,7 @@ get_header();
             ?>
             <div class="casino-card">
                 <div>
-                    <?php if (has_post_thumbnail()) : ?>
-                        <?php the_post_thumbnail('casino-logo', array('class' => 'casino-logo')); ?>
-                    <?php else : ?>
-                        <div class="casino-logo" style="display:flex;align-items:center;justify-content:center;background:#f0f0f0;font-weight:700;font-size:0.75rem;"><?php the_title(); ?></div>
-                    <?php endif; ?>
+                    <?php echo ontariogamers_casino_logo_linked(); ?>
                 </div>
 
                 <div class="casino-info">
@@ -99,7 +95,7 @@ get_header();
                 <div class="casino-actions">
                     <a href="<?php the_permalink(); ?>" class="btn btn-review">Read Review</a>
                     <?php if ($affiliate) : ?>
-                        <a href="<?php echo esc_url($affiliate); ?>" class="btn btn-play" target="_blank" rel="noopener noreferrer nofollow">Play Now</a>
+                        <a href="<?php echo esc_url($affiliate); ?>" class="btn btn-play" target="_blank" rel="<?php echo esc_attr(ontariogamers_aff_rel()); ?>">Play Now</a>
                     <?php endif; ?>
                 </div>
 
