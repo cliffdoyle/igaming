@@ -34,7 +34,8 @@ $affiliate    = get_post_meta(get_the_ID(), 'slot_affiliate_url', true);
 
             <!-- Author & Date -->
             <p style="font-size:0.85rem;color:var(--og-text-light);margin-bottom:2rem;">
-                By <?php the_author(); ?> | Last Updated: <?php echo get_the_modified_date('F Y'); ?>
+                <?php $og_author_id = (int) get_post_field('post_author', get_the_ID()); ?>
+                By <a href="<?php echo esc_url(get_author_posts_url($og_author_id)); ?>"><?php echo esc_html(get_the_author_meta('display_name', $og_author_id)); ?></a> | Last Updated: <?php echo get_the_modified_date('F Y'); ?>
             </p>
 
             <!-- Slot Screenshot -->
