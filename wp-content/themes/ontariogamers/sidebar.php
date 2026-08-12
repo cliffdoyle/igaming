@@ -18,7 +18,6 @@
 
         if ($top_casinos->have_posts()) :
             while ($top_casinos->have_posts()) : $top_casinos->the_post();
-                $bonus = get_post_meta(get_the_ID(), 'casino_bonus_description', true);
                 ?>
                 <a href="<?php the_permalink(); ?>" class="sidebar-casino" style="text-decoration:none;color:inherit;">
                     <?php if (has_post_thumbnail()) : ?>
@@ -26,7 +25,6 @@
                     <?php endif; ?>
                     <div>
                         <div class="casino-name"><?php the_title(); ?></div>
-                        <div class="casino-short-bonus"><?php echo esc_html(wp_trim_words($bonus, 8, '...')); ?></div>
                     </div>
                 </a>
                 <?php

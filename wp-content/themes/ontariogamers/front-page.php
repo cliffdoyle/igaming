@@ -66,7 +66,6 @@ get_header();
         while ($casinos->have_posts()) : $casinos->the_post();
             // Get custom fields
             $rating       = get_post_meta(get_the_ID(), 'casino_rating', true);
-            $bonus        = get_post_meta(get_the_ID(), 'casino_bonus_description', true);
             $affiliate    = get_post_meta(get_the_ID(), 'casino_affiliate_url', true);
             $license      = get_post_meta(get_the_ID(), 'casino_license', true);
             $withdrawal   = get_post_meta(get_the_ID(), 'casino_withdrawal_time', true);
@@ -78,7 +77,6 @@ get_header();
 
                 <div class="casino-info">
                     <h3><?php the_title(); ?></h3>
-                    <div class="casino-bonus"><?php echo esc_html($bonus ?: 'Welcome bonus available — see operator for current terms'); ?></div>
                     <div class="casino-meta">
                         <?php if ($license) : ?>
                             <span>✓ <?php echo esc_html($license); ?></span>

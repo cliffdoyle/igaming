@@ -8,7 +8,6 @@ get_header();
 
 // Get custom fields
 $rating       = get_post_meta(get_the_ID(), 'casino_rating', true);
-$bonus        = get_post_meta(get_the_ID(), 'casino_bonus_description', true);
 $affiliate    = get_post_meta(get_the_ID(), 'casino_affiliate_url', true);
 $license      = get_post_meta(get_the_ID(), 'casino_license', true);
 $deposit      = get_post_meta(get_the_ID(), 'casino_deposit_methods', true);
@@ -61,7 +60,7 @@ $established  = get_post_meta(get_the_ID(), 'casino_year_established', true);
                         <?php endif; ?>
                         <?php if ($affiliate) : ?>
                             <div style="margin-top:0.75rem;">
-                                <a href="<?php echo esc_url($affiliate); ?>" class="btn btn-play" target="_blank" rel="<?php echo esc_attr(ontariogamers_aff_rel()); ?>" style="font-size:1rem;padding:0.6rem 1.75rem;">CLAIM BONUS</a>
+                                <a href="<?php echo esc_url($affiliate); ?>" class="btn btn-play" target="_blank" rel="<?php echo esc_attr(ontariogamers_aff_rel()); ?>" style="font-size:1rem;padding:0.6rem 1.75rem;">Visit Casino</a>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -72,12 +71,6 @@ $established  = get_post_meta(get_the_ID(), 'casino_year_established', true);
                         <div class="review-detail">
                             <span>License</span>
                             <strong>✓ <?php echo esc_html($license); ?></strong>
-                        </div>
-                    <?php endif; ?>
-                    <?php if ($bonus) : ?>
-                        <div class="review-detail">
-                            <span>Welcome Bonus</span>
-                            <strong><?php echo esc_html($bonus); ?></strong>
                         </div>
                     <?php endif; ?>
                     <?php if ($deposit) : ?>

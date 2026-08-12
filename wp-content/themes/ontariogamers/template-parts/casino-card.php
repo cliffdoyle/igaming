@@ -6,7 +6,6 @@
  */
 
 $rating     = get_post_meta(get_the_ID(), 'casino_rating', true);
-$bonus      = get_post_meta(get_the_ID(), 'casino_bonus_description', true);
 $affiliate  = get_post_meta(get_the_ID(), 'casino_affiliate_url', true);
 $license    = get_post_meta(get_the_ID(), 'casino_license', true);
 $withdrawal = get_post_meta(get_the_ID(), 'casino_withdrawal_time', true);
@@ -19,9 +18,6 @@ $withdrawal = get_post_meta(get_the_ID(), 'casino_withdrawal_time', true);
 
     <div class="casino-info">
         <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-        <div class="casino-bonus">
-            <?php echo esc_html($bonus ?: 'Welcome bonus available — see operator for current terms'); ?>
-        </div>
         <div class="casino-meta">
             <?php if ($license) : ?><span>✓ <?php echo esc_html($license); ?></span><?php endif; ?>
             <?php if ($withdrawal) : ?><span>⏱ <?php echo esc_html($withdrawal); ?></span><?php endif; ?>
