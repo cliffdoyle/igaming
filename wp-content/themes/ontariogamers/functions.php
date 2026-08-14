@@ -45,7 +45,7 @@ function ontariogamers_setup() {
     ));
 
     // Image sizes for casino/slot cards
-    add_image_size('casino-logo', 160, 160, true);
+    add_image_size('casino-logo', 300, 300, true);
     add_image_size('slot-thumbnail', 400, 250, true);
     add_image_size('card-thumbnail', 600, 360, true);
 }

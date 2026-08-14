@@ -425,7 +425,7 @@ p {
 
 .casino-card {
     display: grid;
-    grid-template-columns: 80px 1fr auto;
+    grid-template-columns: 96px 1fr auto;
     align-items: center;
     gap: 1.5rem;
     padding: 1.5rem;
@@ -441,11 +441,12 @@ p {
 }
 
 .casino-card .casino-logo {
-    width: 80px;
-    height: 80px;
+    width: 96px;
+    height: 96px;
     border-radius: var(--og-radius);
     object-fit: contain;
-    background: var(--og-bg-alt);
+    background: #fff;
+    border: 1px solid var(--og-border);
     padding: 0.5rem;
 }
 
@@ -484,7 +485,7 @@ p {
 
 @media (max-width: 768px) {
     .casino-card {
-        grid-template-columns: 60px 1fr;
+        grid-template-columns: 80px 1fr;
     }
     .casino-card .casino-actions {
         grid-column: 1 / -1;
@@ -511,10 +512,14 @@ p {
 }
 
 .review-box .review-logo {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
     border-radius: var(--og-radius);
     object-fit: contain;
+    background: #fff;
+    border: 1px solid var(--og-border);
+    padding: 8px;
+    flex-shrink: 0;
 }
 
 /* Clickable casino logos (affiliate links) */
@@ -1736,8 +1741,8 @@ body.menu-open {
         gap: 1rem;
     }
     .casino-card .casino-logo {
-        width: 64px;
-        height: 64px;
+        width: 72px;
+        height: 72px;
     }
     .casino-card .casino-actions {
         flex-direction: column;
