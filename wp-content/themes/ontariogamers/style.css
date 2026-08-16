@@ -410,6 +410,92 @@ p {
 }
 
 /* ============================================
+   STICKY CASINO CTA BAR (review pages)
+   ============================================ */
+.og-sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    background: var(--og-primary);
+    border-top: 3px solid var(--og-secondary);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.18);
+}
+.og-sticky-cta.og-hidden { display: none; }
+.og-sticky-inner {
+    max-width: var(--og-max-width);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.55rem 1rem;
+}
+.og-sticky-logo { flex-shrink: 0; line-height: 0; border-bottom: 0 !important; }
+.og-sticky-logo-img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    background: #fff;
+    border: 1px solid var(--og-border);
+    border-radius: var(--og-radius);
+    padding: 4px;
+}
+.og-sticky-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+    flex: 1;
+    min-width: 0;
+    color: #fff;
+}
+.og-sticky-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.og-sticky-sub { display: flex; align-items: center; gap: 0.75rem; }
+.og-sticky-rating { color: var(--og-secondary); font-weight: 700; font-size: 0.85rem; white-space: nowrap; }
+.og-sticky-note { font-size: 0.72rem; color: rgba(255, 255, 255, 0.75); white-space: nowrap; }
+.og-sticky-btn {
+    flex-shrink: 0;
+    background: var(--og-secondary);
+    color: #1a1a1a;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.65rem 2.25rem;
+}
+.og-sticky-btn:hover {
+    background: var(--og-secondary-hover);
+    color: #1a1a1a;
+    transform: translateY(-1px);
+    box-shadow: var(--og-shadow);
+}
+.og-sticky-close {
+    flex-shrink: 0;
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.55;
+    padding: 0 0.25rem;
+}
+.og-sticky-close:hover { opacity: 1; }
+.og-sticky-spacer { height: 88px; }
+@media (max-width: 600px) {
+    .og-sticky-note { display: none; }
+    .og-sticky-logo-img { width: 44px; height: 44px; }
+    .og-sticky-name { font-size: 0.92rem; }
+    .og-sticky-btn { padding: 0.6rem 1.25rem; font-size: 0.9rem; }
+    .og-sticky-inner { gap: 0.6rem; padding: 0.5rem 0.6rem; }
+    .og-sticky-spacer { height: 76px; }
+}
+
+/* ============================================
    CASINO COMPARISON TABLE
    ============================================ */
 .casino-table {

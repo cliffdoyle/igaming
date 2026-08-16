@@ -154,4 +154,27 @@ $established  = get_post_meta(get_the_ID(), 'casino_year_established', true);
     </div>
 </div>
 
+<?php if ($affiliate) : ?>
+<!-- Sticky CTA bar (follows scroll) -->
+<div class="og-sticky-cta" id="ogStickyCta">
+    <div class="og-sticky-inner">
+        <?php if (has_post_thumbnail()) : ?>
+            <a href="<?php echo esc_url($affiliate); ?>" class="og-sticky-logo" target="_blank" rel="<?php echo esc_attr(ontariogamers_aff_rel()); ?>" aria-label="Visit <?php the_title_attribute(); ?>">
+                <?php the_post_thumbnail('casino-logo', array('class' => 'og-sticky-logo-img')); ?>
+            </a>
+        <?php endif; ?>
+        <div class="og-sticky-text">
+            <span class="og-sticky-name"><?php the_title(); ?></span>
+            <span class="og-sticky-sub">
+                <?php if ($rating) : ?><span class="og-sticky-rating">★ <?php echo esc_html(number_format((float) $rating, 1)); ?>/10</span><?php endif; ?>
+                <span class="og-sticky-note">19+ · Play responsibly</span>
+            </span>
+        </div>
+        <a href="<?php echo esc_url($affiliate); ?>" class="btn og-sticky-btn" target="_blank" rel="<?php echo esc_attr(ontariogamers_aff_rel()); ?>">Play Now</a>
+        <button type="button" class="og-sticky-close" aria-label="Dismiss" onclick="var e=document.getElementById('ogStickyCta');if(e){e.classList.add('og-hidden');}">&times;</button>
+    </div>
+</div>
+<div class="og-sticky-spacer" aria-hidden="true"></div>
+<?php endif; ?>
+
 <?php get_footer(); ?>
