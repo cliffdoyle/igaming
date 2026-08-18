@@ -1718,12 +1718,60 @@ body.menu-open {
     overflow: hidden;
 }
 
-/* Long content tables scroll sideways instead of breaking layout */
-.article-content table {
-    display: block;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    white-space: nowrap;
+/* CRITICAL mobile fix: let content columns shrink below their intrinsic content
+   width. Grid/flex items default to min-width:auto, so a wide table (or any wide
+   child) stretches the whole article column and then gets clipped by
+   overflow-x:hidden — which is what made review pages read as cut-off on phones. */
+.content-area > *,
+.article-content,
+.review-content,
+.review-box,
+.page-content,
+.sidebar,
+.news-card,
+.pick-card {
+    min-width: 0;
+}
+
+/* Media never overflows its container */
+.article-content img,
+.article-content iframe,
+.article-content video,
+.page-content img,
+.page-content iframe,
+.review-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Content tables stay within the screen and wrap instead of overflowing */
+.article-content table,
+.page-content table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+}
+@media (max-width: 768px) {
+    /* Fixed layout guarantees the table fits the viewport; cells wrap. */
+    .article-content table,
+    .page-content table {
+        table-layout: fixed;
+    }
+    .article-content th, .article-content td,
+    .page-content th, .page-content td {
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        padding: 0.5rem 0.55rem;
+        font-size: 0.82rem;
+        vertical-align: top;
+    }
+    /* Nested lists inside pros/cons cells shouldn't add extra indent overflow */
+    .article-content td ul,
+    .article-content td ol {
+        padding-left: 1.1rem;
+        margin-bottom: 0;
+    }
 }
 
 /* ---- Tablet and below (<= 968px) ---- */
