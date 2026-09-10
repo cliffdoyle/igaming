@@ -127,7 +127,7 @@ get_header();
             Sticking to an AGCO-registered casino gives you independently audited games, built-in responsible-gambling controls, banking in Canadian dollars, and a proper complaints process if something goes wrong. Unlicensed offshore sites give you none of that protection.
         </p>
         <p style="text-align:center;">
-            <a href="<?php echo esc_url(home_url('/guides/ontario-casino-guide/')); ?>" class="btn btn-primary">Read the Ontario Casino Guide</a>
+            <a href="<?php echo esc_url(home_url('/online-casinos/')); ?>" class="btn btn-primary">See AGCO-Registered Casinos</a>
         </p>
     </div>
 </section>

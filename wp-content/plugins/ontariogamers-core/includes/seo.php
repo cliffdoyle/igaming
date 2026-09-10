@@ -51,7 +51,13 @@ function ontariogamers_seo_description() {
     }
 
     $desc = wp_strip_all_tags($desc, true);
-    return wp_trim_words($desc, 32, '');
+    $desc = trim(preg_replace('/\s+/', ' ', $desc));
+    // Keep meta descriptions within ~155 chars (search-snippet length).
+    if (mb_strlen($desc) > 155) {
+        $desc = rtrim(mb_substr($desc, 0, 152));
+        $desc = preg_replace('/\s+\S*$/u', '', $desc) . '…';
+    }
+    return $desc;
 }
 
 /**
@@ -96,6 +102,10 @@ function ontariogamers_seo_meta_tags() {
     if (is_singular() && has_post_thumbnail(get_queried_object_id())) {
         $image = get_the_post_thumbnail_url(get_queried_object_id(), 'large');
     }
+    if (!$image) {
+        // Default share image so Open Graph / Twitter cards are always complete.
+        $image = get_template_directory_uri() . '/assets/img/og-default.png';
+    }
 
     echo "\n<!-- OntarioGamers SEO -->\n";
     echo '<meta name="description" content="' . esc_attr($desc) . '">' . "\n";
@@ -117,6 +127,17 @@ function ontariogamers_seo_meta_tags() {
     }
 }
 add_action('wp_head', 'ontariogamers_seo_meta_tags', 1);
+
+/**
+ * Keep <title> tags from ballooning: drop the site-name suffix once the page
+ * title itself is long, so long article headlines don't overflow in search.
+ */
+add_filter('document_title_parts', function ($parts) {
+    if (!empty($parts['title']) && mb_strlen($parts['title']) > 50) {
+        unset($parts['tagline'], $parts['site']);
+    }
+    return $parts;
+});
 
 /**
  * Output JSON-LD structured data (schema.org).

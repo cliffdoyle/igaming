@@ -148,19 +148,43 @@ function ontariogamers_footer_menu_fallback($items) {
     echo '</ul>';
 }
 
+// --- SEO hygiene: trim crawler-flagged <head> links + sitemap entries ---
+// These discovery links return 400/405 to crawlers, so audits flag them as broken.
+remove_action('wp_head', 'wp_oembed_add_discovery_links');
+remove_action('wp_head', 'rsd_link');
+remove_action('wp_head', 'wlwmanifest_link');
+
+// Keep the front page out of the XML sitemap so it isn't reported as a
+// non-canonical duplicate of the site root.
+add_filter('wp_sitemaps_posts_query_args', function ($args, $post_type) {
+    if ('page' !== $post_type) {
+        return $args;
+    }
+    $front = (int) get_option('page_on_front');
+    if ($front) {
+        $existing = isset($args['post__not_in']) ? (array) $args['post__not_in'] : array();
+        $args['post__not_in'] = array_merge($existing, array($front));
+    }
+    return $args;
+}, 10, 2);
+
 // Footer column fallbacks — shown only until the admin assigns a real menu
 // to each footer location in Appearance → Menus. Then the admin's menu wins.
 function ontariogamers_footer_casinos_fallback() {
     ontariogamers_footer_menu_fallback(array(
-        home_url('/online-casinos/')              => 'Best Ontario Casinos',
-        home_url('/online-casinos/bet99-review/') => 'Bet99 Review',
+        home_url('/online-casinos/')                       => 'Best Ontario Casinos',
+        home_url('/online-casinos/northstar-bets-casino/') => 'NorthStar Bets',
+        home_url('/online-casinos/jackpot-city-casino/')   => 'Jackpot City',
+        home_url('/online-casinos/all-slots-casino/')      => 'All Slots Casino',
     ));
 }
 
 function ontariogamers_footer_slots_fallback() {
     ontariogamers_footer_menu_fallback(array(
-        home_url('/online-slots/')                          => 'All Slot Reviews',
-        home_url('/online-slots/gates-of-olympus-ontario/') => 'Gates of Olympus',
+        home_url('/online-casinos/')                => 'All Casino Reviews',
+        home_url('/online-casinos/tonybet-casino/')  => 'TonyBet Casino',
+        home_url('/online-casinos/betway-casino/')   => 'Betway Casino',
+        home_url('/online-casinos/amazon-slots-casino/') => 'Amazon Slots',
     ));
 }
 
