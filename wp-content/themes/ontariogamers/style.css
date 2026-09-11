@@ -1387,6 +1387,22 @@ p {
     margin-bottom: 1rem;
 }
 
+/* Comparison section: cover image + "Winner" callouts */
+.comparison-cover {
+    margin: 0 0 1.5rem;
+}
+.review-content .comparison-winner {
+    background: var(--og-bg-alt);
+    border-left: 4px solid var(--og-secondary);
+    padding: 0.75rem 1rem;
+    margin: 1rem 0 2.25rem;
+    border-radius: 0 var(--og-radius) var(--og-radius) 0;
+    font-size: 0.95rem;
+}
+.review-content .comparison-winner strong {
+    color: var(--og-primary);
+}
+
 /* ============================================
    ARTICLE CONTENT
    ============================================ */

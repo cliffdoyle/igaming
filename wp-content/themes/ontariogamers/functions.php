@@ -125,6 +125,7 @@ function ontariogamers_default_menu() {
         home_url('/')                       => 'Home',
         home_url('/online-casinos/')        => 'Online Casinos',
         home_url('/online-slots/')          => 'Online Slots',
+        home_url('/comparisons/')           => 'Comparisons',
         home_url('/sports-picks/')          => 'Sports Picks',
         home_url('/news/')                  => 'News',
         home_url('/about/')                 => 'About',
@@ -173,9 +174,9 @@ add_filter('wp_sitemaps_posts_query_args', function ($args, $post_type) {
 function ontariogamers_footer_casinos_fallback() {
     ontariogamers_footer_menu_fallback(array(
         home_url('/online-casinos/')                       => 'Best Ontario Casinos',
+        home_url('/comparisons/')                          => 'Casino Comparisons',
         home_url('/online-casinos/northstar-bets-casino/') => 'NorthStar Bets',
         home_url('/online-casinos/jackpot-city-casino/')   => 'Jackpot City',
-        home_url('/online-casinos/all-slots-casino/')      => 'All Slots Casino',
     ));
 }
 

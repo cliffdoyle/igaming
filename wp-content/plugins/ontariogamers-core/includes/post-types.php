@@ -54,6 +54,28 @@ function ontariogamers_register_post_types() {
         'show_in_rest'       => true,
     ));
 
+    // Casino Comparisons (head-to-head)
+    register_post_type('comparison', array(
+        'labels' => array(
+            'name'          => 'Comparisons',
+            'singular_name' => 'Comparison',
+            'add_new'       => 'Add New Comparison',
+            'add_new_item'  => 'Add New Comparison',
+            'edit_item'     => 'Edit Comparison',
+            'view_item'     => 'View Comparison',
+            'all_items'     => 'All Comparisons',
+            'search_items'  => 'Search Comparisons',
+            'not_found'     => 'No comparisons found',
+        ),
+        'public'        => true,
+        'has_archive'   => true,
+        'rewrite'       => array('slug' => 'comparisons'),
+        'supports'      => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'page-attributes'),
+        'menu_icon'     => 'dashicons-columns',
+        'menu_position' => 8,
+        'show_in_rest'  => true,
+    ));
+
     // Casino Categories (e.g., Ontario, Alberta, Live Casino)
     register_taxonomy('casino_category', 'casino_review', array(
         'labels' => array(
