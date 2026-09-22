@@ -237,7 +237,9 @@ function ontariogamers_casino_logo_linked($size = 'casino-logo', $class = 'casin
 
 // Make every image inside a single casino review clickable -> operator (affiliate) link
 function ontariogamers_link_review_images($content) {
-    if (is_admin() || !is_singular('casino_review') || !in_the_loop() || !is_main_query()) {
+    $og_is_review = is_singular('casino_review')
+        || (is_singular('sports_pick') && get_post_meta(get_the_ID(), 'casino_rating', true));
+    if (is_admin() || !$og_is_review || !in_the_loop() || !is_main_query()) {
         return $content;
     }
     $affiliate = get_post_meta(get_the_ID(), 'casino_affiliate_url', true);

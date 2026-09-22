@@ -144,11 +144,9 @@ add_filter('document_title_parts', function ($parts) {
  * pages read like "<Casino> Review in Ontario <year>" in search results.
  */
 add_filter('pre_get_document_title', function ($title) {
-    if (is_singular('casino_review')) {
-        $id = get_queried_object_id();
-        if ($id) {
-            return get_the_title($id) . ' Review in Ontario ' . date('Y');
-        }
+    $id = get_queried_object_id();
+    if ($id && (is_singular('casino_review') || (is_singular('sports_pick') && get_post_meta($id, 'casino_rating', true)))) {
+        return get_the_title($id) . ' Review in Ontario ' . date('Y');
     }
     return $title;
 }, 20);

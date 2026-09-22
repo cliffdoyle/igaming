@@ -6,6 +6,17 @@
 
 get_header();
 
+// Sportsbook/operator reviews live under Sports Picks but use the review layout.
+if (is_singular('sports_pick') && get_post_meta(get_queried_object_id(), 'casino_rating', true)) {
+    get_template_part('template-parts/operator-review', null, array(
+        'sec_label' => 'Sports Picks',
+        'sec_url'   => home_url('/sports-picks/'),
+        'cta_verb'  => 'Visit Sportsbook',
+    ));
+    get_footer();
+    return;
+}
+
 while (have_posts()) : the_post();
     $match     = get_post_meta(get_the_ID(), 'pick_match', true);
     $selection = get_post_meta(get_the_ID(), 'pick_selection', true);

@@ -11,6 +11,18 @@ if (!defined('ABSPATH')) {
 if (have_posts()) : ?>
     <div class="picks-list">
         <?php while (have_posts()) : the_post();
+            $og_rating = get_post_meta(get_the_ID(), 'casino_rating', true);
+            if ($og_rating) : // Operator/sportsbook review card (not a tipster pick) ?>
+                <article class="pick-card">
+                    <div class="pick-card-head">
+                        <span class="pick-league">Sportsbook Review</span>
+                        <span class="pick-result result-won">★ <?php echo esc_html(number_format((float) $og_rating, 1)); ?>/10</span>
+                    </div>
+                    <h3 class="pick-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                    <?php if (has_excerpt()) : ?><p class="pick-match"><?php echo esc_html(get_the_excerpt()); ?></p><?php endif; ?>
+                    <a href="<?php the_permalink(); ?>" class="btn btn-review">Read Review</a>
+                </article>
+            <?php continue; endif;
             $match     = get_post_meta(get_the_ID(), 'pick_match', true);
             $selection = get_post_meta(get_the_ID(), 'pick_selection', true);
             $odds      = get_post_meta(get_the_ID(), 'pick_odds', true);
