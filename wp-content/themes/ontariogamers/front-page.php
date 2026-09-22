@@ -116,6 +116,78 @@ get_header();
     </p>
 </section>
 
+<!-- SPORTSBOOK SECTION (sportsbook reviews live under Sports Picks) -->
+<?php
+$sportsbooks = new WP_Query(array(
+    'post_type'      => 'sports_pick',
+    'posts_per_page' => 6,
+    'orderby'        => 'menu_order',
+    'order'          => 'ASC',
+    'meta_query'     => array(
+        array(
+            'key'     => 'casino_rating',
+            'compare' => 'EXISTS',
+        ),
+    ),
+));
+if ($sportsbooks->have_posts()) :
+    ?>
+    <section class="casino-table">
+        <h2>Top-Rated Ontario Sportsbooks for 2026</h2>
+
+        <?php ontariogamers_affiliate_disclosure(); ?>
+
+        <?php
+        while ($sportsbooks->have_posts()) : $sportsbooks->the_post();
+            $rating     = get_post_meta(get_the_ID(), 'casino_rating', true);
+            $affiliate  = get_post_meta(get_the_ID(), 'casino_affiliate_url', true);
+            $license    = get_post_meta(get_the_ID(), 'casino_license', true);
+            $withdrawal = get_post_meta(get_the_ID(), 'casino_withdrawal_time', true);
+            ?>
+            <div class="casino-card">
+                <div>
+                    <?php echo ontariogamers_casino_logo_linked(); ?>
+                </div>
+
+                <div class="casino-info">
+                    <h3><?php the_title(); ?></h3>
+                    <div class="casino-meta">
+                        <?php if ($license) : ?>
+                            <span>✓ <?php echo esc_html($license); ?></span>
+                        <?php endif; ?>
+                        <?php if ($withdrawal) : ?>
+                            <span>⏱ Withdrawal: <?php echo esc_html($withdrawal); ?></span>
+                        <?php endif; ?>
+                        <?php if ($rating) : ?>
+                            <span>⭐ <?php echo esc_html($rating); ?>/10</span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="casino-actions">
+                    <a href="<?php the_permalink(); ?>" class="btn btn-review">Read Review</a>
+                    <?php if ($affiliate) : ?>
+                        <a href="<?php echo esc_url($affiliate); ?>" class="btn btn-play" target="_blank" rel="<?php echo esc_attr(ontariogamers_aff_rel()); ?>">Play Now</a>
+                    <?php endif; ?>
+                </div>
+
+                <div class="casino-disclaimer">
+                    New players only. 19+. Ontario players: bonus terms cannot be publicly displayed under AGCO Standard 11.10 — see offer directly at operator. Always read full T&Cs before claiming. Wagering requirements apply.
+                </div>
+            </div>
+            <?php
+        endwhile;
+        wp_reset_postdata();
+        ?>
+
+        <p style="text-align:center;margin-top:1.5rem;">
+            <a href="<?php echo esc_url(home_url('/sports-picks/')); ?>" class="btn btn-review">View All Sportsbook Reviews →</a>
+        </p>
+    </section>
+    <?php
+endif;
+?>
+
 <!-- ONTARIO REGULATION SECTION -->
 <section style="background:var(--og-bg-alt);padding:3rem 1.5rem;">
     <div class="site-container" style="max-width:800px;">
