@@ -23,7 +23,7 @@ get_header();
             <!-- Author & Date -->
             <p style="font-size:0.85rem;color:var(--og-text-light);margin-bottom:2rem;">
                 <?php $og_author_id = (int) get_post_field('post_author', get_the_ID()); ?>
-                By <a href="<?php echo esc_url(get_author_posts_url($og_author_id)); ?>"><?php echo esc_html(get_the_author_meta('display_name', $og_author_id)); ?></a> | Last Updated: <?php echo get_the_modified_date('F Y'); ?>
+                By <a href="<?php echo esc_url(get_author_posts_url($og_author_id)); ?>"><?php echo esc_html(get_the_author_meta('display_name', $og_author_id)); ?></a> | Last Updated: <?php echo esc_html(get_the_modified_date('F j, Y')); ?>
             </p>
 
             <?php if (function_exists('ontariogamers_affiliate_disclosure')) ontariogamers_affiliate_disclosure(); ?>

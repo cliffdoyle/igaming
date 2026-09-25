@@ -147,3 +147,42 @@ function ontariogamers_register_post_types() {
     ));
 }
 add_action('init', 'ontariogamers_register_post_types');
+
+/**
+ * "Last Modified" column in wp-admin lists — the core Date column only ever
+ * shows the publish date, so edits were invisible there.
+ */
+function ontariogamers_last_modified_post_types() {
+    return array('casino_review', 'slot_review', 'comparison', 'sports_pick', 'post', 'page');
+}
+
+function ontariogamers_add_last_modified_column($columns) {
+    $columns['og_last_modified'] = 'Last Modified';
+    return $columns;
+}
+
+function ontariogamers_render_last_modified_column($column, $post_id) {
+    if ($column !== 'og_last_modified') {
+        return;
+    }
+    $format = get_option('date_format') . ' \a\t ' . get_option('time_format');
+    echo esc_html(get_post_modified_time($format, false, $post_id, true));
+    $editor_id = get_post_meta($post_id, '_edit_last', true);
+    if ($editor_id && ($editor = get_userdata($editor_id))) {
+        echo '<br><span class="description">by ' . esc_html($editor->display_name) . '</span>';
+    }
+}
+
+function ontariogamers_sortable_last_modified_column($columns) {
+    $columns['og_last_modified'] = 'modified';
+    return $columns;
+}
+
+function ontariogamers_register_last_modified_columns() {
+    foreach (ontariogamers_last_modified_post_types() as $post_type) {
+        add_filter("manage_{$post_type}_posts_columns", 'ontariogamers_add_last_modified_column');
+        add_action("manage_{$post_type}_posts_custom_column", 'ontariogamers_render_last_modified_column', 10, 2);
+        add_filter("manage_edit-{$post_type}_sortable_columns", 'ontariogamers_sortable_last_modified_column');
+    }
+}
+add_action('admin_init', 'ontariogamers_register_last_modified_columns');
