@@ -216,6 +216,7 @@ function ontariogamers_static_pages_data() {
 
 <h2>Email</h2>
 <p>General &amp; editorial enquiries: <a href="mailto:contact@ontariogamers.com">contact@ontariogamers.com</a></p>
+<p>Partnerships &amp; advertising: <a href="mailto:partners@ontariogamers.ca">partners@ontariogamers.ca</a></p>
 <p>Review corrections &amp; factual errors: <a href="mailto:contact@ontariogamers.com">contact@ontariogamers.com</a><br>
 Please include the page URL and details of the issue. We investigate all reported errors.</p>
 
@@ -232,6 +233,7 @@ Please include the page URL and details of the issue. We investigate all reporte
 <ul>
 <li><strong>Site name:</strong> OntarioGamers.com</li>
 <li><strong>Email:</strong> <a href="mailto:info@ontariogamers.ca">info@ontariogamers.ca</a></li>
+<li><strong>Partnerships:</strong> <a href="mailto:partners@ontariogamers.ca">partners@ontariogamers.ca</a></li>
 <li><strong>Location:</strong> [Your City, Ontario, Canada]</li>
 <li><strong>Response time:</strong> We aim to respond within 24&ndash;48 hours.</li>
 </ul>
@@ -601,6 +603,53 @@ function ontariogamers_privacy_publish_v1() {
     ));
 }
 add_action('init', 'ontariogamers_privacy_publish_v1', 23);
+
+/**
+ * One-time: add the partners@ontariogamers.ca address to the live Contact
+ * page alongside info@ontariogamers.ca. The seeder never overwrites existing
+ * pages, so this patches the stored content in place. Guarded by an option so
+ * it runs exactly once and never duplicates the lines.
+ */
+function ontariogamers_contact_partners_email_v1() {
+    if (get_option('og_contact_partners_email_v1')) {
+        return;
+    }
+    if (false === add_option('og_contact_partners_email_v1', 1, '', 'no')) {
+        return;
+    }
+
+    $contact = get_page_by_path('contact');
+    if (!$contact || false !== strpos($contact->post_content, 'partners@ontariogamers.ca')) {
+        return;
+    }
+
+    $partners_link = '<a href="mailto:partners@ontariogamers.ca">partners@ontariogamers.ca</a>';
+    $content       = $contact->post_content;
+
+    // After the "General & editorial enquiries" paragraph.
+    $content = preg_replace(
+        '#(<p>General &amp; editorial enquiries:.*?</p>)#s',
+        '$1' . "\n<p>Partnerships &amp; advertising: " . $partners_link . '</p>',
+        $content,
+        1
+    );
+
+    // After the "Email:" item in Business Details.
+    $content = preg_replace(
+        '#(<li><strong>Email:</strong>.*?</li>)#s',
+        '$1' . "\n<li><strong>Partnerships:</strong> " . $partners_link . '</li>',
+        $content,
+        1
+    );
+
+    if (null !== $content && $content !== $contact->post_content) {
+        wp_update_post(array(
+            'ID'           => $contact->ID,
+            'post_content' => $content,
+        ));
+    }
+}
+add_action('init', 'ontariogamers_contact_partners_email_v1', 24);
 
 /**
  * One-time: set up a proper News/Blog section for SEO traffic.

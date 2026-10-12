@@ -422,7 +422,8 @@ function ontariogamers_render_admin_guide() {
             <li>For the action I pick <strong>Send to an email</strong> and choose my verified Gmail.</li>
             <li>Save. Anything emailed to <code>info@ontariogamers.ca</code> now lands in my Gmail.</li>
         </ol>
-        <div class="og-note">I can repeat Step 3 to add more addresses like <code>vanessa@</code>, <code>george@</code> or <code>partnerships@</code>. I can also enable a <strong>catch-all</strong> so <em>any</em> name @ourdomain forwards to me.</div>
+        <div class="og-note"><strong>Current addresses:</strong> <code>info@ontariogamers.ca</code> (general) and <code>partners@ontariogamers.ca</code> (partnerships &amp; advertising) &mdash; both forward to my Gmail and both are listed on the Contact page.</div>
+        <div class="og-note">I can repeat Step 3 to add more addresses like <code>vanessa@</code> or <code>george@</code>. I can also enable a <strong>catch-all</strong> so <em>any</em> name @ourdomain forwards to me.</div>
 
         <h3>Step 4 &mdash; Let Cloudflare add the DNS records</h3>
         <p>When I enable routing, Cloudflare offers to <strong>automatically add the required DNS records</strong> (the MX records plus an SPF TXT record). I click <strong>Add records / Enable</strong> and let it do this &mdash; without them, mail won&rsquo;t be delivered. I don&rsquo;t need to touch DNS by hand.</p>
