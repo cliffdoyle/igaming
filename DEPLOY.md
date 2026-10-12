@@ -183,15 +183,31 @@ database — your local content does NOT copy over automatically).
 
 ## Updating the site later (your normal workflow)
 
-When you change theme/plugin code on Windows and push to GitHub:
+**Deploys are automatic.** Pushing to `main` on GitHub deploys to the live
+DigitalOcean server (`143.110.219.173`, folder `/root/igaming`) — no SSH needed.
 
 ```bash
-# on the server
-cd ~/igaming
-git pull
-# code changes apply instantly (bind-mounted). If needed:
-docker compose -f docker-compose.prod.yml restart
+git add . && git commit -m "..." && git push
 ```
+
+How it works:
+
+- The GitHub Actions workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+  runs on every push to `main` that touches `wp-content/**`,
+  `docker-compose.prod.yml` or the workflow itself.
+- It SSHes into the server with a dedicated deploy key (repo secrets
+  `DEPLOY_SSH_KEY`, `DEPLOY_HOST`, `DEPLOY_KNOWN_HOSTS`). On the server that key
+  is restricted in `/root/.ssh/authorized_keys` to a forced command, so it can
+  **only** run `/root/deploy-igaming.sh` — it cannot open a shell.
+- `/root/deploy-igaming.sh` does a fast-forward `git pull` of `origin/main`.
+  The theme and plugin are bind-mounted, so changes are live immediately. If
+  `docker-compose.prod.yml` changed, it also runs `docker compose up -d`.
+  Each deploy is logged to `/root/deploy-igaming.log`.
+- Watch progress in the repo's **Actions** tab. To redeploy without a new
+  commit: **Actions → Deploy → Run workflow**.
+
+> Never edit files directly in `/root/igaming` on the server — the deploy only
+> fast-forwards, so local server edits make it fail. Make changes locally and push.
 
 Content (reviews, pages) is edited directly in wp-admin — no git needed.
 

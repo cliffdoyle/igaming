@@ -1,0 +1,48 @@
+# Auto-deploy to the DigitalOcean droplet whenever site code is pushed to main.
+#
+# The deploy key (secret DEPLOY_SSH_KEY) is locked down on the server with a
+# forced command, so it can ONLY run /root/deploy-igaming.sh, which does a
+# fast-forward `git pull` in /root/igaming. Theme + plugin are bind-mounted
+# into the WordPress container, so changes are live as soon as the pull ends.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'wp-content/**'
+      - 'docker-compose.prod.yml'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Deploy over SSH
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/deploy_key ~/.ssh/known_hosts
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes \
+            -o ConnectTimeout=20 "root@$HOST" deploy
+
+      # Cloudflare may challenge GitHub's datacenter IPs, so a non-200 here is
+      # reported as a warning rather than failing the deploy.
+      - name: Smoke test
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' -A 'Mozilla/5.0 (deploy-check)' https://ontariogamers.ca/ || true)
+          echo "Homepage returned HTTP $code"
+          if [ "$code" != "200" ]; then
+            echo "::warning::Homepage returned HTTP $code after deploy - check https://ontariogamers.ca/"
+          fi
