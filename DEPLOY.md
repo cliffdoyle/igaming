@@ -289,6 +289,7 @@ git push ─► GitHub Actions (.github/workflows/deploy.yml)
               │
               ├─ git fetch origin main && git merge --ff-only origin/main
               ├─ if docker-compose.prod.yml changed → docker compose up -d
+              ├─ else if any .php changed → graceful Apache reload (clears PHP opcache)
               └─ append to /root/deploy-igaming.log
               ▼
            theme/plugin are bind-mounted → live immediately
@@ -332,9 +333,17 @@ before=$(git rev-parse HEAD)
 git fetch --quiet origin main
 git merge --ff-only --quiet origin/main
 after=$(git rev-parse HEAD)
-if [ "$before" != "$after" ] && git diff --name-only "$before" "$after" | grep -qx 'docker-compose.prod.yml'; then
-  echo "docker-compose.prod.yml changed - recreating containers"
-  docker compose -f docker-compose.prod.yml up -d
+if [ "$before" != "$after" ]; then
+  changed=$(git diff --name-only "$before" "$after")
+  if echo "$changed" | grep -qx 'docker-compose.prod.yml'; then
+    echo "docker-compose.prod.yml changed - recreating containers"
+    docker compose -f docker-compose.prod.yml up -d
+  elif echo "$changed" | grep -q '\.php$'; then
+    # PHP opcache re-checks files only every 2s; without this, the first
+    # requests after a multi-file deploy can mix old and new code (HTTP 500).
+    docker exec igaming-wordpress-1 apache2ctl -k graceful 2>/dev/null
+    echo "PHP changed - Apache reloaded gracefully (opcache cleared)"
+  fi
 fi
 echo "Deployed: $(git log --oneline -1)"
 echo "[$(date -Is)] $before -> $after" >> /root/deploy-igaming.log
@@ -496,7 +505,7 @@ Get-Content .\wp-content\plugins\ontariogamers-core\includes\seed-pages.php -Raw
 | Deploy fails with `Permission denied (publickey)` | `DEPLOY_SSH_KEY` secret and the server's `authorized_keys` line don't match — see §7.6. |
 | Pushed but nothing changed on site | Did the push touch `wp-content/**`? Check Actions ran. Then hard-refresh / purge Cloudflare cache (Cloudflare → Caching → Purge Everything). |
 | Site shows "Error establishing a database connection" | `docker compose -f docker-compose.prod.yml ps` — is `db` up? `docker compose ... up -d`. Check `free -h` (out of memory?). |
-| White screen / 500 after a deploy | PHP error in the theme/plugin. `docker compose ... logs --tail=100 wordpress`, fix locally, push (or `git revert` + push). |
+| White screen / 500 after a deploy | PHP error in the theme/plugin. `docker compose ... logs --tail=100 wordpress`, fix locally, push (or `git revert` + push). A 500 lasting only a second or two right after a deploy is PHP's opcache serving a mix of old and new files — the deploy script's graceful Apache reload prevents this. |
 | Too many redirects | Cloudflare SSL mode must be **Flexible** (or the `X-Forwarded-Proto` block in the compose file was removed). |
 | Server slow / containers restarting | RAM: `free -h`, `docker stats --no-stream`. Three apps share 2 GB. |
 
