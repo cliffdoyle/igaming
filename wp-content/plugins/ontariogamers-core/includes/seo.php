@@ -33,6 +33,8 @@ function ontariogamers_seo_description() {
 
     if (is_front_page()) {
         $desc = 'We deposited $20 via Interac at 6 AGCO-licensed Ontario casinos and timed real withdrawals. Compare payout times, ratings, pros and cons.';
+    } elseif (is_post_type_archive('payment_guide')) {
+        $desc = 'Tested guides to depositing and withdrawing at AGCO-licensed Ontario casinos: Interac e-Transfer and more, with real minimum deposits, fees and payout times.';
     } elseif (is_singular()) {
         $post = get_queried_object();
         if (has_excerpt($post)) {
@@ -149,7 +151,16 @@ add_filter('pre_get_document_title', function ($title) {
     if (is_front_page()) {
         return 'Best Online Casinos Ontario - Top 6 AGCO Licensed Sites';
     }
+    if (is_post_type_archive('payment_guide')) {
+        return 'Ontario Casino Payment Methods – Deposit & Withdrawal Guides';
+    }
     $id = get_queried_object_id();
+    if ($id && is_singular()) {
+        $custom = get_post_meta($id, 'og_seo_title', true);
+        if ($custom) {
+            return $custom;
+        }
+    }
     if ($id && (is_singular('casino_review') || (is_singular('sports_pick') && get_post_meta($id, 'casino_rating', true)))) {
         return get_the_title($id) . ' Review in Ontario ' . date('Y');
     }
@@ -190,7 +201,7 @@ function ontariogamers_seo_schema() {
         $permalink = get_permalink($post);
         $image = has_post_thumbnail($post) ? get_the_post_thumbnail_url($post, 'large') : '';
 
-        if (is_singular('post')) {
+        if (is_singular(array('post', 'payment_guide'))) {
             $graph[] = array(
                 '@type'            => 'Article',
                 'headline'         => get_the_title($post),
@@ -239,7 +250,7 @@ function ontariogamers_seo_schema() {
         }
 
         // Breadcrumb for any single review/article
-        if (in_array(get_post_type($post), array('post', 'casino_review', 'slot_review'), true)) {
+        if (in_array(get_post_type($post), array('post', 'casino_review', 'slot_review', 'payment_guide'), true)) {
             $items = array(
                 array('@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => home_url('/')),
             );
@@ -248,6 +259,8 @@ function ontariogamers_seo_schema() {
                 if ($news) {
                     $items[] = array('@type' => 'ListItem', 'position' => 2, 'name' => 'News', 'item' => get_permalink($news));
                 }
+            } elseif (is_singular('payment_guide')) {
+                $items[] = array('@type' => 'ListItem', 'position' => 2, 'name' => 'Payment Methods', 'item' => home_url('/payment-methods/'));
             } elseif (is_singular('casino_review')) {
                 $items[] = array('@type' => 'ListItem', 'position' => 2, 'name' => 'Online Casinos', 'item' => home_url('/online-casinos/'));
             } elseif (is_singular('slot_review')) {
@@ -255,6 +268,15 @@ function ontariogamers_seo_schema() {
             }
             $items[] = array('@type' => 'ListItem', 'position' => count($items) + 1, 'name' => get_the_title($post), 'item' => $permalink);
             $graph[] = array('@type' => 'BreadcrumbList', 'itemListElement' => $items);
+        }
+
+        // FAQ rich results for the Interac guide (answers match the visible FAQ).
+        if (is_singular('payment_guide') && 'best-interac-casinos-ontario' === $post->post_name && function_exists('ontariogamers_interac_guide_faqs')) {
+            $faq = array();
+            foreach (ontariogamers_interac_guide_faqs() as $f) {
+                $faq[] = array('@type' => 'Question', 'name' => $f['q'], 'acceptedAnswer' => array('@type' => 'Answer', 'text' => $f['a']));
+            }
+            $graph[] = array('@type' => 'FAQPage', 'mainEntity' => $faq);
         }
     }
 

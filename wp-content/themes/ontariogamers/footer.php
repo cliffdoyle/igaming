@@ -31,6 +31,16 @@
             )); ?>
         </div>
         <div class="footer-col">
+            <h4>Payment Methods</h4>
+            <?php wp_nav_menu(array(
+                'theme_location' => 'footer_payments',
+                'container'      => false,
+                'menu_class'     => 'menu',
+                'depth'          => 1,
+                'fallback_cb'    => 'ontariogamers_footer_payments_fallback',
+            )); ?>
+        </div>
+        <div class="footer-col">
             <h4>OntarioGamers</h4>
             <?php wp_nav_menu(array(
                 'theme_location' => 'footer_company',

@@ -275,6 +275,40 @@ function ontariogamers_top6_play_link($brand, $label, $class = 'hp-btn hp-btn--p
 }
 
 /* ---------------------------------------------------------------------------
+ * [og_play brand="bet365" label="Play at bet365"] — use in any article so its
+ * Play buttons share the affiliate link set in Appearance → Homepage Top 6.
+ * Brands: betmgm, bet365, fanduel, leovegas, caesars, northstar.
+ * ------------------------------------------------------------------------ */
+function ontariogamers_play_shortcode($atts) {
+    $atts   = shortcode_atts(array('brand' => '', 'label' => '', 'size' => ''), $atts, 'og_play');
+    $brands = ontariogamers_top6_brands();
+    $slug   = sanitize_key($atts['brand']);
+    if (!isset($brands[$slug])) {
+        return '';
+    }
+    $b     = $brands[$slug];
+    $label = '' !== $atts['label'] ? $atts['label'] : $b['cta'];
+    $class = 'og-play-btn' . ('small' === $atts['size'] ? ' og-play-btn--sm' : '');
+    return ontariogamers_top6_play_link($b, $label, $class);
+}
+add_shortcode('og_play', 'ontariogamers_play_shortcode');
+
+/**
+ * [og_logo brand="bet365" size="sm|lg"] — brand logo (uploaded in Homepage Top 6)
+ * or the branded name tile.
+ */
+function ontariogamers_logo_shortcode($atts) {
+    $atts   = shortcode_atts(array('brand' => '', 'size' => 'sm'), $atts, 'og_logo');
+    $brands = ontariogamers_top6_brands();
+    $slug   = sanitize_key($atts['brand']);
+    if (!isset($brands[$slug])) {
+        return '';
+    }
+    return ontariogamers_top6_logo($brands[$slug], 'lg' === $atts['size'] ? 'lg' : 'sm');
+}
+add_shortcode('og_logo', 'ontariogamers_logo_shortcode');
+
+/* ---------------------------------------------------------------------------
  * wp-admin: Appearance → Homepage Top 6
  * ------------------------------------------------------------------------ */
 
@@ -381,7 +415,7 @@ function ontariogamers_top6_admin_page() {
     ?>
     <div class="wrap og-top6">
         <h1>Homepage Top 6 Casinos</h1>
-        <p>Controls the comparison table and the six detailed casino reviews on the homepage. The review text itself is maintained by the developer; everything below can be changed here at any time. <a href="<?php echo esc_url(home_url('/')); ?>" target="_blank">View homepage &rarr;</a></p>
+        <p>Controls the comparison table and the six detailed casino reviews on the homepage. The affiliate links here are also used by the <code>[og_play brand="…"]</code> buttons inside Payment Method guides, so each link only has to be entered once. The review text itself is maintained by the developer; everything below can be changed here at any time. <a href="<?php echo esc_url(home_url('/')); ?>" target="_blank">View homepage &rarr;</a></p>
 
         <form method="post" action="options.php">
             <?php settings_fields('og_home_top6_group'); ?>

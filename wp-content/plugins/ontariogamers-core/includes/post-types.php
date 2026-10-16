@@ -145,15 +145,61 @@ function ontariogamers_register_post_types() {
         'rewrite'      => array('slug' => 'sport'),
         'show_in_rest' => true,
     ));
+
+    // Payment Methods — "how to deposit / withdraw" guides (Interac, cards…)
+    register_post_type('payment_guide', array(
+        'labels' => array(
+            'name'          => 'Payment Methods',
+            'singular_name' => 'Payment Guide',
+            'menu_name'     => 'Payment Methods',
+            'add_new'       => 'Add New Guide',
+            'add_new_item'  => 'Add New Payment Guide',
+            'edit_item'     => 'Edit Payment Guide',
+            'view_item'     => 'View Payment Guide',
+            'all_items'     => 'All Payment Guides',
+            'search_items'  => 'Search Payment Guides',
+            'not_found'     => 'No payment guides found',
+        ),
+        'public'        => true,
+        'has_archive'   => true,
+        'rewrite'       => array('slug' => 'payment-methods', 'with_front' => false),
+        'supports'      => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'page-attributes', 'custom-fields'),
+        'menu_icon'     => 'dashicons-money-alt',
+        'menu_position' => 9,
+        'show_in_rest'  => true,
+    ));
 }
 add_action('init', 'ontariogamers_register_post_types');
+
+/**
+ * New post types need fresh rewrite rules once, or their URLs 404.
+ * Bump the version string whenever a post type slug is added/changed.
+ */
+function ontariogamers_maybe_flush_rewrites() {
+    if (get_option('og_rewrite_version') !== 'payment-methods-v1') {
+        flush_rewrite_rules(false);
+        update_option('og_rewrite_version', 'payment-methods-v1', false);
+    }
+}
+add_action('init', 'ontariogamers_maybe_flush_rewrites', 99);
+
+/**
+ * Payment Methods hub: honour the admin "Order" field, newest first on ties.
+ */
+function ontariogamers_payment_guide_archive_order($query) {
+    if (!is_admin() && $query->is_main_query() && $query->is_post_type_archive('payment_guide')) {
+        $query->set('orderby', array('menu_order' => 'ASC', 'date' => 'DESC'));
+        $query->set('posts_per_page', 24);
+    }
+}
+add_action('pre_get_posts', 'ontariogamers_payment_guide_archive_order');
 
 /**
  * "Last Modified" column in wp-admin lists — the core Date column only ever
  * shows the publish date, so edits were invisible there.
  */
 function ontariogamers_last_modified_post_types() {
-    return array('casino_review', 'slot_review', 'comparison', 'sports_pick', 'post', 'page');
+    return array('casino_review', 'slot_review', 'comparison', 'sports_pick', 'payment_guide', 'post', 'page');
 }
 
 function ontariogamers_add_last_modified_column($columns) {

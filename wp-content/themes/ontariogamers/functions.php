@@ -41,7 +41,8 @@ function ontariogamers_setup() {
         'footer_casinos' => __('Footer Column 1 — Casinos', 'ontariogamers'),
         'footer_slots'   => __('Footer Column 2 — Slots', 'ontariogamers'),
         'footer_sports'  => __('Footer Column 3 — Sports Betting', 'ontariogamers'),
-        'footer_company' => __('Footer Column 4 — OntarioGamers', 'ontariogamers'),
+        'footer_payments'=> __('Footer Column 4 — Payment Methods', 'ontariogamers'),
+        'footer_company' => __('Footer Column 5 — OntarioGamers', 'ontariogamers'),
     ));
 
     // Image sizes for casino/slot cards
@@ -91,6 +92,17 @@ function ontariogamers_scripts() {
             array(),
             file_exists($home_js) ? filemtime($home_js) : '1.0.0',
             true
+        );
+    }
+
+    // Payment Methods guides (single + hub)
+    if (is_singular('payment_guide') || is_post_type_archive('payment_guide')) {
+        $guides_css = $theme_dir . '/assets/css/guides.css';
+        wp_enqueue_style(
+            'ontariogamers-guides',
+            $theme_uri . '/assets/css/guides.css',
+            array('ontariogamers-style'),
+            file_exists($guides_css) ? filemtime($guides_css) : '1.0.0'
         );
     }
 }
@@ -149,6 +161,7 @@ function ontariogamers_default_menu() {
         home_url('/online-slots/')          => 'Online Slots',
         home_url('/comparisons/')           => 'Comparisons',
         home_url('/sports-picks/')          => 'Sports Picks',
+        home_url('/payment-methods/')       => 'Payment Methods',
         home_url('/news/')                  => 'News',
         home_url('/about/')                 => 'About',
         home_url('/responsible-gambling/')  => 'Responsible Gambling',
@@ -218,6 +231,23 @@ function ontariogamers_footer_sports_fallback() {
         home_url('/sport/nba/')     => 'NBA Picks',
         home_url('/sport/nfl/')     => 'NFL Picks',
     ));
+}
+
+function ontariogamers_footer_payments_fallback() {
+    $items  = array();
+    $guides = get_posts(array(
+        'post_type'      => 'payment_guide',
+        'posts_per_page' => 5,
+        'orderby'        => array('menu_order' => 'ASC', 'date' => 'DESC'),
+        'no_found_rows'  => true,
+    ));
+    foreach ($guides as $g) {
+        // Short label: "Best Interac Casinos Ontario – 5 …" → "Best Interac Casinos Ontario"
+        $label = preg_split('/\s+[–—-]\s+/u', get_the_title($g))[0];
+        $items[get_permalink($g)] = $label;
+    }
+    $items[home_url('/payment-methods/')] = 'All Payment Guides';
+    ontariogamers_footer_menu_fallback($items);
 }
 
 function ontariogamers_footer_company_fallback() {
