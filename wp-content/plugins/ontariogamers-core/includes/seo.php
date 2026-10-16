@@ -31,7 +31,9 @@ function ontariogamers_seo_plugin_active() {
 function ontariogamers_seo_description() {
     $desc = '';
 
-    if (is_singular()) {
+    if (is_front_page()) {
+        $desc = 'We deposited $20 via Interac at 6 AGCO-licensed Ontario casinos and timed real withdrawals. Compare payout times, ratings, pros and cons.';
+    } elseif (is_singular()) {
         $post = get_queried_object();
         if (has_excerpt($post)) {
             $desc = get_the_excerpt($post);
@@ -144,6 +146,9 @@ add_filter('document_title_parts', function ($parts) {
  * pages read like "<Casino> Review in Ontario <year>" in search results.
  */
 add_filter('pre_get_document_title', function ($title) {
+    if (is_front_page()) {
+        return 'Best Online Casinos Ontario - Top 6 AGCO Licensed Sites';
+    }
     $id = get_queried_object_id();
     if ($id && (is_singular('casino_review') || (is_singular('sports_pick') && get_post_meta($id, 'casino_rating', true)))) {
         return get_the_title($id) . ' Review in Ontario ' . date('Y');

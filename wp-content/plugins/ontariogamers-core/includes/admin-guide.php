@@ -95,7 +95,7 @@ function ontariogamers_render_admin_guide() {
             <tr><td><strong>Slot Reviews</strong></td><td>One entry per slot game (Gates of Olympus…)</td><td><code>/online-slots/</code></td></tr>
             <tr><td><strong>Pages</strong></td><td>Static pages (About, Privacy, Contact…)</td><td>e.g. <code>/about/</code></td></tr>
         </table>
-        <p>The <strong>homepage</strong> automatically pulls in your top 6 casino reviews and top 6 slot reviews — you never edit the homepage directly, you just add and order reviews.</p>
+        <p>The <strong>homepage</strong> is the “Best Online Casinos Ontario” guide: a quick-comparison table and six in-depth reviews (bet365, BetMGM, FanDuel, LeoVegas, Caesars Palace, NorthStar Bets), followed by the legal guide, responsible-gambling help and FAQs. The review wording is maintained by the developer; affiliate links, logos, proof screenshots and the “tested/updated” dates are set in <strong>Appearance → Homepage Top 6</strong>. Below the guide, a “More Ontario Casino Reviews” list pulls in your top 6 casino reviews by Order, plus the latest news.</p>
 
         <h3>The two halves of the site</h3>
         <p>It helps to picture the site as two layers working together:</p>
@@ -110,8 +110,9 @@ function ontariogamers_render_admin_guide() {
         <p>Every editable area in wp-admin maps to a specific spot on the public website. This table is the “map” — change something on the left, and it appears on the right:</p>
         <table>
             <tr><th>You edit this in wp-admin…</th><th>…and this changes on the live site</th></tr>
-            <tr><td><strong>Casino Reviews →</strong> add / edit an entry</td><td>The casino's own review page, the <code>/online-casinos/</code> list, <em>and</em> the comparison table on the homepage (if it's in the top 6 by Order).</td></tr>
-            <tr><td><strong>Slot Reviews →</strong> add / edit an entry</td><td>The slot's review page, the <code>/online-slots/</code> list, and the “Top Slots” block on the homepage.</td></tr>
+            <tr><td><strong>Casino Reviews →</strong> add / edit an entry</td><td>The casino's own review page, the <code>/online-casinos/</code> list, <em>and</em> the “More Ontario Casino Reviews” list on the homepage (if it's in the top 6 by Order).</td></tr>
+            <tr><td><strong>Appearance → Homepage Top 6</strong></td><td>The homepage comparison table and six detailed reviews: each brand's affiliate link (every “Play” button), logo, “Read full review” link, proof screenshot + caption, and the test dates shown in the headline, author box and table heading. If a brand has no affiliate link, its Play button goes to the casino's official Ontario site.</td></tr>
+            <tr><td><strong>Slot Reviews →</strong> add / edit an entry</td><td>The slot's review page and the <code>/online-slots/</code> list.</td></tr>
             <tr><td><strong>Pages →</strong> edit About / Contact / etc.</td><td>That exact static page (e.g. <code>/about/</code>). Only the page you edit changes.</td></tr>
             <tr><td><strong>Appearance → Menus</strong></td><td>The header navigation <em>and</em> the mobile hamburger menu (they share one menu).</td></tr>
             <tr><td><strong>Appearance → Customize → Site Identity</strong></td><td>The logo and the browser-tab icon (favicon).</td></tr>
@@ -471,7 +472,7 @@ function ontariogamers_render_admin_guide() {
         <h2 id="og-trouble">19. Troubleshooting</h2>
         <table>
             <tr><th>Problem</th><th>Fix</th></tr>
-            <tr><td>New review doesn't show on homepage</td><td>Homepage shows only the top 6 by Order. Lower its Order number.</td></tr>
+            <tr><td>New review doesn't show on homepage</td><td>The “More Ontario Casino Reviews” list shows only the top 6 casino reviews by Order. Lower its Order number. (The six brands in the main homepage guide are fixed; change their links/logos in Appearance → Homepage Top 6.)</td></tr>
             <tr><td>A field isn't showing</td><td>It was left blank — empty fields are hidden by design.</td></tr>
             <tr><td>"Page not found" on a review URL</td><td><strong>Settings → Permalinks → Save Changes</strong> once (refreshes URL rules).</td></tr>
             <tr><td>Menu changes not visible</td><td>Assign the menu to the <strong>Primary Menu</strong> location and Save.</td></tr>

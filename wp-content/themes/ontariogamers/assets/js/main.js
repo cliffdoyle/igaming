@@ -82,7 +82,9 @@ document.addEventListener('DOMContentLoaded', function () {
             if (target) {
                 e.preventDefault();
                 const headerHeight = document.querySelector('.site-header').offsetHeight;
-                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+                const jumpNav = document.querySelector('.hp-jump');
+                const stickyHeight = headerHeight + (jumpNav ? jumpNav.offsetHeight : 0);
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - stickyHeight - 20;
                 window.scrollTo({ top: targetPosition, behavior: 'smooth' });
             }
         });

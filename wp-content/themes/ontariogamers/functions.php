@@ -74,8 +74,30 @@ function ontariogamers_scripts() {
         file_exists($js_path) ? filemtime($js_path) : '1.0.0',
         true
     );
+
+    // Homepage-only assets
+    if (is_front_page()) {
+        $home_css = $theme_dir . '/assets/css/home.css';
+        wp_enqueue_style(
+            'ontariogamers-home',
+            $theme_uri . '/assets/css/home.css',
+            array('ontariogamers-style'),
+            file_exists($home_css) ? filemtime($home_css) : '1.0.0'
+        );
+        $home_js = $theme_dir . '/assets/js/home.js';
+        wp_enqueue_script(
+            'ontariogamers-home',
+            $theme_uri . '/assets/js/home.js',
+            array(),
+            file_exists($home_js) ? filemtime($home_js) : '1.0.0',
+            true
+        );
+    }
 }
 add_action('wp_enqueue_scripts', 'ontariogamers_scripts');
+
+require_once get_template_directory() . '/inc/home-top6.php';
+require_once get_template_directory() . '/inc/home-content.php';
 
 // Output the gamified gamepad favicon (front-end + admin).
 // Only used as a fallback when the admin has NOT uploaded a Site Icon
