@@ -97,6 +97,7 @@ $rg_url      = home_url('/responsible-gambling/');
     <div class="hp-wrap">
         <ul class="hp-jump__list">
             <li><a href="#top-6">Top 6</a></li>
+            <li><a href="#more-casinos">More Casinos</a></li>
             <li><a href="#how-we-test">How We Test</a></li>
             <li><a href="#reviews">Reviews</a></li>
             <li><a href="#legal">Is It Legal?</a></li>
@@ -168,6 +169,80 @@ $rg_url      = home_url('/responsible-gambling/');
         </p>
     </div>
 </section>
+
+<!-- ═════════════════════════ PARTNER CASINOS + SPORTSBOOKS ═════════════════════════ -->
+<?php
+// Every casino review except brands already featured in the Top 6 above.
+$hp_top6_ids = array();
+foreach ($brands as $b) {
+    if ($b['review_slug']) {
+        $p = get_page_by_path($b['review_slug'], OBJECT, 'casino_review');
+        if ($p) {
+            $hp_top6_ids[] = $p->ID;
+        }
+    }
+}
+$hp_more = new WP_Query(array(
+    'post_type'      => 'casino_review',
+    'posts_per_page' => 12,
+    'post__not_in'   => $hp_top6_ids,
+    'no_found_rows'  => true,
+    // Admin "Order" first (lowest wins), then highest rating.
+    'meta_query'     => array(
+        'relation' => 'OR',
+        'rating'   => array('key' => 'casino_rating', 'compare' => 'EXISTS', 'type' => 'DECIMAL(4,1)'),
+        array('key' => 'casino_rating', 'compare' => 'NOT EXISTS'),
+    ),
+    'orderby'        => array('menu_order' => 'ASC', 'rating' => 'DESC', 'date' => 'DESC'),
+));
+$hp_books = new WP_Query(array(
+    'post_type'      => 'sports_pick',
+    'posts_per_page' => 6,
+    'orderby'        => 'menu_order',
+    'order'          => 'ASC',
+    'no_found_rows'  => true,
+    'meta_query'     => array(
+        array('key' => 'casino_rating', 'compare' => 'EXISTS'),
+    ),
+));
+if ($hp_more->have_posts() || $hp_books->have_posts()) :
+    ?>
+    <section id="more-casinos" class="hp-section hp-section--more" aria-labelledby="hp-more-title">
+        <div class="hp-wrap hp-wrap--mid">
+            <?php if ($hp_more->have_posts()) : ?>
+                <header class="hp-section__head">
+                    <p class="hp-eyebrow">Also reviewed</p>
+                    <h2 id="hp-more-title">More Top-Rated Ontario Casinos</h2>
+                    <p class="hp-section__intro">Other AGCO-licensed casinos we have reviewed in full for Ontario players.</p>
+                </header>
+                <?php
+                while ($hp_more->have_posts()) : $hp_more->the_post();
+                    ontariogamers_home_mini_row();
+                endwhile;
+                wp_reset_postdata();
+                ?>
+                <p class="hp-center hp-center--tight">
+                    <a href="<?php echo esc_url(home_url('/online-casinos/')); ?>" class="hp-btn hp-btn--outline">View every casino review <?php echo ontariogamers_icon('arrow'); ?></a>
+                </p>
+            <?php endif; ?>
+
+            <?php if ($hp_books->have_posts()) : ?>
+                <h2 id="hp-books-title" class="hp-subhead">Top-Rated Ontario Sportsbooks</h2>
+                <?php
+                while ($hp_books->have_posts()) : $hp_books->the_post();
+                    ontariogamers_home_mini_row();
+                endwhile;
+                wp_reset_postdata();
+                ?>
+                <p class="hp-center hp-center--tight">
+                    <a href="<?php echo esc_url(home_url('/sports-picks/')); ?>" class="hp-btn hp-btn--outline">View all sportsbook reviews <?php echo ontariogamers_icon('arrow'); ?></a>
+                </p>
+            <?php endif; ?>
+
+            <p class="hp-fineprint">New players only. 19+. Ontario players: bonus terms cannot be publicly displayed under AGCO Standard 11.10 — see offer directly at operator. Always read full T&amp;Cs before claiming. Wagering requirements apply.</p>
+        </div>
+    </section>
+<?php endif; ?>
 
 <!-- ═════════════════════════ HOW WE TEST ═════════════════════════ -->
 <section id="how-we-test" class="hp-section hp-section--alt" aria-labelledby="hp-test-title">
@@ -571,60 +646,6 @@ $rg_url      = home_url('/responsible-gambling/');
         </div>
     </div>
 </section>
-
-<!-- ═════════════════════════ MORE REVIEWS ═════════════════════════ -->
-<?php
-$hp_more = new WP_Query(array(
-    'post_type'      => 'casino_review',
-    'posts_per_page' => 6,
-    'orderby'        => 'menu_order',
-    'order'          => 'ASC',
-    'no_found_rows'  => true,
-));
-if ($hp_more->have_posts()) :
-    ?>
-    <section class="hp-section hp-section--alt" aria-labelledby="hp-more-title">
-        <div class="hp-wrap hp-wrap--mid">
-            <header class="hp-section__head">
-                <p class="hp-eyebrow">Explore</p>
-                <h2 id="hp-more-title">More Ontario Casino Reviews</h2>
-            </header>
-
-            <?php
-            while ($hp_more->have_posts()) : $hp_more->the_post();
-                $rating     = get_post_meta(get_the_ID(), 'casino_rating', true);
-                $affiliate  = get_post_meta(get_the_ID(), 'casino_affiliate_url', true);
-                $withdrawal = get_post_meta(get_the_ID(), 'casino_withdrawal_time', true);
-                ?>
-                <div class="hp-mini">
-                    <div class="hp-mini__logo"><?php echo ontariogamers_casino_logo_linked('casino-logo', 'casino-logo'); ?></div>
-                    <div class="hp-mini__info">
-                        <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-                        <p class="hp-mini__meta">
-                            <?php if ($rating) : ?><span><?php echo ontariogamers_icon('star'); ?><?php echo esc_html($rating); ?>/10</span><?php endif; ?>
-                            <?php if ($withdrawal) : ?><span><?php echo ontariogamers_icon('clock'); ?>Withdrawal: <?php echo esc_html($withdrawal); ?></span><?php endif; ?>
-                        </p>
-                    </div>
-                    <div class="hp-mini__cta">
-                        <a href="<?php the_permalink(); ?>" class="hp-btn hp-btn--outline hp-btn--sm">Review</a>
-                        <?php if ($affiliate) : ?>
-                            <a href="<?php echo esc_url($affiliate); ?>" class="hp-btn hp-btn--play hp-btn--sm" target="_blank" rel="<?php echo esc_attr(ontariogamers_aff_rel()); ?>">Play</a>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <?php
-            endwhile;
-            wp_reset_postdata();
-            ?>
-
-            <p class="hp-fineprint">New players only. 19+. Ontario players: bonus terms cannot be publicly displayed under AGCO Standard 11.10 — see offer directly at operator. Always read full T&amp;Cs before claiming. Wagering requirements apply.</p>
-
-            <p class="hp-center">
-                <a href="<?php echo esc_url(home_url('/online-casinos/')); ?>" class="hp-btn hp-btn--outline">View every casino review <?php echo ontariogamers_icon('arrow'); ?></a>
-            </p>
-        </div>
-    </section>
-<?php endif; ?>
 
 <!-- ═════════════════════════ LATEST NEWS ═════════════════════════ -->
 <?php

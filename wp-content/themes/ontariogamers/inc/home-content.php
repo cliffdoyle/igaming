@@ -78,6 +78,35 @@ function ontariogamers_icon($name) {
 }
 
 /**
+ * Compact review row (logo · name · rating/withdrawal · Review + Play).
+ * Must be called inside a post loop (casino_review or rated sports_pick).
+ */
+function ontariogamers_home_mini_row() {
+    $id         = get_the_ID();
+    $rating     = get_post_meta($id, 'casino_rating', true);
+    $affiliate  = get_post_meta($id, 'casino_affiliate_url', true);
+    $withdrawal = get_post_meta($id, 'casino_withdrawal_time', true);
+    ?>
+    <div class="hp-mini">
+        <div class="hp-mini__logo"><?php echo ontariogamers_casino_logo_linked('casino-logo', 'casino-logo'); ?></div>
+        <div class="hp-mini__info">
+            <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+            <p class="hp-mini__meta">
+                <?php if ($rating) : ?><span><?php echo ontariogamers_icon('star'); ?><?php echo esc_html($rating); ?>/10</span><?php endif; ?>
+                <?php if ($withdrawal) : ?><span><?php echo ontariogamers_icon('clock'); ?>Withdrawal: <?php echo esc_html($withdrawal); ?></span><?php endif; ?>
+            </p>
+        </div>
+        <div class="hp-mini__cta">
+            <a href="<?php the_permalink(); ?>" class="hp-btn hp-btn--outline hp-btn--sm">Review</a>
+            <?php if ($affiliate) : ?>
+                <a href="<?php echo esc_url($affiliate); ?>" class="hp-btn hp-btn--play hp-btn--sm" target="_blank" rel="<?php echo esc_attr(ontariogamers_aff_rel()); ?>">Play<span class="screen-reader-text"> at <?php echo esc_html(get_the_title()); ?> (opens in a new tab)</span></a>
+            <?php endif; ?>
+        </div>
+    </div>
+    <?php
+}
+
+/**
  * Homepage structured data: FAQPage + an ItemList of the ranked casinos.
  */
 function ontariogamers_home_schema() {
