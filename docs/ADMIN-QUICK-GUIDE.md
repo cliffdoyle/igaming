@@ -14,7 +14,7 @@ server and deployments see [../DEPLOY.md](../DEPLOY.md).
 |---|---|---|
 | **New homepage** — "Best Online Casinos Ontario" guide: comparison table, How We Test, 6 in-depth reviews (bet365, BetMGM, FanDuel, LeoVegas, Caesars Palace, NorthStar Bets), legality, how to choose, responsible gambling, FAQs | https://ontariogamers.ca/ | **Appearance → Homepage Top 6** (links, logos, dates, screenshots) |
 | **Partner casinos moved up** — "More Top-Rated Ontario Casinos" (Jackpot City, Betway, bwin, TonyBet, Amazon Slots, All Slots) + "Top-Rated Ontario Sportsbooks" (TonyBet Sportsbook), directly under the homepage table | Homepage → "More Casinos" | **Casino Reviews** (each review's details box) |
-| **Payment Methods section** — hub page + guides; first guide: *Best Interac Casinos Ontario* | https://ontariogamers.ca/payment-methods/ | **Payment Methods** (left menu) |
+| **Payment Methods section** — hub page + guides: *Best Interac Casinos Ontario* and *5 Ontario Casinos Tested for Interac Payout Time* | https://ontariogamers.ca/payment-methods/ | **Payment Methods** (left menu) |
 | "Payment Methods" link in the **header menu** and a new **footer column** | Every page | Automatic (lists the first 5 guides) |
 | **partners@ontariogamers.ca** added next to info@ on the Contact page | https://ontariogamers.ca/contact/ | **Pages → Contact Us** |
 | **Automatic deploys** — code pushed to GitHub `main` goes live in ~30 seconds | — | Developer only (see DEPLOY.md) |
@@ -158,6 +158,7 @@ rating, **ask the developer**: those fields aren't yet editable on the Sports Pi
 - [ ] Update **test dates** in Homepage Top 6 once the December test is actually done.
 - [ ] Interac guide copy: the intro says "6 AGCO sites", but the guide tests **5**. Fix it in the editor.
 - [ ] Confirm the **Interac Online discontinuation date** (Oct 31, 2024) quoted in the Interac guide.
+- [ ] Payout guide FAQs: *"routinely settling accounts in just over 2 hours"* (FanDuel) and *"be sure that funds will land within 2 hours"* (bet365) sound like guarantees, but the page itself says results are a single test. Consider softening them, and tell the developer so the FAQ data for Google matches.
 
 ---
 
@@ -168,6 +169,7 @@ rating, **ask the developer**: those fields aren't yet editable on the Sports Pi
 | Homepage | https://ontariogamers.ca/ |
 | Payment Methods hub | https://ontariogamers.ca/payment-methods/ |
 | Interac guide | https://ontariogamers.ca/payment-methods/best-interac-casinos-ontario/ |
+| Payout-speed guide | https://ontariogamers.ca/payment-methods/fastest-payout-casinos-ontario/ |
 | All casino reviews | https://ontariogamers.ca/online-casinos/ |
 | Contact | https://ontariogamers.ca/contact/ |
 | Homepage Top 6 settings | https://ontariogamers.ca/wp-admin/themes.php?page=og-homepage-top6 |
