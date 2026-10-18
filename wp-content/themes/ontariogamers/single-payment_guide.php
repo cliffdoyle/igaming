@@ -73,6 +73,31 @@ while (have_posts()) :
                 <?php echo $og_content; // already filtered by the_content ?>
             </div>
 
+            <?php
+            $og_more = get_posts(array(
+                'post_type'      => 'payment_guide',
+                'posts_per_page' => 3,
+                'post__not_in'   => array(get_the_ID()),
+                'orderby'        => array('menu_order' => 'ASC', 'date' => 'DESC'),
+                'no_found_rows'  => true,
+            ));
+            if ($og_more) : ?>
+                <aside class="pg-related" aria-labelledby="pg-related-title">
+                    <h2 id="pg-related-title">More payment guides</h2>
+                    <ul>
+                        <?php foreach ($og_more as $g) : $gn = get_post_meta($g->ID, 'og_byline_note', true); ?>
+                            <li>
+                                <a href="<?php echo esc_url(get_permalink($g)); ?>">
+                                    <?php if ($gn) : ?><span class="pg-related__note"><?php echo esc_html($gn); ?></span><?php endif; ?>
+                                    <strong><?php echo esc_html(get_the_title($g)); ?></strong>
+                                    <span class="pg-related__go" aria-hidden="true">Read guide →</span>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </aside>
+            <?php endif; ?>
+
             <div class="related-cta">
                 <h3>Compare the best Ontario casinos</h3>
                 <p>See our full Top 6 ranking with tested payout times, ratings, pros and cons.</p>

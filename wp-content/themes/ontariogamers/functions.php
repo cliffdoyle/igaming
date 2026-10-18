@@ -242,8 +242,11 @@ function ontariogamers_footer_payments_fallback() {
         'no_found_rows'  => true,
     ));
     foreach ($guides as $g) {
-        // Short label: "Best Interac Casinos Ontario – 5 …" → "Best Interac Casinos Ontario"
-        $label = preg_split('/\s+[–—-]\s+/u', get_the_title($g))[0];
+        // Short label: og_nav_label, else the title before " – ".
+        $label = get_post_meta($g->ID, 'og_nav_label', true);
+        if (!$label) {
+            $label = preg_split('/\s+[–—-]\s+/u', get_the_title($g))[0];
+        }
         $items[get_permalink($g)] = $label;
     }
     $items[home_url('/payment-methods/')] = 'All Payment Guides';

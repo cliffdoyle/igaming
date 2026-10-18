@@ -270,13 +270,15 @@ function ontariogamers_seo_schema() {
             $graph[] = array('@type' => 'BreadcrumbList', 'itemListElement' => $items);
         }
 
-        // FAQ rich results for the Interac guide (answers match the visible FAQ).
-        if (is_singular('payment_guide') && 'best-interac-casinos-ontario' === $post->post_name && function_exists('ontariogamers_interac_guide_faqs')) {
+        // FAQ rich results for payment guides (answers match the visible FAQ).
+        if (is_singular('payment_guide') && function_exists('ontariogamers_payment_guide_faqs')) {
             $faq = array();
-            foreach (ontariogamers_interac_guide_faqs() as $f) {
+            foreach (ontariogamers_payment_guide_faqs($post->post_name) as $f) {
                 $faq[] = array('@type' => 'Question', 'name' => $f['q'], 'acceptedAnswer' => array('@type' => 'Answer', 'text' => $f['a']));
             }
-            $graph[] = array('@type' => 'FAQPage', 'mainEntity' => $faq);
+            if ($faq) {
+                $graph[] = array('@type' => 'FAQPage', 'mainEntity' => $faq);
+            }
         }
     }
 
