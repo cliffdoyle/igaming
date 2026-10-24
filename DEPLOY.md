@@ -572,3 +572,22 @@ If the droplet is ever lost or you move hosts:
   container does **not** change the core version. Core applies minor/security
   updates itself; do major updates from **Dashboard → Updates** (take a backup
   first, §8.2). Keep other plugins updated in wp-admin.
+- **PHP / Apache security patches come from the Docker image, not from
+  WordPress.** No PHP runs on the host — only inside the two `wordpress:latest`
+  containers (OntarioGamers and usasmartgamers). Recreating a container does
+  **not** pull a newer image. To patch PHP when a CVE comes out:
+
+  ```bash
+  docker pull wordpress:latest
+  docker run --rm --entrypoint php wordpress:latest -r 'echo PHP_VERSION;'   # confirm patched version
+  /root/backup-db.sh && /root/backup-usasmartgamers.sh                      # backups first
+  cd /root/igaming        && docker compose -f docker-compose.prod.yml up -d --no-deps --force-recreate wordpress
+  cd /root/usasmartgamers && docker compose -f docker-compose.prod.yml up -d --no-deps --force-recreate wordpress
+  for c in igaming-wordpress-1 usasmartgamers-wordpress-1; do docker exec $c php -r 'echo PHP_VERSION,"\n";'; done
+  docker image prune -f
+  ```
+
+  If `latest` ever moves to a new PHP minor version (e.g. 8.3 → 8.4), check
+  plugin compatibility first, or pin `image: wordpress:php8.3-apache`.
+  History: 24 Oct 2026, upgraded PHP 8.3.31 → 8.3.36 for CVE-2026-109618 /
+  CVE-2026-109619 (critical RCE).
