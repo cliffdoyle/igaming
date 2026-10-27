@@ -100,7 +100,7 @@ Content is **not** in git. It is protected by the nightly backups (§8).
 | Swap | 2 GB swapfile (`/swapfile`) |
 | OS | Ubuntu 24.04 LTS |
 | Docker | Docker 29 + Docker Compose v5 (runs as `root`, no `sudo` needed) |
-| Firewall | `ufw` inactive; only ports 22, 80, 443, 8082 are listening (see §12) |
+| Firewall | Ports 80/8082 accept **Cloudflare IPs only** (`/root/firewall-cloudflare.sh`, §12); 22 and 443 open; `ufw` inactive |
 | Login | `root`, SSH **key only** (password login disabled) |
 
 The droplet is shared by **three** sites/apps (see §5). RAM is the tightest
@@ -208,6 +208,7 @@ Four independent Docker Compose projects share the droplet:
 | `/root/deploy-igaming.log` | One line per deploy: time, old commit → new commit |
 | `/root/backup-db.sh` | Nightly OntarioGamers DB backup |
 | `/root/backup-uploads.sh` | Nightly OntarioGamers media/uploads backup |
+| `/root/firewall-cloudflare.sh` | Lets only Cloudflare reach ports 80/8082 (§12); run by `firewall-cloudflare.service` + weekly cron |
 | `/root/db-backups/` | DB dumps (`ontariogamers_*.sql.gz`, last 14 kept) + `backup.log` |
 | `/root/uploads-backups/` | Uploads archives (`uploads_*.tar.gz`, last 5 kept) + `backup.log` |
 | `/root/usasmartgamers/`, `/root/backup-usasmartgamers.sh`, `/root/usasmartgamers-backups/` | usasmartgamers site + its backups |
@@ -417,6 +418,7 @@ Get-Content $env:USERPROFILE\.ssh\og_deploy_ed25519_new -Raw | gh secret set DEP
 15 3 * * * /root/backup-db.sh             >> /root/db-backups/backup.log 2>&1
 30 3 * * * /root/backup-uploads.sh        >> /root/uploads-backups/backup.log 2>&1
 45 3 * * * /root/backup-usasmartgamers.sh >> /root/usasmartgamers-backups/backup.log 2>&1
+20 4 * * 1 /root/firewall-cloudflare.sh   >> /root/firewall-cloudflare.log 2>&1   # not a backup: weekly Cloudflare IP refresh (§12)
 ```
 
 | Backup | Output | Kept | Approx size |
@@ -524,7 +526,8 @@ Get-Content .\wp-content\plugins\ontariogamers-core\includes\seed-pages.php -Raw
 | Too many redirects | Cloudflare SSL mode must be **Flexible** (or the `X-Forwarded-Proto` block in the compose file was removed). |
 | Server slow / containers restarting | RAM: `free -h`, `docker stats --no-stream`. Four apps share 1 vCPU / 2 GB. |
 | Site loads forever, `uptime` load ≫ 1, `igaming-wordpress-1` near 100% CPU | Probably a bot flood. Find the target: `docker logs --since 10m igaming-wordpress-1 \| awk '{print $7}' \| sort \| uniq -c \| sort -rn \| head` and the source: `… awk '{print $1}' …`. Block the path in `docker/apache/zz-ontariogamers-hardening.conf` (as done for `xmlrpc.php` on 27 Oct 2026), or block the IP/path in Cloudflare → Security → WAF. |
-| Site hangs for you but the server is idle and `curl -H 'Host: ontariogamers.ca' http://143.110.219.173/` is fast | Cloudflare edge/route problem for your location, not the server. Check `https://ontariogamers.ca/cdn-cgi/trace` (`colo=` shows the Cloudflare city), [cloudflarestatus.com](https://www.cloudflarestatus.com), and a multi-location test such as check-host.net. |
+| Site hangs for you but the server is idle and `ssh root@143.110.219.173 "curl -s -o /dev/null -w '%{time_total}' -H 'Host: ontariogamers.ca' http://127.0.0.1/"` is fast | Cloudflare edge/route problem for your location, not the server. Check `https://ontariogamers.ca/cdn-cgi/trace` (`colo=` shows the Cloudflare city), [cloudflarestatus.com](https://www.cloudflarestatus.com), and a multi-location test such as check-host.net. (Direct `http://143.110.219.173/` from outside times out by design — §12.) |
+| Whole site unreachable right after a Cloudflare IP-range change | Re-run `/root/firewall-cloudflare.sh` (refreshes the list), or disable the firewall temporarily (§12). |
 
 ---
 
@@ -562,19 +565,42 @@ If the droplet is ever lost or you move hosts:
    §7.3, and update the `DEPLOY_HOST` / `DEPLOY_KNOWN_HOSTS` secrets.
 8. **Point Cloudflare** DNS A records for `ontariogamers.ca` (and `www`) at the
    new IP (proxied), SSL mode Flexible.
+9. **Re-create the Cloudflare-only firewall** (§12): copy
+   `/root/firewall-cloudflare.sh` and `/etc/systemd/system/firewall-cloudflare.service`
+   from the old server, `systemctl enable --now firewall-cloudflare`, and add
+   the weekly cron line.
 
 ---
 
 ## 12. Security notes
 
 - Root SSH login is **key-only** (`PasswordAuthentication no`).
-- `ufw` is inactive; exposure is controlled by what listens: **22** (SSH),
-  **80** (OntarioGamers), **443** (Caddy/ZuriStay), **8082** (usasmartgamers,
-  reached via Cloudflare Origin Rule). MySQL is not exposed.
-- The origin IP is published in this (public) repo, so someone could hit the
-  server directly on port 80, bypassing Cloudflare. To harden later, restrict
-  ports 80/8082 to [Cloudflare's IP ranges](https://www.cloudflare.com/ips/)
-  with `ufw` (keep 22 open first!).
+- Listening ports: **22** (SSH), **80** (OntarioGamers), **443**
+  (Caddy/ZuriStay), **8082** (usasmartgamers, reached via Cloudflare Origin
+  Rule). MySQL is not exposed. `ufw` is inactive (it can't filter Docker ports
+  anyway).
+- **Ports 80 and 8082 accept traffic only from Cloudflare** (since 27 Oct 2026),
+  so nobody can bypass Cloudflare's WAF by hitting the raw IP. 22 and 443 are
+  open to everyone.
+  - Script `/root/firewall-cloudflare.sh` creates chain `CF-ONLY` (allow each
+    Cloudflare range, then DROP) and jumps to it from Docker's `DOCKER-USER`
+    chain for ports 80/8082 on `eth0`. Traffic from the server itself
+    (`127.0.0.1`, previews, WP-CLI) is not affected.
+  - Re-applied by `firewall-cloudflare.service` at boot and every time Docker
+    starts; root cron refreshes the Cloudflare list every Monday 04:20 UTC
+    (`/root/cloudflare-ips-v4.txt`, last good copy kept; log
+    `/root/firewall-cloudflare.log`).
+  - Check: `iptables -S DOCKER-USER; iptables -L CF-ONLY -v -n | tail -1`
+    (DROP counter = blocked direct hits).
+  - **Turn off temporarily** (e.g. if Cloudflare is down and you must serve
+    directly): `iptables -D DOCKER-USER -i eth0 -p tcp -m conntrack --ctdir ORIGINAL --ctorigdstport 80 -j CF-ONLY`
+    (same with `8082`); turn back on with `systemctl restart firewall-cloudflare`.
+    Permanently: `systemctl disable --now firewall-cloudflare` and delete the two
+    rules.
+  - To test the origin without Cloudflare, use the server itself:
+    `ssh root@143.110.219.173 "curl -sI -H 'Host: ontariogamers.ca' http://127.0.0.1/"`.
+  - A Cloudflare WAF custom rule also blocks `xmlrpc.php`, `/.env` and `/.git`
+    at the edge.
 - Keys in `/root/.ssh/authorized_keys`:
 
   | Comment | Purpose | Restricted? |
@@ -612,6 +638,6 @@ If the droplet is ever lost or you move hosts:
   password brute-force flood on it (~30,000 requests/hour) pinned the single
   CPU at 100% and made the site hang. No login succeeded (response sizes all
   matched failed attempts; no new users, posts or PHP files in uploads). If a
-  future plugin (e.g. Jetpack) needs XML-RPC, remove the `<Files>` block.
-  For extra protection, also add a Cloudflare WAF rule blocking
-  `URI Path contains "xmlrpc.php"` so floods never reach the server.
+  future plugin (e.g. Jetpack) needs XML-RPC, remove the `<Files>` block **and**
+  the `xmlrpc.php` condition in the Cloudflare WAF custom rule (Security →
+  Security rules), which now blocks these floods before they reach the server.
