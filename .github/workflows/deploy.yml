@@ -12,6 +12,7 @@ on:
     paths:
       - 'wp-content/**'
       - 'docker-compose.prod.yml'
+      - 'docker/apache/**'
       - '.github/workflows/deploy.yml'
   workflow_dispatch:
 

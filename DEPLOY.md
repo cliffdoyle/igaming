@@ -183,13 +183,14 @@ append a new public key to `/root/.ssh/authorized_keys`.
 
 ## 5. What runs on the server
 
-Three independent Docker Compose projects share the droplet:
+Four independent Docker Compose projects share the droplet:
 
 | Project | Folder | Containers | Port | Domain |
 |---------|--------|------------|------|--------|
 | **igaming** (this site) | `/root/igaming` | `igaming-wordpress-1`, `igaming-db-1` | **80** | ontariogamers.ca |
 | **usasmartgamers** | `/root/usasmartgamers` | `usasmartgamers-wordpress-1` (uses `igaming-db-1` for its DB) | **8082** | usasmartgamers.com (Cloudflare Origin Rule → port 8082) |
 | **hotel** (ZuriStay) | `/root/hotel-management-system/deploy` | `hotel-caddy-1`, `hotel-api-1`, `hotel-redis-1` | **443** (Caddy) | api.zuristay.com, *.zuristay.com |
+| **ictscan** (Python/FastAPI tool) | `/root/ictscan` | `ictscan` (384 MB memory cap, no CPU cap) | 8765, internal only | — |
 
 > ⚠️ `igaming-db-1` also hosts the **usasmartgamers** database. Restarting or
 > recreating the igaming DB briefly takes usasmartgamers down too.
@@ -236,6 +237,10 @@ Defined in [`docker-compose.prod.yml`](docker-compose.prod.yml):
     to deploy code:
     - `./wp-content/themes/ontariogamers` → theme
     - `./wp-content/plugins/ontariogamers-core` → plugin
+    - `./docker/apache/zz-ontariogamers-hardening.conf` → Apache config:
+      blocks `xmlrpc.php` (403, before PHP runs) and trusts Cloudflare's IP
+      ranges so logs and WordPress see the **real visitor IP**. Update the
+      ranges if [Cloudflare's list](https://www.cloudflare.com/ips/) changes.
   - `WP_HOME` / `WP_SITEURL` are fixed to `https://ontariogamers.ca`.
   - Trusts Cloudflare's `X-Forwarded-Proto: https` so WordPress knows the
     visitor is on HTTPS (prevents redirect loops with Flexible SSL).
@@ -272,6 +277,7 @@ That's it. Within ~30 seconds the change is live. Watch it in GitHub →
 
 - `wp-content/**` (theme, plugin)
 - `docker-compose.prod.yml`
+- `docker/apache/**` (Apache hardening config)
 - `.github/workflows/deploy.yml`
 
 Pushes that only touch docs/drafts (`*.md`, `*.docx`, …) do **not** deploy.
@@ -288,7 +294,9 @@ git push ─► GitHub Actions (.github/workflows/deploy.yml)
            /root/deploy-igaming.sh  (whatever command is requested)
               │
               ├─ git fetch origin main && git merge --ff-only origin/main
-              ├─ if docker-compose.prod.yml changed → docker compose up -d
+              ├─ if docker-compose.prod.yml or docker/apache/* changed →
+              │     apache2ctl configtest in a throwaway container (abort if bad),
+              │     then docker compose up -d --force-recreate wordpress
               ├─ else if any .php changed → graceful Apache reload (clears PHP opcache)
               └─ append to /root/deploy-igaming.log
               ▼
@@ -335,9 +343,16 @@ git merge --ff-only --quiet origin/main
 after=$(git rev-parse HEAD)
 if [ "$before" != "$after" ]; then
   changed=$(git diff --name-only "$before" "$after")
-  if echo "$changed" | grep -qx 'docker-compose.prod.yml'; then
-    echo "docker-compose.prod.yml changed - recreating containers"
-    docker compose -f docker-compose.prod.yml up -d
+  if echo "$changed" | grep -qE '^(docker-compose\.prod\.yml|docker/apache/)'; then
+    # Test the Apache config in a throwaway container first, so a broken
+    # file never takes the live site down.
+    docker run --rm -v "$PWD/docker/apache/zz-ontariogamers-hardening.conf:/etc/apache2/conf-enabled/zz-ontariogamers-hardening.conf:ro" \
+      wordpress:latest apache2ctl configtest >/dev/null 2>&1 \
+      || { echo "Apache configtest FAILED - container not recreated"; exit 1; }
+    # --force-recreate: single-file bind mounts keep pointing at the old file
+    # after git replaces it, so the container must be recreated.
+    echo "Server config changed - recreating wordpress container"
+    docker compose -f docker-compose.prod.yml up -d --force-recreate wordpress
   elif echo "$changed" | grep -q '\.php$'; then
     # PHP opcache re-checks files only every 2s; without this, the first
     # requests after a multi-file deploy can mix old and new code (HTTP 500).
@@ -507,7 +522,9 @@ Get-Content .\wp-content\plugins\ontariogamers-core\includes\seed-pages.php -Raw
 | Site shows "Error establishing a database connection" | `docker compose -f docker-compose.prod.yml ps` — is `db` up? `docker compose ... up -d`. Check `free -h` (out of memory?). |
 | White screen / 500 after a deploy | PHP error in the theme/plugin. `docker compose ... logs --tail=100 wordpress`, fix locally, push (or `git revert` + push). A 500 lasting only a second or two right after a deploy is PHP's opcache serving a mix of old and new files — the deploy script's graceful Apache reload prevents this. |
 | Too many redirects | Cloudflare SSL mode must be **Flexible** (or the `X-Forwarded-Proto` block in the compose file was removed). |
-| Server slow / containers restarting | RAM: `free -h`, `docker stats --no-stream`. Three apps share 2 GB. |
+| Server slow / containers restarting | RAM: `free -h`, `docker stats --no-stream`. Four apps share 1 vCPU / 2 GB. |
+| Site loads forever, `uptime` load ≫ 1, `igaming-wordpress-1` near 100% CPU | Probably a bot flood. Find the target: `docker logs --since 10m igaming-wordpress-1 \| awk '{print $7}' \| sort \| uniq -c \| sort -rn \| head` and the source: `… awk '{print $1}' …`. Block the path in `docker/apache/zz-ontariogamers-hardening.conf` (as done for `xmlrpc.php` on 27 Oct 2026), or block the IP/path in Cloudflare → Security → WAF. |
+| Site hangs for you but the server is idle and `curl -H 'Host: ontariogamers.ca' http://143.110.219.173/` is fast | Cloudflare edge/route problem for your location, not the server. Check `https://ontariogamers.ca/cdn-cgi/trace` (`colo=` shows the Cloudflare city), [cloudflarestatus.com](https://www.cloudflarestatus.com), and a multi-location test such as check-host.net. |
 
 ---
 
@@ -591,3 +608,10 @@ If the droplet is ever lost or you move hosts:
   plugin compatibility first, or pin `image: wordpress:php8.3-apache`.
   History: 24 Oct 2026, upgraded PHP 8.3.31 → 8.3.36 for CVE-2026-109618 /
   CVE-2026-109619 (critical RCE).
+- **`xmlrpc.php` is blocked** (Apache returns 403, see §6). On 27 Oct 2026 a
+  password brute-force flood on it (~30,000 requests/hour) pinned the single
+  CPU at 100% and made the site hang. No login succeeded (response sizes all
+  matched failed attempts; no new users, posts or PHP files in uploads). If a
+  future plugin (e.g. Jetpack) needs XML-RPC, remove the `<Files>` block.
+  For extra protection, also add a Cloudflare WAF rule blocking
+  `URI Path contains "xmlrpc.php"` so floods never reach the server.
