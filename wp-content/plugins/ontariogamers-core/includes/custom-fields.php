@@ -19,10 +19,10 @@ if (!defined('ABSPATH')) {
  * 2. Slot Review Fields — attached to slot_review post type
  */
 
-// If ACF is not installed, register basic meta boxes as fallback
-if (!function_exists('acf_add_local_field_group')) {
+// Register native fields even when ACF is installed; ACF does not create field groups automatically.
+if (!function_exists('ontariogamers_casino_meta_box')) {
 
-    // Fallback: Register custom meta boxes without ACF
+    // Register native meta boxes for review details.
     function ontariogamers_add_meta_boxes() {
         add_meta_box(
             'casino_review_fields',
