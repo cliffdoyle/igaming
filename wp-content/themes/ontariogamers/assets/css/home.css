@@ -37,22 +37,6 @@
     word-wrap: normal !important;
 }
 
-.hp .hero-disclosure {
-    margin: -1rem auto 1.5rem;
-    font-size: .88rem;
-}
-.hp .hero-disclosure a { color: var(--og-secondary); font-weight: 700; }
-.hp .hero-disclosure a:hover { color: #fff; }
-.hp-top6 { padding: 4.5rem 0; scroll-margin-top: calc(var(--hp-sticky) + 56px); }
-.hp-reviews { margin-top: 4rem; }
-.hp-reviews > h2,
-.hp-editorial > .hp-wrap > h2 { margin: 0 0 1.5rem; color: var(--hp-ink); line-height: 1.2; }
-.hp-top6 .hp-table-note { margin: 1rem 0 0; color: var(--hp-muted); font-size: .85rem; }
-.hp-editorial p,
-.hp-step__body p { line-height: 1.75; }
-.hp-editorial a:not(.hp-btn) { color: var(--hp-green); font-weight: 700; text-underline-offset: 3px; }
-.hp-editorial a:not(.hp-btn):hover { color: var(--og-secondary-hover, #e09500); }
-
 .hp-ico { flex: 0 0 auto; vertical-align: -0.2em; }
 
 /* style.css sets overflow-x:hidden on html/body, which silently disables
