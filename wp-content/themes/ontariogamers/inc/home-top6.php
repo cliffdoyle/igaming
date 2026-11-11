@@ -21,9 +21,9 @@ const OG_TOP6_OPTION = 'og_home_top6';
  */
 function ontariogamers_top6_date_defaults() {
     return array(
-        'h1_suffix'    => 'Updated October 2026',
-        'byline_date'  => 'Updated: October 2026',
-        'table_suffix' => 'Updated October 2026',
+        'h1_suffix'    => 'Updated November 2026',
+        'byline_date'  => 'Tested: Nov 5-7, 2026',
+        'table_suffix' => 'Tests Completed Nov 7, 2026',
     );
 }
 

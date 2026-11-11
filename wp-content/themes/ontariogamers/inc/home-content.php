@@ -15,35 +15,35 @@ function ontariogamers_home_faqs() {
     return array(
         array(
             'q' => 'What Is the Best Online Casino in Ontario?',
-            'a' => 'The best online casinos Ontario largely depend on what you prefer the most. However, for starters, casinos like BetMGM, bet365, FanDuel, LeoVegas, and Caesars are good starting points. To get the most out of the casino, ensure that you check each site’s current Ontario listing, payment options, games, bonus conditions, and responsible gambling tools.',
+            'a' => 'There is no single best casino for every player. This comparison covers bet365, BetMGM, FanDuel, LeoVegas, Caesars, and NorthStar Bets. Check each site’s current Ontario listing, payment options, games, terms, and responsible-gambling tools before deciding.',
         ),
         array(
             'q' => 'Are Online Casinos Legal in Ontario?',
-            'a' => 'Yes. Ontario has a regulated online gaming market that was launched in April 2022. Eligible adults who are 19 years and older can now use regulated gaming websites while they are physically located in Ontario. Therefore, if you are looking for legal online casinos Ontario, trust that you’ll find them as long as you meet the conditions mentioned above.',
+            'a' => 'Yes. Ontario’s regulated online gaming market opened in April 2022. Eligible adults must be at least 19 and physically located in Ontario to use regulated gaming websites.',
         ),
         array(
             'q' => 'Which Ontario Casino Pays the Fastest?',
-            'a' => 'To be honest, withdrawal times depend on the payment method, account verification, the operator’s processing procedures and the receiving bank or payment provider. Make a point of comparing official withdrawal rules and look for independently documented tests that distinguish casino processing from the time money takes to arrive in players’ accounts.',
+            'a' => 'In the single $20 Interac tests dated Nov 5-7, 2026, bet365 had the shortest recorded arrival time at 1 hour 42 minutes. A single transaction cannot establish a typical payout speed; timing depends on the operator, verification, payment provider, and bank.',
         ),
         array(
             'q' => 'What Is the Minimum Deposit at an Ontario Online Casino?',
-            'a' => 'The smallest amount you can deposit varies by casino, payment method, and promotion at hand. Some deals need a qualifying deposit that is higher than the casino’s usual minimum. Before you go ahead and deposit, check the cashier and the terms of the specific promotion.',
+            'a' => 'The minimum varies by casino and payment method. Check the cashier and any promotion terms before depositing.',
         ),
         array(
             'q' => 'Can I Use Interac at Online Casinos in Ontario?',
-            'a' => 'Yes. This is because some Ontario casinos allow you to use Interac as a method of payment. However, availability of this option varies. Therefore, make sure you check the cashier on the official Ontario website to see which methods are supported by your selected casino. More importantly, confirm if the method can be used for both deposits and withdrawals.',
+            'a' => 'Some Ontario casinos support Interac, but availability can vary by casino and account. Check the operator’s cashier to confirm whether it is available for both deposits and withdrawals.',
         ),
         array(
             'q' => 'Do Ontario Online Casinos Offer Welcome Bonuses?',
-            'a' => 'Yes. Most casinos offer welcome promotions. Offers here include deposit matches, spins, or bonus funds. Each of these offers has its own conditions, expiry dates, and eligibility rules. Also, wagering requirements can apply before the winnings can become withdrawable.',
+            'a' => 'Some casinos offer promotions, each with its own conditions, expiry dates, and eligibility rules. Review the current terms directly with the operator before opting in.',
         ),
         array(
             'q' => 'Do I Need to Verify My Identity Before Withdrawing?',
-            'a' => 'It depends. A casino may require you to verify your age, identity, and address before allowing you to withdraw funds. The exact requirements and timing largely depend on the operator and circumstances of the account.',
+            'a' => 'An operator may need to verify your age, identity, or address before processing a withdrawal. Requirements and timing depend on the operator and account.',
         ),
         array(
             'q' => 'Can I Play Ontario Online Casinos Outside Ontario?',
-            'a' => 'No. You have to be physically located in Ontario for you to play Ontario online casino games. Being an Ontario resident or having an existing account does not, by itself, remove that location requirement. More importantly, avoid using tools intended to misrepresent your location.',
+            'a' => 'No. You must be physically located in Ontario to play on Ontario-regulated casino sites. Residency or an existing account does not remove this location requirement.',
         ),
     );
 }
